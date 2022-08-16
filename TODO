@@ -9,8 +9,13 @@ todo:
 -   vue logic - landing page icons
 -   think through external reference code logic again - is hashing the page the right idea or just base64? - also in view of different product sections (commerce vs dxp)
 -   handle zip files
+-   discrepancy between articles found via api and those in system
 -   better handling of images (not all of them are getting referenced)
 -   go through all edge cases that rich identified
+-   webdav also works to upload documents - and can overwrite them with new versions (do we want that?)
+-   use parallel processing- -- cloud tasks?
+-   hash content in custom field for syncing?
+-   use freemarker for display
 
 downsides:
 

@@ -1,7 +1,15 @@
+import get_all_items
+import json
+import logging
 import requests
 
 
 def getArticles(config, authorization):
+    return get_all_items.getAllItems(config, authorization, getArticleBatch)
+
+
+def getArticleBatch(page, config, authorization):
+    logger = logging.getLogger(__name__)
     headers = {
         "Accept": "application/json",
         "Authorization": authorization,
@@ -10,8 +18,15 @@ def getArticles(config, authorization):
 
     session = requests.Session()
 
-    get_uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/structured-contents?fields=id,friendlyUrlPath"
+    get_uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/structured-contents?fields=id,friendlyUrlPath&page={page}&pageSize={config['API_PAGESIZE']}"
 
     res = session.get(get_uri, headers=headers)
+    logger.debug(f"Fetching article page {page}")
+    res = session.get(get_uri, headers=headers)
+    logger.debug(json.dumps(res.json(), indent=4))
 
+    if res.status_code != 200:
+        errorMessage = "Getting articles failed " + json.dumps(res.json(), indent=4)
+        logger.error(errorMessage)
+        raise Exception(errorMessage)
     return res.json()

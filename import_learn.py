@@ -9,6 +9,7 @@ import oauth_token
 import os
 import requests
 import time
+import traceback
 
 logging.config.fileConfig("logging.conf")
 logger = logging.getLogger(__name__)
@@ -69,13 +70,15 @@ def importArticles():
 importSuccess = False
 importStart = time.perf_counter()
 try:
+    documents = get_documents.getDocuments(config, authorization)
+    articles = get_articles.getArticles(config, authorization)
     # importImages()
-    # articles = get_articles.getArticles(config, authorization)
+
     # logger.debug(json.dumps(articles, indent=4))
-    importArticles()
+    # importArticles()
     importSuccess = True
 except BaseException as err:
-    print(f"Unexpected {err=}, {type(err)=}")
+    logger.error(f"Unexpected {err=}, {type(err)=},  {traceback.format_exc()}")
 
 importEnd = time.perf_counter()
 logger.info(
