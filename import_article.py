@@ -27,7 +27,7 @@ def importArticle(filepath, config, authorization):
         article_data = json.load(f)
 
     if not "body" in article_data:
-        logger.error("No HTML body found for " + filepath)
+        logger.warn("No HTML body found for " + filepath)
         return
 
     if not "parents" in article_data:

@@ -47,11 +47,6 @@ def importImages():
     )
 
 
-# importImages()
-# articles = get_articles.getArticles(config, authorization)
-# logger.debug(json.dumps(articles, indent=4))
-
-
 def importArticles():
     importArticleStart = time.perf_counter()
     articleCounter = 0
@@ -68,4 +63,18 @@ def importArticles():
     )
 
 
-importArticles()
+importSuccess = False
+importStart = time.perf_counter()
+try:
+    # importImages()
+    # articles = get_articles.getArticles(config, authorization)
+    # logger.debug(json.dumps(articles, indent=4))
+    importArticles()
+    importSuccess = True
+except BaseException as err:
+    print(f"Unexpected {err=}, {type(err)=}")
+
+importEnd = time.perf_counter()
+logger.info(
+    f"Learn import was {'successful' if importSuccess else 'NOT successful'} and completed in  {importEnd - importStart:0.4f} seconds."
+)
