@@ -10,6 +10,7 @@ todo:
 -   think through external reference code logic again - is hashing the page the right idea or just base64? - also in view of different product sections (commerce vs dxp)
 -   handle zip files
 -   better handling of images (not all of them are getting referenced)
+-   go through all edge cases that rich identified
 
 downsides:
 
