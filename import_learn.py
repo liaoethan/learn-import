@@ -1,7 +1,8 @@
 import configuration
 import get_articles
+import get_documents
 import import_article
-import import_file
+import import_document
 import logging
 import logging.config
 import oauth_token
@@ -38,7 +39,9 @@ def importImages():
             for f in f_names:
                 filename = os.path.join(root, f)
                 logger.info("Importing... " + filename)
-                import_file.importFile(filename, "commerce_" + f, config, authorization)
+                import_document.importDocument(
+                    filename, "commerce_" + f, config, authorization
+                )
                 fileCounter = fileCounter + 1
 
     importImageEnd = time.perf_counter()

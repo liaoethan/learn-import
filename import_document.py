@@ -4,7 +4,7 @@ import logging
 import mimetypes
 
 
-def importFile(filepath, filename, config, authorization):
+def importDocument(filepath, filename, config, authorization):
     logger = logging.getLogger(__name__)
     headers = {"Authorization": authorization}
 
