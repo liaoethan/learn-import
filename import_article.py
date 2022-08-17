@@ -17,7 +17,7 @@ def getBreadcrumb(current_page_name, parents):
     return " &nbsp; / &nbsp;".join(breadcrumbs)
 
 
-def importArticle(filepath, config, authorization):
+def importArticle(filepath, isRetryAttempt, config, authorization):
     logger = logging.getLogger(__name__)
     headers = {
         "Accept": "application/json",
@@ -29,13 +29,14 @@ def importArticle(filepath, config, authorization):
         article_data = json.load(f)
 
     sphinxOutputPathPrefix = filepath.split(config["SPHINX_OUTPUT_DIRECTORY"], 1)[-1]
+    product = sphinxOutputPathPrefix.split(os.sep)[0]
     imagePrefix = (
         sphinxOutputPathPrefix.split(article_data["current_page_name"])[0] + "_images_"
     ).replace(os.sep, "_")
 
     if not "body" in article_data:
         logger.warn("No HTML body found for " + filepath)
-        return
+        return True
 
     if not "parents" in article_data:
         article_data["parents"] = []
@@ -87,7 +88,7 @@ def importArticle(filepath, config, authorization):
         ],
         "contentStructureId": config["ARTICLE_STRUCTURE_ID"],
         "externalReferenceCode": externalReferenceCode,
-        "friendlyUrlPath": article_data["current_page_name"] + ".html",
+        "friendlyUrlPath": product + "/" + article_data["current_page_name"] + ".html",
         "title": article_data["title"],
     }
 
@@ -98,7 +99,11 @@ def importArticle(filepath, config, authorization):
 
     res = session.put(uri, headers=headers, data=json.dumps(article))
 
+    if res.status_code == 403 and not isRetryAttempt:
+        return False
+
     if not res.status_code == 200:
-        errorMessage = "Article import failed: " + json.dumps(res.json(), indent=4)
+        errorMessage = f"Article import failed with return code: {res.status_code} and error message {json.dumps(res.json(), indent=4)}"
         logger.error(errorMessage)
         raise Exception(errorMessage)
+    return True

@@ -4,7 +4,9 @@ import logging
 import mimetypes
 
 
-def importDocument(filepath, filename, documentsByTitle, config, authorization):
+def importDocument(
+    filepath, filename, documentsByTitle, isRetryAttempt, config, authorization
+):
     logger = logging.getLogger(__name__)
     headers = {"Authorization": authorization}
 
@@ -41,7 +43,12 @@ def importDocument(filepath, filename, documentsByTitle, config, authorization):
         ),
     )
 
+    if res.status_code == 403 and not isRetryAttempt:
+        return False
+
     if not res.status_code == 200:
-        errorMessage = "File import failed: " + json.dumps(res.json(), indent=4)
+        errorMessage = f"File import failed with return code: {res.status_code} and error message {json.dumps(res.json(), indent=4)}"
         logger.error(errorMessage)
         raise Exception(errorMessage)
+
+    return True

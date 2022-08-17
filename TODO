@@ -15,8 +15,26 @@ todo:
 -   use freemarker for display
 -   ja vs en images
 -   deleting unneeded images / articles
+-   find sphinx way to fix images? https://github.com/sphinx-doc/sphinx/blob/65f548e6ee968f6183f3dcbbdf999268a6c9b257/sphinx/builders/__init__.py
+    test
+-             importing all images took 26 minmutes
+          	pages - 20 minutes
 
-test
+some pages are now broken: https://learn-uat.lxc.liferay.com/web/learn-python-import/w/commerce/store-management/installation-and-upgrades.html
+add link to compare original
+missing styling for commands on https://learn-uat.lxc.liferay.com/web/learn-python-import/w/dxp-cloud/migrating-to-dxp-cloud/matching-dxp-versions.html
+
+try out /v1.0/sites/{siteId}/documents/by-external-reference-code/{externalReferenceCode}
+
+json-ws batch mode
+
+https://github.com/liferay/liferay-portal/blob/ba9cff57311cd023f648200e6a9edef8de7ca2df/portal-kernel/src/com/liferay/document/library/kernel/service/DLAppLocalService.java#L110-L150
+
+https://issues.liferay.com/browse/LPP-27448
+
+import numpy as np
+array = np.array([2,8,7]).tofile("array.bin")
+print(np.fromfile("array.bin", dtype=np.int8))
 
 -   make sure all images resolve
 

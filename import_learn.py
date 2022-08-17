@@ -27,12 +27,10 @@ logger.info(
     + str(config["ARTICLE_STRUCTURE_ID"])
 )
 
-authorization = oauth_token.getOAUTHToken(config)
-
 session = requests.Session()
 
 
-def importImages(documentsByTitle):
+def importImages(authorization, documentsByTitle):
     importImageStart = time.perf_counter()
     fileCounter = 0
     for root, d_names, f_names in os.walk(config["SPHINX_OUTPUT_DIRECTORY"]):
@@ -44,9 +42,21 @@ def importImages(documentsByTitle):
                 ].replace(os.sep, "_")
                 logger.info(f"Importing... {filename} as {importFilename}")
 
-                import_document.importDocument(
-                    filename, importFilename, documentsByTitle, config, authorization
-                )
+                isRetryAttempt = False
+                documentImportSuccess = False
+                while not documentImportSuccess:
+                    documentImportSuccess = import_document.importDocument(
+                        filename,
+                        importFilename,
+                        documentsByTitle,
+                        isRetryAttempt,
+                        config,
+                        authorization,
+                    )
+                    if not documentImportSuccess:
+                        isRetryAttempt = True
+                        authorization = oauth_token.getOAUTHToken(config)
+
                 fileCounter = fileCounter + 1
                 if fileCounter >= config["IMAGE_IMPORT_LIMIT"]:
                     logger.warning("Stopping import due to import limit being reached")
@@ -61,7 +71,7 @@ def importImages(documentsByTitle):
     )
 
 
-def importArticles():
+def importArticles(authorization):
     importArticleStart = time.perf_counter()
     articleCounter = 0
     for root, d_names, f_names in os.walk(config["SPHINX_OUTPUT_DIRECTORY"]):
@@ -70,7 +80,16 @@ def importArticles():
                 filename = os.path.join(root, f)
                 logger.info("Importing... " + filename)
 
-                import_article.importArticle(filename, config, authorization)
+                isRetryAttempt = False
+                importSuccess = False
+                while not importSuccess:
+                    importSuccess = import_article.importArticle(
+                        filename, isRetryAttempt, config, authorization
+                    )
+                    if not importSuccess:
+                        isRetryAttempt = True
+                        authorization = oauth_token.getOAUTHToken(config)
+
                 articleCounter = articleCounter + 1
                 if articleCounter >= config["ARTICLE_IMPORT_LIMIT"]:
                     logger.warning("Stopping import due to import limit being reached")
@@ -86,16 +105,19 @@ def importArticles():
 importSuccess = False
 importStart = time.perf_counter()
 try:
+    authorization = oauth_token.getOAUTHToken(config)
     documentsByTitle = get_documents.getDocuments(config, authorization)
-    importImages(documentsByTitle)
+    importImages(authorization, documentsByTitle)
 
+    authorization = oauth_token.getOAUTHToken(config)
     articles = get_articles.getArticles(config, authorization)
-    importArticles()
+    importArticles(authorization)
+
     importSuccess = True
 except BaseException as err:
     logger.error(f"Unexpected {err=}, {type(err)=},  {traceback.format_exc()}")
 
 importEnd = time.perf_counter()
 logger.info(
-    f"Learn import was {'successful' if importSuccess else 'NOT successful'} and completed in  {importEnd - importStart:0.4f} seconds."
+    f"Learn import was {'successful' if importSuccess else 'NOT successful'} and completed in {importEnd - importStart:0.4f} seconds."
 )
