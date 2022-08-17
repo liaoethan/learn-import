@@ -5,7 +5,12 @@ import requests
 
 
 def getDocuments(config, authorization):
-    return get_all_items.getAllItems(config, authorization, getDocumentBatch)
+    documents = get_all_items.getAllItems(config, authorization, getDocumentBatch)
+
+    documentsByTitle = {}
+    for document in documents:
+        documentsByTitle[document["title"]] = document["id"]
+    return documentsByTitle
 
 
 def getDocumentBatch(page, config, authorization):
@@ -19,7 +24,6 @@ def getDocumentBatch(page, config, authorization):
 
     session = requests.Session()
 
-    # g f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/structured-contents?fields=id,friendlyUrlPath"
     get_uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/documents?fields=id,title&page={page}&pageSize={config['API_PAGESIZE']}"
     logger.debug(f"Fetching document page {page}")
     res = session.get(get_uri, headers=headers)

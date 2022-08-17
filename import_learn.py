@@ -32,16 +32,20 @@ authorization = oauth_token.getOAUTHToken(config)
 session = requests.Session()
 
 
-def importImages():
+def importImages(documentsByTitle):
     importImageStart = time.perf_counter()
     fileCounter = 0
     for root, d_names, f_names in os.walk(config["SPHINX_OUTPUT_DIRECTORY"]):
         if root.endswith("_images"):
             for f in f_names:
-                filename = os.path.join(root, f)
-                logger.info("Importing... " + filename)
+                filename = str(os.path.join(root, f))
+                importFilename = filename.split(config["SPHINX_OUTPUT_DIRECTORY"], 1)[
+                    -1
+                ].replace(os.sep, "_")
+                logger.info(f"Importing... {filename} as {importFilename}")
+
                 import_document.importDocument(
-                    filename, "commerce_" + f, config, authorization
+                    filename, importFilename, documentsByTitle, config, authorization
                 )
                 fileCounter = fileCounter + 1
 
@@ -70,12 +74,11 @@ def importArticles():
 importSuccess = False
 importStart = time.perf_counter()
 try:
-    documents = get_documents.getDocuments(config, authorization)
-    articles = get_articles.getArticles(config, authorization)
-    # importImages()
+    documentsByTitle = get_documents.getDocuments(config, authorization)
+    importImages(documentsByTitle)
 
-    # logger.debug(json.dumps(articles, indent=4))
-    # importArticles()
+    articles = get_articles.getArticles(config, authorization)
+    importArticles()
     importSuccess = True
 except BaseException as err:
     logger.error(f"Unexpected {err=}, {type(err)=},  {traceback.format_exc()}")

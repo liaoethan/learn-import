@@ -1,7 +1,5 @@
 todo:
 
--   error handling on api failure
--   image namespacing- commerce\_
 -   handling other languages
 -   handle all projects
 -   sync process
@@ -16,6 +14,7 @@ todo:
 -   use parallel processing- -- cloud tasks?
 -   hash content in custom field for syncing?
 -   use freemarker for display
+-   ja vs en images
 
 downsides:
 
