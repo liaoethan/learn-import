@@ -23,7 +23,6 @@ def getArticleBatch(page, config, authorization):
     res = session.get(get_uri, headers=headers)
     logger.debug(f"Fetching article page {page}")
     res = session.get(get_uri, headers=headers)
-    logger.debug(json.dumps(res.json(), indent=4))
 
     if res.status_code != 200:
         errorMessage = "Getting articles failed " + json.dumps(res.json(), indent=4)

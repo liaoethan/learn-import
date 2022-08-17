@@ -48,6 +48,12 @@ def importImages(documentsByTitle):
                     filename, importFilename, documentsByTitle, config, authorization
                 )
                 fileCounter = fileCounter + 1
+                if fileCounter >= config["IMAGE_IMPORT_LIMIT"]:
+                    logger.warning("Stopping import due to import limit being reached")
+                    break
+
+        if fileCounter >= config["IMAGE_IMPORT_LIMIT"]:
+            break
 
     importImageEnd = time.perf_counter()
     logger.info(
@@ -63,8 +69,14 @@ def importArticles():
             if f.endswith(LEARN_ARTICLE_JSON_EXTENSION):
                 filename = os.path.join(root, f)
                 logger.info("Importing... " + filename)
+
                 import_article.importArticle(filename, config, authorization)
                 articleCounter = articleCounter + 1
+                if articleCounter >= config["ARTICLE_IMPORT_LIMIT"]:
+                    logger.warning("Stopping import due to import limit being reached")
+                    break
+        if articleCounter >= config["ARTICLE_IMPORT_LIMIT"]:
+            break
     importArticleEnd = time.perf_counter()
     logger.info(
         f"Imported {articleCounter} articles in {importArticleEnd - importArticleStart:0.4f} seconds."

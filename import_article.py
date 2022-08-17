@@ -1,3 +1,5 @@
+import os
+import re
 import requests
 import json
 import logging
@@ -26,6 +28,11 @@ def importArticle(filepath, config, authorization):
     with open(filepath, encoding="utf-8") as f:
         article_data = json.load(f)
 
+    sphinxOutputPathPrefix = filepath.split(config["SPHINX_OUTPUT_DIRECTORY"], 1)[-1]
+    imagePrefix = (
+        sphinxOutputPathPrefix.split(article_data["current_page_name"])[0] + "_images_"
+    ).replace(os.sep, "_")
+
     if not "body" in article_data:
         logger.warn("No HTML body found for " + filepath)
         return
@@ -51,9 +58,10 @@ def importArticle(filepath, config, authorization):
         "contentFields": [
             {
                 "contentFieldValue": {
-                    "data": article_data["body"].replace(
-                        "../../_images/",
-                        "/webdav/learn-python-import/document_library/commerce_",
+                    "data": re.sub(
+                        r'src="(\.\.\/)+_images/',
+                        'src="' + config["WEBDAV_IMAGE_URL_PREFIX"] + imagePrefix,
+                        article_data["body"],
                     )
                 },
                 "name": "Body",
