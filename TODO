@@ -3,7 +3,6 @@ todo:
 -   handling other languages
 -   handle all projects
 -   sync process
--   fix images on all pages
 -   vue logic - landing page icons
 -   think through external reference code logic again - is hashing the page the right idea or just base64? - also in view of different product sections (commerce vs dxp)
 -   handle zip files
@@ -16,6 +15,10 @@ todo:
 -   use freemarker for display
 -   ja vs en images
 -   deleting unneeded images / articles
+
+test
+
+-   make sure all images resolve
 
 downsides:
 
