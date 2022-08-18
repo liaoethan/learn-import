@@ -17,8 +17,8 @@ todo:
 -   deleting unneeded images / articles
 -   find sphinx way to fix images? https://github.com/sphinx-doc/sphinx/blob/65f548e6ee968f6183f3dcbbdf999268a6c9b257/sphinx/builders/__init__.py
     test
--                       importing all images took 26 minmutes
-                    	pages - 20 minutes
+-                           importing all images took 26 minmutes
+                        	pages - 20 minutes
 
 some pages are now broken: https://learn-uat.lxc.liferay.com/web/learn-python-import/w/commerce/store-management/installation-and-upgrades.html
 add link to compare original
@@ -128,3 +128,4 @@ Get redirects working for things like
 https://learn.liferay.com/infrastructure-and-operations/networking/custom-domains.html
 
 (en) prefix -- add through api in redirect section?
+Add document type for learn documents so we can identify them and use that for delete option
