@@ -2,23 +2,23 @@ import logging
 import time
 
 
-def getAllItems(config, authorization, callback):
+def get_all_items(config, authorization, callback):
     logger = logging.getLogger(__name__)
 
-    getStart = time.perf_counter()
+    get_start = time.perf_counter()
 
     items = []
     page = 1
-    fetchedAllItems = False
+    fetched_all_items = False
 
-    while not fetchedAllItems:
-        itemBatch = callback(page, config, authorization)
-        items += itemBatch["items"]
-        if itemBatch["lastPage"] == page:
-            fetchedAllItems = True
+    while not fetched_all_items:
+        item_batch = callback(page, config, authorization)
+        items += item_batch["items"]
+        if item_batch["lastPage"] == page:
+            fetched_all_items = True
         page = page + 1
 
-    getEnd = time.perf_counter()
+    get_end = time.perf_counter()
 
-    logger.info(f"Fetched {len(items)} items in {getEnd - getStart:0.4f} seconds.")
+    logger.info(f"Fetched {len(items)} items in {get_end - get_start:0.4f} seconds.")
     return items

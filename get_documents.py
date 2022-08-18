@@ -4,16 +4,16 @@ import logging
 import requests
 
 
-def getDocuments(config, authorization):
-    documents = get_all_items.getAllItems(config, authorization, getDocumentBatch)
+def get_documents(config, authorization):
+    documents = get_all_items.get_all_items(config, authorization, get_document_batch)
 
-    documentsByTitle = {}
+    documents_by_title = {}
     for document in documents:
-        documentsByTitle[document["title"]] = document["id"]
-    return documentsByTitle
+        documents_by_title[document["title"]] = document["id"]
+    return documents_by_title
 
 
-def getDocumentBatch(page, config, authorization):
+def get_document_batch(page, config, authorization):
     logger = logging.getLogger(__name__)
 
     headers = {

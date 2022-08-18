@@ -3,7 +3,7 @@ import logging
 import requests
 
 
-def getOAUTHToken(config):
+def get_oauth_token(config):
     logger = logging.getLogger(__name__)
 
     post_uri = config["OAUTH_HOST"] + "/o/oauth2/token"
@@ -20,12 +20,12 @@ def getOAUTHToken(config):
     )
 
     if not res.status_code == 200:
-        errorMessage = "Failed to get oauth token" + json.dumps(res.json(), indent=4)
-        logger.error(errorMessage)
-        raise Exception(errorMessage)
+        error_message = f"Failed to get oauth token {json.dumps(res.json(), indent=4)}"
+        logger.error(error_message)
+        raise Exception(error_message)
 
     logger.info("Received OAuth token")
     token_payload = res.json()
-    authorization = token_payload["token_type"] + " " + token_payload["access_token"]
+    authorization = f"{token_payload['token_type']} {token_payload['access_token']}"
 
     return authorization

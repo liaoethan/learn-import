@@ -6,18 +6,18 @@ import logging
 import hashlib
 
 
-def getBreadcrumbElement(parent):
+def get_breadcrumb_element(parent):
     link = parent["link"]
     title = parent["title"]
     return f'<a href="{link}">{title}</a>'
 
 
-def getBreadcrumb(current_page_name, parents):
-    breadcrumbs = map(getBreadcrumbElement, parents)
+def get_breadcrumb(current_page_name, parents):
+    breadcrumbs = map(get_breadcrumb_element, parents)
     return " &nbsp; / &nbsp;".join(breadcrumbs)
 
 
-def importArticle(filepath, isRetryAttempt, config, authorization):
+def import_article(filepath, is_retry_attempt, config, authorization):
     logger = logging.getLogger(__name__)
     headers = {
         "Accept": "application/json",
@@ -28,10 +28,11 @@ def importArticle(filepath, isRetryAttempt, config, authorization):
     with open(filepath, encoding="utf-8") as f:
         article_data = json.load(f)
 
-    sphinxOutputPathPrefix = filepath.split(config["SPHINX_OUTPUT_DIRECTORY"], 1)[-1]
-    product = sphinxOutputPathPrefix.split(os.sep)[0]
-    imagePrefix = (
-        sphinxOutputPathPrefix.split(article_data["current_page_name"])[0] + "_images_"
+    sphinx_output_path_prefix = filepath.split(config["SPHINX_OUTPUT_DIRECTORY"], 1)[-1]
+    product = sphinx_output_path_prefix.split(os.sep)[0]
+    image_prefix = (
+        sphinx_output_path_prefix.split(article_data["current_page_name"])[0]
+        + "_images_"
     ).replace(os.sep, "_")
 
     if not "body" in article_data:
@@ -47,12 +48,12 @@ def importArticle(filepath, isRetryAttempt, config, authorization):
     if not "navtoc" in article_data:
         article_data["navtoc"] = ""
 
-    externalReferenceCode = hashlib.sha256(
+    external_reference_code = hashlib.sha256(
         article_data["current_page_name"].encode()
     ).hexdigest()
 
     logger.info(
-        f"Using ERC {externalReferenceCode} for {article_data['current_page_name']}"
+        f"Using ERC {external_reference_code} for {article_data['current_page_name']}"
     )
 
     article = {
@@ -61,7 +62,7 @@ def importArticle(filepath, isRetryAttempt, config, authorization):
                 "contentFieldValue": {
                     "data": re.sub(
                         r'src="(\.\.\/)+_images/',
-                        'src="' + config["WEBDAV_IMAGE_URL_PREFIX"] + imagePrefix,
+                        'src="' + config["WEBDAV_IMAGE_URL_PREFIX"] + image_prefix,
                         article_data["body"],
                     )
                 },
@@ -69,7 +70,7 @@ def importArticle(filepath, isRetryAttempt, config, authorization):
             },
             {
                 "contentFieldValue": {
-                    "data": getBreadcrumb(
+                    "data": get_breadcrumb(
                         article_data["current_page_name"], article_data["parents"]
                     )
                 },
@@ -87,23 +88,23 @@ def importArticle(filepath, isRetryAttempt, config, authorization):
             },
         ],
         "contentStructureId": config["ARTICLE_STRUCTURE_ID"],
-        "externalReferenceCode": externalReferenceCode,
+        "externalReferenceCode": external_reference_code,
         "friendlyUrlPath": product + "/" + article_data["current_page_name"] + ".html",
         "title": article_data["title"],
     }
 
     session = requests.Session()
 
-    uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/structured-contents/by-external-reference-code/{externalReferenceCode}"
+    uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/structured-contents/by-external-reference-code/{external_reference_code}"
     # post_uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/structured-contents"
 
     res = session.put(uri, headers=headers, data=json.dumps(article))
 
-    if res.status_code == 403 and not isRetryAttempt:
+    if res.status_code == 403 and not is_retry_attempt:
         return False
 
     if not res.status_code == 200:
-        errorMessage = f"Article import failed with return code: {res.status_code} and error message {json.dumps(res.json(), indent=4)}"
-        logger.error(errorMessage)
-        raise Exception(errorMessage)
+        error_message = f"Article import failed with return code: {res.status_code} and error message {json.dumps(res.json(), indent=4)}"
+        logger.error(error_message)
+        raise Exception(error_message)
     return True
