@@ -4,8 +4,8 @@ import logging
 import mimetypes
 
 
-def importDocument(
-    filepath, filename, documentsByTitle, isRetryAttempt, config, authorization
+def import_document(
+    filepath, filename, documents_by_title, is_retry_attempt, config, authorization
 ):
     logger = logging.getLogger(__name__)
     headers = {"Authorization": authorization}
@@ -14,9 +14,11 @@ def importDocument(
     uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/documents"
     method = "POST"
 
-    if filename in documentsByTitle:
-        logger.info("Document already exists as id " + str(documentsByTitle[filename]))
-        uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/documents/{documentsByTitle[filename]}"
+    if filename in documents_by_title:
+        logger.info(
+            "Document already exists as id " + str(documents_by_title[filename])
+        )
+        uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/documents/{documents_by_title[filename]}"
         method = "PUT"
 
     image_type = mimetypes.guess_type(filepath)
@@ -43,12 +45,12 @@ def importDocument(
         ),
     )
 
-    if res.status_code == 403 and not isRetryAttempt:
+    if res.status_code == 403 and not is_retry_attempt:
         return False
 
     if not res.status_code == 200:
-        errorMessage = f"File import failed with return code: {res.status_code} and error message {json.dumps(res.json(), indent=4)}"
-        logger.error(errorMessage)
-        raise Exception(errorMessage)
+        error_message = f"File import failed with return code: {res.status_code} and error message {json.dumps(res.json(), indent=4)}"
+        logger.error(error_message)
+        raise Exception(error_message)
 
     return True

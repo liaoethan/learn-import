@@ -4,7 +4,7 @@ import os
 from os.path import exists
 
 
-def getConfig():
+def get_config():
     logger = logging.getLogger(__name__)
     configfile = "./config.json"
     localconfigfile = "./config.local.json"

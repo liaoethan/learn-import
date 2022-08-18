@@ -16,7 +16,7 @@ logger = logging.getLogger(__name__)
 
 LEARN_ARTICLE_JSON_EXTENSION = ".fjson"
 
-config = configuration.getConfig()
+config = configuration.get_config()
 
 logger.info(
     "Using host "
@@ -30,94 +30,94 @@ logger.info(
 session = requests.Session()
 
 
-def importImages(authorization, documentsByTitle):
-    importImageStart = time.perf_counter()
-    fileCounter = 0
+def import_images(authorization, documents_by_title):
+    import_image_start = time.perf_counter()
+    file_counter = 0
     for root, d_names, f_names in os.walk(config["SPHINX_OUTPUT_DIRECTORY"]):
         if root.endswith("_images"):
             for f in f_names:
                 filename = str(os.path.join(root, f))
-                importFilename = filename.split(config["SPHINX_OUTPUT_DIRECTORY"], 1)[
+                import_filename = filename.split(config["SPHINX_OUTPUT_DIRECTORY"], 1)[
                     -1
                 ].replace(os.sep, "_")
-                logger.info(f"Importing... {filename} as {importFilename}")
+                logger.info(f"Importing... {filename} as {import_filename}")
 
-                isRetryAttempt = False
-                documentImportSuccess = False
-                while not documentImportSuccess:
-                    documentImportSuccess = import_document.importDocument(
+                is_retry_attempt = False
+                document_import_success = False
+                while not document_import_success:
+                    document_import_success = import_document.import_document(
                         filename,
-                        importFilename,
-                        documentsByTitle,
-                        isRetryAttempt,
+                        import_filename,
+                        documents_by_title,
+                        is_retry_attempt,
                         config,
                         authorization,
                     )
-                    if not documentImportSuccess:
-                        isRetryAttempt = True
-                        authorization = oauth_token.getOAUTHToken(config)
+                    if not document_import_success:
+                        is_retry_attempt = True
+                        authorization = oauth_token.get_oauth_token(config)
 
-                fileCounter = fileCounter + 1
-                if fileCounter >= config["IMAGE_IMPORT_LIMIT"]:
+                file_counter = file_counter + 1
+                if file_counter >= config["IMAGE_IMPORT_LIMIT"]:
                     logger.warning("Stopping import due to import limit being reached")
                     break
 
-        if fileCounter >= config["IMAGE_IMPORT_LIMIT"]:
+        if file_counter >= config["IMAGE_IMPORT_LIMIT"]:
             break
 
-    importImageEnd = time.perf_counter()
+    import_image_end = time.perf_counter()
     logger.info(
-        f"Imported {fileCounter} files in {importImageEnd - importImageStart:0.4f} seconds."
+        f"Imported {file_counter} files in {import_image_end - import_image_start:0.4f} seconds."
     )
 
 
-def importArticles(authorization):
-    importArticleStart = time.perf_counter()
-    articleCounter = 0
+def import_articles(authorization):
+    import_article_start = time.perf_counter()
+    article_counter = 0
     for root, d_names, f_names in os.walk(config["SPHINX_OUTPUT_DIRECTORY"]):
         for f in f_names:
             if f.endswith(LEARN_ARTICLE_JSON_EXTENSION):
                 filename = os.path.join(root, f)
                 logger.info("Importing... " + filename)
 
-                isRetryAttempt = False
-                importSuccess = False
-                while not importSuccess:
-                    importSuccess = import_article.importArticle(
-                        filename, isRetryAttempt, config, authorization
+                is_retry_attempt = False
+                import_success = False
+                while not import_success:
+                    import_success = import_article.import_article(
+                        filename, is_retry_attempt, config, authorization
                     )
-                    if not importSuccess:
-                        isRetryAttempt = True
-                        authorization = oauth_token.getOAUTHToken(config)
+                    if not import_success:
+                        is_retry_attempt = True
+                        authorization = oauth_token.get_oauth_token(config)
 
-                articleCounter = articleCounter + 1
-                if articleCounter >= config["ARTICLE_IMPORT_LIMIT"]:
+                article_counter = article_counter + 1
+                if article_counter >= config["ARTICLE_IMPORT_LIMIT"]:
                     logger.warning("Stopping import due to import limit being reached")
                     break
-        if articleCounter >= config["ARTICLE_IMPORT_LIMIT"]:
+        if article_counter >= config["ARTICLE_IMPORT_LIMIT"]:
             break
-    importArticleEnd = time.perf_counter()
+    import_article_end = time.perf_counter()
     logger.info(
-        f"Imported {articleCounter} articles in {importArticleEnd - importArticleStart:0.4f} seconds."
+        f"Imported {article_counter} articles in {import_article_end - import_article_start:0.4f} seconds."
     )
 
 
-importSuccess = False
-importStart = time.perf_counter()
+import_success = False
+import_start = time.perf_counter()
 try:
-    authorization = oauth_token.getOAUTHToken(config)
-    documentsByTitle = get_documents.getDocuments(config, authorization)
-    importImages(authorization, documentsByTitle)
+    authorization = oauth_token.get_oauth_token(config)
+    documents_by_title = get_documents.get_documents(config, authorization)
+    import_images(authorization, documents_by_title)
 
-    authorization = oauth_token.getOAUTHToken(config)
-    articles = get_articles.getArticles(config, authorization)
-    importArticles(authorization)
+    authorization = oauth_token.get_oauth_token(config)
+    articles = get_articles.get_articles(config, authorization)
+    import_articles(authorization)
 
-    importSuccess = True
+    import_success = True
 except BaseException as err:
     logger.error(f"Unexpected {err=}, {type(err)=},  {traceback.format_exc()}")
 
-importEnd = time.perf_counter()
+import_end = time.perf_counter()
 logger.info(
-    f"Learn import was {'successful' if importSuccess else 'NOT successful'} and completed in {importEnd - importStart:0.4f} seconds."
+    f"Learn import was {'successful' if import_success else 'NOT successful'} and completed in {import_end - import_start:0.4f} seconds."
 )
