@@ -9,9 +9,9 @@ import mimetypes
 @oauth_token.api_call(200)
 def import_document(filepath, filename, documents_by_title):
     logger = logging.getLogger(__name__)
-    headers = {"Authorization": oauth_token.authorization}
 
-    session = requests.Session()
+    logger.info(f"Importing... {filepath} as {filename}")
+
     uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/documents"
     method = "POST"
 
@@ -25,12 +25,12 @@ def import_document(filepath, filename, documents_by_title):
     image_type = mimetypes.guess_type(filepath)
     mime_type = image_type[0]
     if mime_type is None:
-        raise Exception("cannot figure out mimetype for" + filepath)
+        raise Exception("Cannot determine mimetype for " + filepath)
 
-    return session.request(
+    return requests.request(
         method,
         uri,
-        headers=headers,
+        headers={"Authorization": oauth_token.authorization},
         files=(
             (
                 "document",
