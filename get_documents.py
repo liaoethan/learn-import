@@ -2,11 +2,12 @@ from configuration import config
 import get_all_items
 import json
 import logging
+import oauth_token
 import requests
 
 
-def get_documents(authorization):
-    documents = get_all_items.get_all_items(authorization, get_document_batch)
+def get_documents():
+    documents = get_all_items.get_all_items(get_document_batch)
 
     documents_by_title = {}
     for document in documents:
@@ -14,23 +15,16 @@ def get_documents(authorization):
     return documents_by_title
 
 
-def get_document_batch(page, authorization):
+@oauth_token.api_call(200)
+def get_document_batch(page):
     logger = logging.getLogger(__name__)
 
     headers = {
         "Accept": "application/json",
-        "Authorization": authorization,
+        "Authorization": oauth_token.authorization,
         "Content-Type": "application/json",
     }
 
-    session = requests.Session()
-
     get_uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/documents?fields=id,title&page={page}&pageSize={config['API_PAGESIZE']}"
     logger.debug(f"Fetching document page {page}")
-    res = session.get(get_uri, headers=headers)
-
-    if res.status_code != 200:
-        errorMessage = "Getting documents failed " + json.dumps(res.json(), indent=4)
-        logger.error(errorMessage)
-        raise Exception(errorMessage)
-    return res.json()
+    return requests.get(get_uri, headers=headers)

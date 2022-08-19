@@ -1,9 +1,10 @@
 from configuration import config
-import os
+from util import save_as_json
 import re
 import requests
 import json
 import logging
+import oauth_token
 import hashlib
 
 
@@ -18,11 +19,12 @@ def get_breadcrumb(current_page_name, parents):
     return " &nbsp; / &nbsp;".join(breadcrumbs)
 
 
-def import_article(article, is_retry_attempt, authorization):
+@oauth_token.api_call(200)
+def import_article(article):
     logger = logging.getLogger(__name__)
     headers = {
         "Accept": "application/json",
-        "Authorization": authorization,
+        "Authorization": oauth_token.authorization,
         "Content-Type": "application/json",
     }
     translations = []
@@ -35,7 +37,7 @@ def import_article(article, is_retry_attempt, authorization):
 
             if not "body" in translation_data:
                 logger.warn("No HTML body found for " + translation["filename"])
-                return True
+                return
 
             if not "parents" in translation_data:
                 translation_data["parents"] = []
@@ -144,21 +146,4 @@ def import_article(article, is_retry_attempt, authorization):
     uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/structured-contents/by-external-reference-code/{external_reference_code}"
     # post_uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/structured-contents"
 
-    res = session.put(uri, headers=headers, data=json.dumps(untranslatedArticle))
-
-    if res.status_code == 403 and not is_retry_attempt:
-        return False
-
-    if not res.status_code == 200:
-        error_message = f"Article import failed with return code: {res.status_code} and error message {json.dumps(res.json(), indent=4)}"
-        logger.error(error_message)
-        raise Exception(error_message)
-    return True
-
-
-def save_as_json(name, object):
-    BUILD_DIRECTORY = "build"
-    if not os.path.isdir(BUILD_DIRECTORY):
-        os.mkdir(BUILD_DIRECTORY)
-    with open(f"{BUILD_DIRECTORY}/{name}.json", "w") as outfile:
-        outfile.write(json.dumps(object, indent=4))
+    return session.put(uri, headers=headers, data=json.dumps(untranslatedArticle))

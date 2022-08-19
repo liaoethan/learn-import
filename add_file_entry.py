@@ -24,10 +24,9 @@ REPOSITORY_ID = 83630
 FOLDER_ID = 268532
 
 session = requests.Session()
-authorization = oauth_token.get_oauth_token()
 headers = {
     "Accept": "application/json",
-    "Authorization": authorization,
+    "Authorization": oauth_token.authorization,
     "Content-Type": "application/json",
 }
 uri = f"{config['OAUTH_HOST']}/api/jsonws/invoke"

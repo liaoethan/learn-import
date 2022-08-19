@@ -1,5 +1,6 @@
 from configuration import config
 from decorators import timer
+from util import save_as_json
 import get_articles
 import get_documents
 import import_article
@@ -7,7 +8,6 @@ import import_document
 import json
 import logging
 import logging.config
-import oauth_token
 import os
 import requests
 import traceback
@@ -101,31 +101,15 @@ def collect_sphinx_files():
     return [articles, images, other]
 
 
-def save_as_json(name, object):
-    BUILD_DIRECTORY = "build"
-    if not os.path.isdir(BUILD_DIRECTORY):
-        os.mkdir(BUILD_DIRECTORY)
-    with open(f"{BUILD_DIRECTORY}/{name}.json", "w") as outfile:
-        outfile.write(json.dumps(object, indent=4))
-
-
 @timer
-def import_images(authorization, documents_by_title, images):
+def import_images(documents_by_title, images):
     file_counter = 0
     for image in images:
-        is_retry_attempt = False
-        document_import_success = False
-        while not document_import_success:
-            document_import_success = import_document.import_document(
-                image["filename"],
-                image["import_filename"],
-                documents_by_title,
-                is_retry_attempt,
-                authorization,
-            )
-            if not document_import_success:
-                is_retry_attempt = True
-                authorization = oauth_token.get_oauth_token()
+        import_document.import_document(
+            image["filename"],
+            image["import_filename"],
+            documents_by_title,
+        )
 
         file_counter = file_counter + 1
         if file_counter >= config["IMAGE_IMPORT_LIMIT"]:
@@ -135,19 +119,11 @@ def import_images(authorization, documents_by_title, images):
 
 
 @timer
-def import_articles(articles, authorization):
+def import_articles(articles):
     article_counter = 0
     for article in articles:
         logger.info(f"Importing... {article['article_key']}")
-        is_retry_attempt = False
-        import_success = False
-        while not import_success:
-            import_success = import_article.import_article(
-                article, is_retry_attempt, authorization
-            )
-            if not import_success:
-                is_retry_attempt = True
-                authorization = oauth_token.get_oauth_token()
+        import_article.import_article(article)
 
         article_counter = article_counter + 1
         if article_counter >= config["ARTICLE_IMPORT_LIMIT"]:
@@ -163,13 +139,10 @@ def import_learn():
 
     try:
         sphinx_articles, images, other = collect_sphinx_files()
-        authorization = oauth_token.get_oauth_token()
-        documents_by_title = get_documents.get_documents(authorization)
-        import_images(authorization, documents_by_title, images)
-
-        authorization = oauth_token.get_oauth_token()
-        articles = get_articles.get_articles(authorization)
-        import_articles(sphinx_articles, authorization)
+        documents_by_title = get_documents.get_documents()
+        import_images(documents_by_title, images)
+        articles = get_articles.get_articles()
+        import_articles(sphinx_articles)
 
         import_success = True
     except BaseException as err:

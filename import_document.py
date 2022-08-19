@@ -2,14 +2,14 @@ from configuration import config
 import requests
 import json
 import logging
+import oauth_token
 import mimetypes
 
 
-def import_document(
-    filepath, filename, documents_by_title, is_retry_attempt, authorization
-):
+@oauth_token.api_call(200)
+def import_document(filepath, filename, documents_by_title):
     logger = logging.getLogger(__name__)
-    headers = {"Authorization": authorization}
+    headers = {"Authorization": oauth_token.authorization}
 
     session = requests.Session()
     uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/documents"
@@ -27,7 +27,7 @@ def import_document(
     if mime_type is None:
         raise Exception("cannot figure out mimetype for" + filepath)
 
-    res = session.request(
+    return session.request(
         method,
         uri,
         headers=headers,
@@ -45,13 +45,3 @@ def import_document(
             ),
         ),
     )
-
-    if res.status_code == 403 and not is_retry_attempt:
-        return False
-
-    if not res.status_code == 200:
-        error_message = f"File import failed with return code: {res.status_code} and error message {json.dumps(res.json(), indent=4)}"
-        logger.error(error_message)
-        raise Exception(error_message)
-
-    return True

@@ -1,8 +1,15 @@
 from configuration import config
 from decorators import timer
+import functools
 import json
 import logging
 import requests
+
+
+class AuthClientError(Exception):
+    """Base class for other exceptions"""
+
+    pass
 
 
 @timer
@@ -32,3 +39,43 @@ def get_oauth_token():
     authorization = f"{token_payload['token_type']} {token_payload['access_token']}"
 
     return authorization
+
+
+authorization = get_oauth_token()
+
+
+def renew_access_token(func):
+    @functools.wraps(func)
+    def wrapper(*args, **kwargs):
+        try:
+            return func(*args, **kwargs)
+        except AuthClientError:
+            logger = logging.getLogger(func.__name__)
+            logger.warning("Token possibly expired, trying again")
+            authorization = get_oauth_token()
+            return func(*args, **kwargs)
+
+    return wrapper
+
+
+def api_call(success_code=200):
+    def decorate(func):
+        @renew_access_token
+        @functools.wraps(func)
+        def wrapper(*args, **kwargs):
+            res = func(*args, **kwargs)
+            if res is None:
+                return
+            if not res.status_code == success_code:
+                logger = logging.getLogger(func.__name__)
+                error_message = f"API call for {func.__name__} failed with return code: {res.status_code} and error message {json.dumps(res.json(), indent=4)}"
+                logger.error(error_message)
+                if res.status_code == 401 or res.status_code == 403:
+                    raise AuthClientError
+                else:
+                    raise Exception(error_message)
+            return res
+
+        return wrapper
+
+    return decorate
