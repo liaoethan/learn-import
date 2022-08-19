@@ -1,4 +1,4 @@
-import configuration
+from configuration import config
 import json
 import logging
 import logging.config
@@ -10,8 +10,6 @@ import requests
 
 logging.config.fileConfig("logging.conf")
 logger = logging.getLogger(__name__)
-
-config = configuration.get_config()
 
 logger.info(
     "Using host "
@@ -26,7 +24,7 @@ REPOSITORY_ID = 83630
 FOLDER_ID = 268532
 
 session = requests.Session()
-authorization = oauth_token.get_oauth_token(config)
+authorization = oauth_token.get_oauth_token()
 headers = {
     "Accept": "application/json",
     "Authorization": authorization,

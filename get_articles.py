@@ -1,14 +1,15 @@
+from configuration import config
 import get_all_items
 import json
 import logging
 import requests
 
 
-def get_articles(config, authorization):
-    return get_all_items.get_all_items(config, authorization, get_article_batch)
+def get_articles(authorization):
+    return get_all_items.get_all_items(authorization, get_article_batch)
 
 
-def get_article_batch(page, config, authorization):
+def get_article_batch(page, authorization):
     logger = logging.getLogger(__name__)
     headers = {
         "Accept": "application/json",

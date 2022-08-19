@@ -1,11 +1,12 @@
+from configuration import config
 import get_all_items
 import json
 import logging
 import requests
 
 
-def get_documents(config, authorization):
-    documents = get_all_items.get_all_items(config, authorization, get_document_batch)
+def get_documents(authorization):
+    documents = get_all_items.get_all_items(authorization, get_document_batch)
 
     documents_by_title = {}
     for document in documents:
@@ -13,7 +14,7 @@ def get_documents(config, authorization):
     return documents_by_title
 
 
-def get_document_batch(page, config, authorization):
+def get_document_batch(page, authorization):
     logger = logging.getLogger(__name__)
 
     headers = {

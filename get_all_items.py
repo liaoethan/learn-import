@@ -1,8 +1,9 @@
+from configuration import config
 import logging
 import time
 
 
-def get_all_items(config, authorization, callback):
+def get_all_items(authorization, callback):
     logger = logging.getLogger(__name__)
 
     get_start = time.perf_counter()
@@ -12,7 +13,7 @@ def get_all_items(config, authorization, callback):
     fetched_all_items = False
 
     while not fetched_all_items:
-        item_batch = callback(page, config, authorization)
+        item_batch = callback(page, authorization)
         items += item_batch["items"]
         if item_batch["lastPage"] == page:
             fetched_all_items = True

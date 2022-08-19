@@ -1,4 +1,4 @@
-import configuration
+from configuration import config
 import get_articles
 import get_documents
 import import_article
@@ -16,8 +16,6 @@ logging.config.fileConfig("logging.conf")
 logger = logging.getLogger(__name__)
 
 LEARN_ARTICLE_JSON_EXTENSION = ".fjson"
-
-config = configuration.get_config()
 
 logger.info(
     "Using host "
@@ -122,12 +120,11 @@ def import_images(authorization, documents_by_title, images):
                 image["import_filename"],
                 documents_by_title,
                 is_retry_attempt,
-                config,
                 authorization,
             )
             if not document_import_success:
                 is_retry_attempt = True
-                authorization = oauth_token.get_oauth_token(config)
+                authorization = oauth_token.get_oauth_token()
 
         file_counter = file_counter + 1
         if file_counter >= config["IMAGE_IMPORT_LIMIT"]:
@@ -149,11 +146,11 @@ def import_articles(articles, authorization):
         import_success = False
         while not import_success:
             import_success = import_article.import_article(
-                article, is_retry_attempt, config, authorization
+                article, is_retry_attempt, authorization
             )
             if not import_success:
                 is_retry_attempt = True
-                authorization = oauth_token.get_oauth_token(config)
+                authorization = oauth_token.get_oauth_token()
 
         article_counter = article_counter + 1
         if article_counter >= config["ARTICLE_IMPORT_LIMIT"]:
@@ -170,12 +167,12 @@ import_success = False
 import_start = time.perf_counter()
 try:
     sphinx_articles, images, other = collect_sphinx_files()
-    authorization = oauth_token.get_oauth_token(config)
-    documents_by_title = get_documents.get_documents(config, authorization)
+    authorization = oauth_token.get_oauth_token()
+    documents_by_title = get_documents.get_documents(authorization)
     import_images(authorization, documents_by_title, images)
 
-    authorization = oauth_token.get_oauth_token(config)
-    articles = get_articles.get_articles(config, authorization)
+    authorization = oauth_token.get_oauth_token()
+    articles = get_articles.get_articles(authorization)
     import_articles(sphinx_articles, authorization)
 
     import_success = True

@@ -1,9 +1,10 @@
+from configuration import config
 import json
 import logging
 import requests
 
 
-def get_oauth_token(config):
+def get_oauth_token():
     logger = logging.getLogger(__name__)
 
     post_uri = config["OAUTH_HOST"] + "/o/oauth2/token"

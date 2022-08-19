@@ -1,3 +1,4 @@
+from configuration import config
 import os
 import re
 import requests
@@ -17,7 +18,7 @@ def get_breadcrumb(current_page_name, parents):
     return " &nbsp; / &nbsp;".join(breadcrumbs)
 
 
-def import_article(article, is_retry_attempt, config, authorization):
+def import_article(article, is_retry_attempt, authorization):
     logger = logging.getLogger(__name__)
     headers = {
         "Accept": "application/json",

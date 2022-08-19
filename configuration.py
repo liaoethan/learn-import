@@ -18,3 +18,6 @@ def get_config():
         config = json.load(configfile)
 
     return config
+
+
+config = get_config()

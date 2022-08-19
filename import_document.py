@@ -1,3 +1,4 @@
+from configuration import config
 import requests
 import json
 import logging
@@ -5,7 +6,7 @@ import mimetypes
 
 
 def import_document(
-    filepath, filename, documents_by_title, is_retry_attempt, config, authorization
+    filepath, filename, documents_by_title, is_retry_attempt, authorization
 ):
     logger = logging.getLogger(__name__)
     headers = {"Authorization": authorization}
