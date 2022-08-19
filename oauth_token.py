@@ -1,9 +1,11 @@
 from configuration import config
+from decorators import timer
 import json
 import logging
 import requests
 
 
+@timer
 def get_oauth_token():
     logger = logging.getLogger(__name__)
 

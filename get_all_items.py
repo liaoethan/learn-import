@@ -1,12 +1,11 @@
 from configuration import config
+from decorators import timer
 import logging
-import time
 
 
+@timer
 def get_all_items(authorization, callback):
     logger = logging.getLogger(__name__)
-
-    get_start = time.perf_counter()
 
     items = []
     page = 1
@@ -19,7 +18,5 @@ def get_all_items(authorization, callback):
             fetched_all_items = True
         page = page + 1
 
-    get_end = time.perf_counter()
-
-    logger.info(f"Fetched {len(items)} items in {get_end - get_start:0.4f} seconds.")
+    logger.info(f"Fetched {len(items)} items.")
     return items

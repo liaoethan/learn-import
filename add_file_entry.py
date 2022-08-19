@@ -1,10 +1,10 @@
 from configuration import config
+from decorators import timer
 import json
 import logging
 import logging.config
 import mimetypes
 import os
-import time
 import oauth_token
 import requests
 
@@ -34,8 +34,8 @@ uri = f"{config['OAUTH_HOST']}/api/jsonws/invoke"
 method = "POST"
 
 
+@timer
 def get_byte_array_string(filepath):
-    start = time.perf_counter()
     f = open(
         filepath,
         "rb",
@@ -46,11 +46,10 @@ def get_byte_array_string(filepath):
         bytes += str(integer) + ","
     bytes = bytes.rstrip(",")
     bytes += "]"
-    end = time.perf_counter()
-    print(f"Read file in {end - start:0.4f} seconds.")
     return bytes
 
 
+@timer
 def load_files(filepaths):
 
     cmd = []
@@ -79,10 +78,7 @@ def load_files(filepaths):
                 }
             }
         )
-    start = time.perf_counter()
     res = session.request(method, uri, headers=headers, data=json.dumps(cmd))
-    end = time.perf_counter()
-    print(f"api call in {end - start:0.4f} seconds.")
     print(res.status_code)
 
 

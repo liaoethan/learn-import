@@ -1,4 +1,5 @@
 from configuration import config
+from decorators import timer
 import get_articles
 import get_documents
 import import_article
@@ -9,7 +10,6 @@ import logging.config
 import oauth_token
 import os
 import requests
-import time
 import traceback
 
 logging.config.fileConfig("logging.conf")
@@ -29,6 +29,7 @@ logger.info(
 session = requests.Session()
 
 
+@timer
 def collect_sphinx_files():
     articles_by_article_key = {}
     images = []
@@ -108,8 +109,8 @@ def save_as_json(name, object):
         outfile.write(json.dumps(object, indent=4))
 
 
+@timer
 def import_images(authorization, documents_by_title, images):
-    import_image_start = time.perf_counter()
     file_counter = 0
     for image in images:
         is_retry_attempt = False
@@ -130,15 +131,11 @@ def import_images(authorization, documents_by_title, images):
         if file_counter >= config["IMAGE_IMPORT_LIMIT"]:
             logger.warning("Stopping import due to import limit being reached")
             break
-
-    import_image_end = time.perf_counter()
-    logger.info(
-        f"Imported {file_counter} files in {import_image_end - import_image_start:0.4f} seconds."
-    )
+    logger.info(f"Imported {file_counter} files")
 
 
+@timer
 def import_articles(articles, authorization):
-    import_article_start = time.perf_counter()
     article_counter = 0
     for article in articles:
         logger.info(f"Importing... {article['article_key']}")
@@ -157,29 +154,30 @@ def import_articles(articles, authorization):
             logger.warning("Stopping import due to import limit being reached")
             break
 
-    import_article_end = time.perf_counter()
+    logger.info(f"Imported {article_counter} articles.")
+
+
+@timer
+def import_learn():
+    import_success = False
+
+    try:
+        sphinx_articles, images, other = collect_sphinx_files()
+        authorization = oauth_token.get_oauth_token()
+        documents_by_title = get_documents.get_documents(authorization)
+        import_images(authorization, documents_by_title, images)
+
+        authorization = oauth_token.get_oauth_token()
+        articles = get_articles.get_articles(authorization)
+        import_articles(sphinx_articles, authorization)
+
+        import_success = True
+    except BaseException as err:
+        logger.error(f"Unexpected {err=}, {type(err)=},  {traceback.format_exc()}")
+
     logger.info(
-        f"Imported {article_counter} articles in {import_article_end - import_article_start:0.4f} seconds."
+        f"Learn import was {'successful' if import_success else 'NOT successful'}."
     )
 
 
-import_success = False
-import_start = time.perf_counter()
-try:
-    sphinx_articles, images, other = collect_sphinx_files()
-    authorization = oauth_token.get_oauth_token()
-    documents_by_title = get_documents.get_documents(authorization)
-    import_images(authorization, documents_by_title, images)
-
-    authorization = oauth_token.get_oauth_token()
-    articles = get_articles.get_articles(authorization)
-    import_articles(sphinx_articles, authorization)
-
-    import_success = True
-except BaseException as err:
-    logger.error(f"Unexpected {err=}, {type(err)=},  {traceback.format_exc()}")
-
-import_end = time.perf_counter()
-logger.info(
-    f"Learn import was {'successful' if import_success else 'NOT successful'} and completed in {import_end - import_start:0.4f} seconds."
-)
+import_learn()
