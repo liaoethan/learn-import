@@ -30,6 +30,8 @@ def import_article(article):
     translations = []
 
     contentFieldValues = {"body": {}, "breadcrumb": {}, "navtoc": {}, "toc": {}}
+    title_i18n = {}
+    available_languages = []
 
     for translation in article["translations"]:
         with open(translation["filename"], encoding="utf-8") as f:
@@ -50,6 +52,8 @@ def import_article(article):
 
             languages = {"en": "en-US", "ja": "ja-JP"}
             liferay_language_id = languages[translation["language"]]
+            title_i18n[liferay_language_id] = translation_data["title"]
+            available_languages.append(liferay_language_id)
 
             contentFieldValues["body"][liferay_language_id] = {
                 "data": re.sub(
@@ -85,20 +89,25 @@ def import_article(article):
     ).hexdigest()
 
     translatedArticle = {
+        "availableLanguages": available_languages,
         "contentFields": [
             {
+                "contentFieldValue": {"data": ""},
                 "contentFieldValue_i18n": contentFieldValues["body"],
                 "name": "Body",
             },
             {
+                "contentFieldValue": {"data": ""},
                 "contentFieldValue_i18n": contentFieldValues["breadcrumb"],
                 "name": "Breadcrumb",
             },
             {
+                "contentFieldValue": {"data": ""},
                 "contentFieldValue_i18n": contentFieldValues["toc"],
                 "name": "TOC",
             },
             {
+                "contentFieldValue": {"data": ""},
                 "contentFieldValue_i18n": contentFieldValues["navtoc"],
                 "name": "Navigation",
             },
@@ -106,44 +115,14 @@ def import_article(article):
         "contentStructureId": config["ARTICLE_STRUCTURE_ID"],
         "externalReferenceCode": external_reference_code,
         "friendlyUrlPath": f"{article['product']}/{translations[0]['current_page_name']}.html",
-        "title": translations[0]["title"],
+        "title_i18n": title_i18n,
+        "title": translations[0]["current_page_name"],
     }
 
-    translation = article["translations"][0]
-    languages = {"en": "en-US", "ja": "ja-JP"}
-    liferay_language_id = languages[translation["language"]]
-
-    untranslatedArticle = {
-        "contentFields": [
-            {
-                "contentFieldValue": contentFieldValues["body"][liferay_language_id],
-                "name": "Body",
-            },
-            {
-                "contentFieldValue": contentFieldValues["breadcrumb"][
-                    liferay_language_id
-                ],
-                "name": "Breadcrumb",
-            },
-            {
-                "contentFieldValue": contentFieldValues["toc"][liferay_language_id],
-                "name": "TOC",
-            },
-            {
-                "contentFieldValue": contentFieldValues["navtoc"][liferay_language_id],
-                "name": "Navigation",
-            },
-        ],
-        "contentStructureId": config["ARTICLE_STRUCTURE_ID"],
-        "externalReferenceCode": external_reference_code,
-        "friendlyUrlPath": f"{article['product']}/{translations[0]['current_page_name']}.html",
-        "title": translations[0]["title"],
-    }
-
-    save_as_json("article_request", untranslatedArticle)
+    save_as_json("article_request", translatedArticle)
     session = requests.Session()
 
     uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/structured-contents/by-external-reference-code/{external_reference_code}"
     # post_uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/structured-contents"
 
-    return session.put(uri, headers=headers, data=json.dumps(untranslatedArticle))
+    return session.put(uri, headers=headers, data=json.dumps(translatedArticle))
