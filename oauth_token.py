@@ -47,6 +47,7 @@ authorization = get_oauth_token()
 def renew_access_token(func):
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
+        global authorization
         try:
             return func(*args, **kwargs)
         except AuthClientError:
