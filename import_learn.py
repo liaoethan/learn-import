@@ -16,15 +16,6 @@ logger = logging.getLogger(__name__)
 
 LEARN_ARTICLE_JSON_EXTENSION = ".fjson"
 
-logger.info(
-    "Using host "
-    + config["OAUTH_HOST"]
-    + " and site "
-    + config["SITE_ID"]
-    + " and structureId "
-    + str(config["ARTICLE_STRUCTURE_ID"])
-)
-
 session = requests.Session()
 
 
@@ -114,8 +105,13 @@ def import_images(documents_by_title, images):
         )
 
         file_counter = file_counter + 1
-        if file_counter >= config["IMAGE_IMPORT_LIMIT"]:
-            logger.warning("Stopping import due to import limit being reached")
+        if (
+            config["IMAGE_IMPORT_LIMIT"] > 0
+            and file_counter >= config["IMAGE_IMPORT_LIMIT"]
+        ):
+            logger.warning(
+                f"Stopping import due to import limit being reached {config['IMAGE_IMPORT_LIMIT']}!"
+            )
             break
     logger.info(f"Imported {file_counter} files")
 
@@ -128,8 +124,13 @@ def import_articles(articles):
         import_article.import_article(article)
 
         article_counter = article_counter + 1
-        if article_counter >= config["ARTICLE_IMPORT_LIMIT"]:
-            logger.warning("Stopping import due to import limit being reached")
+        if (
+            config["ARTICLE_IMPORT_LIMIT"] > 0
+            and article_counter >= config["ARTICLE_IMPORT_LIMIT"]
+        ):
+            logger.warning(
+                f"Stopping article import due to import limit being reached {config['ARTICLE_IMPORT_LIMIT']}"
+            )
             break
 
     logger.info(f"Imported {article_counter} articles.")
@@ -143,8 +144,8 @@ def import_learn():
         sphinx_articles, images, other = collect_sphinx_files()
         documents_by_title = get_documents.get_documents()
         import_images(documents_by_title, images)
-        # articles = get_articles.get_articles()
-        # import_articles(sphinx_articles)
+        articles = get_articles.get_articles()
+        import_articles(sphinx_articles)
 
         import_success = True
     except BaseException as err:
