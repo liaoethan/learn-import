@@ -7,20 +7,28 @@ import mimetypes
 
 
 @oauth_token.api_call(200)
-def import_document(filepath, filename, documents_by_title):
+def import_document(filepath, filename, documents_by_title, sha_256sum):
     logger = logging.getLogger(__name__)
-
-    logger.info(f"Importing... {filepath} as {filename}")
 
     uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/documents"
     method = "POST"
 
     if filename in documents_by_title:
-        logger.info(
-            "Document already exists as id " + str(documents_by_title[filename])
+
+        document = documents_by_title[filename]
+
+        logger.debug(
+            f"Document {filename} already exists as id {document['id']} with sha_25sum {document['sha_256sum']}"
         )
-        uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/documents/{documents_by_title[filename]}"
+
+        if sha_256sum == document["sha_256sum"]:
+            logger.debug(f"Skipping document {filename} since sha_256sum value matches")
+            return
+
+        uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/documents/{document['id']}"
         method = "PUT"
+
+    logger.info(f"Importing... {filepath} as {filename} with {method}")
 
     image_type = mimetypes.guess_type(filepath)
     mime_type = image_type[0]
@@ -36,7 +44,21 @@ def import_document(filepath, filename, documents_by_title):
                 "document",
                 (
                     None,
-                    json.dumps({"title": filename, "externalReferenceCode": filename}),
+                    json.dumps(
+                        {
+                            "title": filename,
+                            "externalReferenceCode": filename,
+                            "documentType": {
+                                "contentFields": [
+                                    {
+                                        "contentFieldValue": {"data": sha_256sum},
+                                        "name": "sha_256sum",
+                                    }
+                                ],
+                                "name": "Learn Synced File",
+                            },
+                        }
+                    ),
                 ),
             ),
             (

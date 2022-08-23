@@ -1,6 +1,6 @@
 from configuration import config
 from decorators import timer
-from util import save_as_json
+from util import save_as_json, sha_256sum
 import get_articles
 import get_documents
 import import_article
@@ -71,6 +71,7 @@ def collect_sphinx_files():
                         translation
                     )
             elif root.endswith("_images"):
+
                 images.append(
                     {
                         "filename": filename,
@@ -78,6 +79,7 @@ def collect_sphinx_files():
                         "product": product,
                         "version": version,
                         "language": language,
+                        "sha_256sum": sha_256sum(filename),
                     }
                 )
             else:
@@ -108,6 +110,7 @@ def import_images(documents_by_title, images):
             image["filename"],
             image["import_filename"],
             documents_by_title,
+            image["sha_256sum"],
         )
 
         file_counter = file_counter + 1
@@ -140,8 +143,8 @@ def import_learn():
         sphinx_articles, images, other = collect_sphinx_files()
         documents_by_title = get_documents.get_documents()
         import_images(documents_by_title, images)
-        articles = get_articles.get_articles()
-        import_articles(sphinx_articles)
+        # articles = get_articles.get_articles()
+        # import_articles(sphinx_articles)
 
         import_success = True
     except BaseException as err:
