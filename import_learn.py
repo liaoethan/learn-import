@@ -7,12 +7,11 @@ import import_article
 import import_document
 import json
 import logging
-import logging.config
 import os
 import requests
 import traceback
 
-logging.config.fileConfig("logging.conf")
+
 logger = logging.getLogger(__name__)
 
 LEARN_ARTICLE_JSON_EXTENSION = ".fjson"

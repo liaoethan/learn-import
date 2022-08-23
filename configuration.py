@@ -1,6 +1,9 @@
 import json
 import logging
+import logging.config
 from os.path import exists
+
+logging.config.fileConfig("logging.conf")
 
 
 def get_config():
