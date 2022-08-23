@@ -1,0 +1,973 @@
+{
+	"actions": {
+		"additionalProp1": {
+			"additionalProp1": "string",
+			"additionalProp2": "string",
+			"additionalProp3": "string"
+		},
+		"additionalProp2": {
+			"additionalProp1": "string",
+			"additionalProp2": "string",
+			"additionalProp3": "string"
+		},
+		"additionalProp3": {
+			"additionalProp1": "string",
+			"additionalProp2": "string",
+			"additionalProp3": "string"
+		}
+	},
+	"adaptedImages": [
+		{
+			"contentUrl": "string",
+			"contentValue": "string",
+			"height": 0,
+			"resolutionName": "string",
+			"sizeInBytes": 0,
+			"width": 0,
+			"x-class-name": "com.liferay.headless.delivery.dto.v1_0.AdaptedImage"
+		}
+	],
+	"aggregateRating": {
+		"bestRating": 0,
+		"ratingAverage": 0,
+		"ratingCount": 0,
+		"ratingValue": 0,
+		"worstRating": 0,
+		"x-class-name": "com.liferay.headless.delivery.dto.v1_0.AggregateRating"
+	},
+	"assetLibraryKey": "string",
+	"contentUrl": "string",
+	"contentValue": "string",
+	"creator": {
+		"additionalName": "string",
+		"contentType": "string",
+		"familyName": "string",
+		"givenName": "string",
+		"id": 0,
+		"image": "string",
+		"name": "string",
+		"profileURL": "string",
+		"x-class-name": "com.liferay.headless.delivery.dto.v1_0.Creator"
+	},
+	"customFields": [
+		{
+			"customValue": {
+				"data": {},
+				"data_i18n": {
+					"additionalProp1": "string",
+					"additionalProp2": "string",
+					"additionalProp3": "string"
+				},
+				"geo": {
+					"latitude": 0,
+					"longitude": 0,
+					"x-class-name": "com.liferay.headless.delivery.dto.v1_0.Geo"
+				},
+				"x-class-name": "com.liferay.headless.delivery.dto.v1_0.CustomValue"
+			},
+			"dataType": "string",
+			"name": "string",
+			"x-class-name": "com.liferay.headless.delivery.dto.v1_0.CustomField"
+		}
+	],
+	"dateCreated": "2022-08-23T14:00:47.314Z",
+	"dateModified": "2022-08-23T14:00:47.314Z",
+	"description": "string",
+	"documentFolderId": 0,
+	"documentType": {
+		"availableLanguages": ["string"],
+		"contentFields": [
+			{
+				"contentFieldValue": {
+					"data": "string",
+					"document": {
+						"actions": {
+							"additionalProp1": {
+								"additionalProp1": "string",
+								"additionalProp2": "string",
+								"additionalProp3": "string"
+							},
+							"additionalProp2": {
+								"additionalProp1": "string",
+								"additionalProp2": "string",
+								"additionalProp3": "string"
+							},
+							"additionalProp3": {
+								"additionalProp1": "string",
+								"additionalProp2": "string",
+								"additionalProp3": "string"
+							}
+						},
+						"contentType": "string",
+						"contentUrl": "string",
+						"contentValue": "string",
+						"description": "string",
+						"encodingFormat": "string",
+						"fileExtension": "string",
+						"id": 0,
+						"sizeInBytes": 0,
+						"title": "string",
+						"x-class-name": "com.liferay.headless.delivery.dto.v1_0.ContentDocument"
+					},
+					"geo": {
+						"latitude": 0,
+						"longitude": 0,
+						"x-class-name": "com.liferay.headless.delivery.dto.v1_0.Geo"
+					},
+					"image": {
+						"actions": {
+							"additionalProp1": {
+								"additionalProp1": "string",
+								"additionalProp2": "string",
+								"additionalProp3": "string"
+							},
+							"additionalProp2": {
+								"additionalProp1": "string",
+								"additionalProp2": "string",
+								"additionalProp3": "string"
+							},
+							"additionalProp3": {
+								"additionalProp1": "string",
+								"additionalProp2": "string",
+								"additionalProp3": "string"
+							}
+						},
+						"contentType": "string",
+						"contentUrl": "string",
+						"contentValue": "string",
+						"description": "string",
+						"encodingFormat": "string",
+						"fileExtension": "string",
+						"id": 0,
+						"sizeInBytes": 0,
+						"title": "string",
+						"x-class-name": "com.liferay.headless.delivery.dto.v1_0.ContentDocument"
+					},
+					"link": "string",
+					"structuredContentLink": {
+						"contentType": "string",
+						"embeddedStructuredContent": {
+							"actions": {
+								"additionalProp1": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"additionalProp2": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"additionalProp3": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								}
+							},
+							"aggregateRating": {
+								"bestRating": 0,
+								"ratingAverage": 0,
+								"ratingCount": 0,
+								"ratingValue": 0,
+								"worstRating": 0,
+								"x-class-name": "com.liferay.headless.delivery.dto.v1_0.AggregateRating"
+							},
+							"assetLibraryKey": "string",
+							"availableLanguages": ["string"],
+							"contentFields": ["string"],
+							"contentStructureId": 0,
+							"creator": {
+								"additionalName": "string",
+								"contentType": "string",
+								"familyName": "string",
+								"givenName": "string",
+								"id": 0,
+								"image": "string",
+								"name": "string",
+								"profileURL": "string",
+								"x-class-name": "com.liferay.headless.delivery.dto.v1_0.Creator"
+							},
+							"customFields": [
+								{
+									"customValue": {
+										"data": {},
+										"data_i18n": {
+											"additionalProp1": "string",
+											"additionalProp2": "string",
+											"additionalProp3": "string"
+										},
+										"geo": {
+											"latitude": 0,
+											"longitude": 0,
+											"x-class-name": "com.liferay.headless.delivery.dto.v1_0.Geo"
+										},
+										"x-class-name": "com.liferay.headless.delivery.dto.v1_0.CustomValue"
+									},
+									"dataType": "string",
+									"name": "string",
+									"x-class-name": "com.liferay.headless.delivery.dto.v1_0.CustomField"
+								}
+							],
+							"dateCreated": "2022-08-23T14:00:47.314Z",
+							"dateModified": "2022-08-23T14:00:47.314Z",
+							"datePublished": "2022-08-23T14:00:47.314Z",
+							"description": "string",
+							"description_i18n": {
+								"additionalProp1": "string",
+								"additionalProp2": "string",
+								"additionalProp3": "string"
+							},
+							"externalReferenceCode": "string",
+							"friendlyUrlPath": "string",
+							"friendlyUrlPath_i18n": {
+								"additionalProp1": "string",
+								"additionalProp2": "string",
+								"additionalProp3": "string"
+							},
+							"id": 0,
+							"key": "string",
+							"keywords": ["string"],
+							"numberOfComments": 0,
+							"priority": 0,
+							"relatedContents": [
+								{
+									"contentType": "string",
+									"id": 0,
+									"title": "string",
+									"x-class-name": "com.liferay.headless.delivery.dto.v1_0.RelatedContent"
+								}
+							],
+							"renderedContents": [
+								{
+									"contentTemplateId": "string",
+									"contentTemplateName": "string",
+									"contentTemplateName_i18n": {
+										"additionalProp1": "string",
+										"additionalProp2": "string",
+										"additionalProp3": "string"
+									},
+									"markedAsDefault": true,
+									"renderedContentURL": "string",
+									"renderedContentValue": "string",
+									"x-class-name": "com.liferay.headless.delivery.dto.v1_0.RenderedContent"
+								}
+							],
+							"siteId": 0,
+							"subscribed": true,
+							"taxonomyCategoryBriefs": [
+								{
+									"embeddedTaxonomyCategory": {},
+									"taxonomyCategoryId": 0,
+									"taxonomyCategoryName": "string",
+									"taxonomyCategoryName_i18n": {
+										"additionalProp1": "string",
+										"additionalProp2": "string",
+										"additionalProp3": "string"
+									},
+									"x-class-name": "com.liferay.headless.delivery.dto.v1_0.TaxonomyCategoryBrief"
+								}
+							],
+							"title": "string",
+							"title_i18n": {
+								"additionalProp1": "string",
+								"additionalProp2": "string",
+								"additionalProp3": "string"
+							},
+							"uuid": "string",
+							"x-class-name": "com.liferay.headless.delivery.dto.v1_0.StructuredContent"
+						},
+						"id": 0,
+						"title": "string",
+						"x-class-name": "com.liferay.headless.delivery.dto.v1_0.StructuredContentLink"
+					},
+					"x-class-name": "com.liferay.headless.delivery.dto.v1_0.ContentFieldValue"
+				},
+				"contentFieldValue_i18n": {
+					"additionalProp1": {
+						"data": "string",
+						"document": {
+							"actions": {
+								"additionalProp1": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"additionalProp2": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"additionalProp3": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								}
+							},
+							"contentType": "string",
+							"contentUrl": "string",
+							"contentValue": "string",
+							"description": "string",
+							"encodingFormat": "string",
+							"fileExtension": "string",
+							"id": 0,
+							"sizeInBytes": 0,
+							"title": "string",
+							"x-class-name": "com.liferay.headless.delivery.dto.v1_0.ContentDocument"
+						},
+						"geo": {
+							"latitude": 0,
+							"longitude": 0,
+							"x-class-name": "com.liferay.headless.delivery.dto.v1_0.Geo"
+						},
+						"image": {
+							"actions": {
+								"additionalProp1": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"additionalProp2": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"additionalProp3": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								}
+							},
+							"contentType": "string",
+							"contentUrl": "string",
+							"contentValue": "string",
+							"description": "string",
+							"encodingFormat": "string",
+							"fileExtension": "string",
+							"id": 0,
+							"sizeInBytes": 0,
+							"title": "string",
+							"x-class-name": "com.liferay.headless.delivery.dto.v1_0.ContentDocument"
+						},
+						"link": "string",
+						"structuredContentLink": {
+							"contentType": "string",
+							"embeddedStructuredContent": {
+								"actions": {
+									"additionalProp1": {
+										"additionalProp1": "string",
+										"additionalProp2": "string",
+										"additionalProp3": "string"
+									},
+									"additionalProp2": {
+										"additionalProp1": "string",
+										"additionalProp2": "string",
+										"additionalProp3": "string"
+									},
+									"additionalProp3": {
+										"additionalProp1": "string",
+										"additionalProp2": "string",
+										"additionalProp3": "string"
+									}
+								},
+								"aggregateRating": {
+									"bestRating": 0,
+									"ratingAverage": 0,
+									"ratingCount": 0,
+									"ratingValue": 0,
+									"worstRating": 0,
+									"x-class-name": "com.liferay.headless.delivery.dto.v1_0.AggregateRating"
+								},
+								"assetLibraryKey": "string",
+								"availableLanguages": ["string"],
+								"contentFields": ["string"],
+								"contentStructureId": 0,
+								"creator": {
+									"additionalName": "string",
+									"contentType": "string",
+									"familyName": "string",
+									"givenName": "string",
+									"id": 0,
+									"image": "string",
+									"name": "string",
+									"profileURL": "string",
+									"x-class-name": "com.liferay.headless.delivery.dto.v1_0.Creator"
+								},
+								"customFields": [
+									{
+										"customValue": {
+											"data": {},
+											"data_i18n": {
+												"additionalProp1": "string",
+												"additionalProp2": "string",
+												"additionalProp3": "string"
+											},
+											"geo": {
+												"latitude": 0,
+												"longitude": 0,
+												"x-class-name": "com.liferay.headless.delivery.dto.v1_0.Geo"
+											},
+											"x-class-name": "com.liferay.headless.delivery.dto.v1_0.CustomValue"
+										},
+										"dataType": "string",
+										"name": "string",
+										"x-class-name": "com.liferay.headless.delivery.dto.v1_0.CustomField"
+									}
+								],
+								"dateCreated": "2022-08-23T14:00:47.314Z",
+								"dateModified": "2022-08-23T14:00:47.314Z",
+								"datePublished": "2022-08-23T14:00:47.314Z",
+								"description": "string",
+								"description_i18n": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"externalReferenceCode": "string",
+								"friendlyUrlPath": "string",
+								"friendlyUrlPath_i18n": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"id": 0,
+								"key": "string",
+								"keywords": ["string"],
+								"numberOfComments": 0,
+								"priority": 0,
+								"relatedContents": [
+									{
+										"contentType": "string",
+										"id": 0,
+										"title": "string",
+										"x-class-name": "com.liferay.headless.delivery.dto.v1_0.RelatedContent"
+									}
+								],
+								"renderedContents": [
+									{
+										"contentTemplateId": "string",
+										"contentTemplateName": "string",
+										"contentTemplateName_i18n": {
+											"additionalProp1": "string",
+											"additionalProp2": "string",
+											"additionalProp3": "string"
+										},
+										"markedAsDefault": true,
+										"renderedContentURL": "string",
+										"renderedContentValue": "string",
+										"x-class-name": "com.liferay.headless.delivery.dto.v1_0.RenderedContent"
+									}
+								],
+								"siteId": 0,
+								"subscribed": true,
+								"taxonomyCategoryBriefs": [
+									{
+										"embeddedTaxonomyCategory": {},
+										"taxonomyCategoryId": 0,
+										"taxonomyCategoryName": "string",
+										"taxonomyCategoryName_i18n": {
+											"additionalProp1": "string",
+											"additionalProp2": "string",
+											"additionalProp3": "string"
+										},
+										"x-class-name": "com.liferay.headless.delivery.dto.v1_0.TaxonomyCategoryBrief"
+									}
+								],
+								"title": "string",
+								"title_i18n": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"uuid": "string",
+								"x-class-name": "com.liferay.headless.delivery.dto.v1_0.StructuredContent"
+							},
+							"id": 0,
+							"title": "string",
+							"x-class-name": "com.liferay.headless.delivery.dto.v1_0.StructuredContentLink"
+						},
+						"x-class-name": "com.liferay.headless.delivery.dto.v1_0.ContentFieldValue"
+					},
+					"additionalProp2": {
+						"data": "string",
+						"document": {
+							"actions": {
+								"additionalProp1": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"additionalProp2": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"additionalProp3": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								}
+							},
+							"contentType": "string",
+							"contentUrl": "string",
+							"contentValue": "string",
+							"description": "string",
+							"encodingFormat": "string",
+							"fileExtension": "string",
+							"id": 0,
+							"sizeInBytes": 0,
+							"title": "string",
+							"x-class-name": "com.liferay.headless.delivery.dto.v1_0.ContentDocument"
+						},
+						"geo": {
+							"latitude": 0,
+							"longitude": 0,
+							"x-class-name": "com.liferay.headless.delivery.dto.v1_0.Geo"
+						},
+						"image": {
+							"actions": {
+								"additionalProp1": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"additionalProp2": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"additionalProp3": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								}
+							},
+							"contentType": "string",
+							"contentUrl": "string",
+							"contentValue": "string",
+							"description": "string",
+							"encodingFormat": "string",
+							"fileExtension": "string",
+							"id": 0,
+							"sizeInBytes": 0,
+							"title": "string",
+							"x-class-name": "com.liferay.headless.delivery.dto.v1_0.ContentDocument"
+						},
+						"link": "string",
+						"structuredContentLink": {
+							"contentType": "string",
+							"embeddedStructuredContent": {
+								"actions": {
+									"additionalProp1": {
+										"additionalProp1": "string",
+										"additionalProp2": "string",
+										"additionalProp3": "string"
+									},
+									"additionalProp2": {
+										"additionalProp1": "string",
+										"additionalProp2": "string",
+										"additionalProp3": "string"
+									},
+									"additionalProp3": {
+										"additionalProp1": "string",
+										"additionalProp2": "string",
+										"additionalProp3": "string"
+									}
+								},
+								"aggregateRating": {
+									"bestRating": 0,
+									"ratingAverage": 0,
+									"ratingCount": 0,
+									"ratingValue": 0,
+									"worstRating": 0,
+									"x-class-name": "com.liferay.headless.delivery.dto.v1_0.AggregateRating"
+								},
+								"assetLibraryKey": "string",
+								"availableLanguages": ["string"],
+								"contentFields": ["string"],
+								"contentStructureId": 0,
+								"creator": {
+									"additionalName": "string",
+									"contentType": "string",
+									"familyName": "string",
+									"givenName": "string",
+									"id": 0,
+									"image": "string",
+									"name": "string",
+									"profileURL": "string",
+									"x-class-name": "com.liferay.headless.delivery.dto.v1_0.Creator"
+								},
+								"customFields": [
+									{
+										"customValue": {
+											"data": {},
+											"data_i18n": {
+												"additionalProp1": "string",
+												"additionalProp2": "string",
+												"additionalProp3": "string"
+											},
+											"geo": {
+												"latitude": 0,
+												"longitude": 0,
+												"x-class-name": "com.liferay.headless.delivery.dto.v1_0.Geo"
+											},
+											"x-class-name": "com.liferay.headless.delivery.dto.v1_0.CustomValue"
+										},
+										"dataType": "string",
+										"name": "string",
+										"x-class-name": "com.liferay.headless.delivery.dto.v1_0.CustomField"
+									}
+								],
+								"dateCreated": "2022-08-23T14:00:47.314Z",
+								"dateModified": "2022-08-23T14:00:47.314Z",
+								"datePublished": "2022-08-23T14:00:47.314Z",
+								"description": "string",
+								"description_i18n": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"externalReferenceCode": "string",
+								"friendlyUrlPath": "string",
+								"friendlyUrlPath_i18n": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"id": 0,
+								"key": "string",
+								"keywords": ["string"],
+								"numberOfComments": 0,
+								"priority": 0,
+								"relatedContents": [
+									{
+										"contentType": "string",
+										"id": 0,
+										"title": "string",
+										"x-class-name": "com.liferay.headless.delivery.dto.v1_0.RelatedContent"
+									}
+								],
+								"renderedContents": [
+									{
+										"contentTemplateId": "string",
+										"contentTemplateName": "string",
+										"contentTemplateName_i18n": {
+											"additionalProp1": "string",
+											"additionalProp2": "string",
+											"additionalProp3": "string"
+										},
+										"markedAsDefault": true,
+										"renderedContentURL": "string",
+										"renderedContentValue": "string",
+										"x-class-name": "com.liferay.headless.delivery.dto.v1_0.RenderedContent"
+									}
+								],
+								"siteId": 0,
+								"subscribed": true,
+								"taxonomyCategoryBriefs": [
+									{
+										"embeddedTaxonomyCategory": {},
+										"taxonomyCategoryId": 0,
+										"taxonomyCategoryName": "string",
+										"taxonomyCategoryName_i18n": {
+											"additionalProp1": "string",
+											"additionalProp2": "string",
+											"additionalProp3": "string"
+										},
+										"x-class-name": "com.liferay.headless.delivery.dto.v1_0.TaxonomyCategoryBrief"
+									}
+								],
+								"title": "string",
+								"title_i18n": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"uuid": "string",
+								"x-class-name": "com.liferay.headless.delivery.dto.v1_0.StructuredContent"
+							},
+							"id": 0,
+							"title": "string",
+							"x-class-name": "com.liferay.headless.delivery.dto.v1_0.StructuredContentLink"
+						},
+						"x-class-name": "com.liferay.headless.delivery.dto.v1_0.ContentFieldValue"
+					},
+					"additionalProp3": {
+						"data": "string",
+						"document": {
+							"actions": {
+								"additionalProp1": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"additionalProp2": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"additionalProp3": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								}
+							},
+							"contentType": "string",
+							"contentUrl": "string",
+							"contentValue": "string",
+							"description": "string",
+							"encodingFormat": "string",
+							"fileExtension": "string",
+							"id": 0,
+							"sizeInBytes": 0,
+							"title": "string",
+							"x-class-name": "com.liferay.headless.delivery.dto.v1_0.ContentDocument"
+						},
+						"geo": {
+							"latitude": 0,
+							"longitude": 0,
+							"x-class-name": "com.liferay.headless.delivery.dto.v1_0.Geo"
+						},
+						"image": {
+							"actions": {
+								"additionalProp1": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"additionalProp2": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"additionalProp3": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								}
+							},
+							"contentType": "string",
+							"contentUrl": "string",
+							"contentValue": "string",
+							"description": "string",
+							"encodingFormat": "string",
+							"fileExtension": "string",
+							"id": 0,
+							"sizeInBytes": 0,
+							"title": "string",
+							"x-class-name": "com.liferay.headless.delivery.dto.v1_0.ContentDocument"
+						},
+						"link": "string",
+						"structuredContentLink": {
+							"contentType": "string",
+							"embeddedStructuredContent": {
+								"actions": {
+									"additionalProp1": {
+										"additionalProp1": "string",
+										"additionalProp2": "string",
+										"additionalProp3": "string"
+									},
+									"additionalProp2": {
+										"additionalProp1": "string",
+										"additionalProp2": "string",
+										"additionalProp3": "string"
+									},
+									"additionalProp3": {
+										"additionalProp1": "string",
+										"additionalProp2": "string",
+										"additionalProp3": "string"
+									}
+								},
+								"aggregateRating": {
+									"bestRating": 0,
+									"ratingAverage": 0,
+									"ratingCount": 0,
+									"ratingValue": 0,
+									"worstRating": 0,
+									"x-class-name": "com.liferay.headless.delivery.dto.v1_0.AggregateRating"
+								},
+								"assetLibraryKey": "string",
+								"availableLanguages": ["string"],
+								"contentFields": ["string"],
+								"contentStructureId": 0,
+								"creator": {
+									"additionalName": "string",
+									"contentType": "string",
+									"familyName": "string",
+									"givenName": "string",
+									"id": 0,
+									"image": "string",
+									"name": "string",
+									"profileURL": "string",
+									"x-class-name": "com.liferay.headless.delivery.dto.v1_0.Creator"
+								},
+								"customFields": [
+									{
+										"customValue": {
+											"data": {},
+											"data_i18n": {
+												"additionalProp1": "string",
+												"additionalProp2": "string",
+												"additionalProp3": "string"
+											},
+											"geo": {
+												"latitude": 0,
+												"longitude": 0,
+												"x-class-name": "com.liferay.headless.delivery.dto.v1_0.Geo"
+											},
+											"x-class-name": "com.liferay.headless.delivery.dto.v1_0.CustomValue"
+										},
+										"dataType": "string",
+										"name": "string",
+										"x-class-name": "com.liferay.headless.delivery.dto.v1_0.CustomField"
+									}
+								],
+								"dateCreated": "2022-08-23T14:00:47.314Z",
+								"dateModified": "2022-08-23T14:00:47.314Z",
+								"datePublished": "2022-08-23T14:00:47.314Z",
+								"description": "string",
+								"description_i18n": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"externalReferenceCode": "string",
+								"friendlyUrlPath": "string",
+								"friendlyUrlPath_i18n": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"id": 0,
+								"key": "string",
+								"keywords": ["string"],
+								"numberOfComments": 0,
+								"priority": 0,
+								"relatedContents": [
+									{
+										"contentType": "string",
+										"id": 0,
+										"title": "string",
+										"x-class-name": "com.liferay.headless.delivery.dto.v1_0.RelatedContent"
+									}
+								],
+								"renderedContents": [
+									{
+										"contentTemplateId": "string",
+										"contentTemplateName": "string",
+										"contentTemplateName_i18n": {
+											"additionalProp1": "string",
+											"additionalProp2": "string",
+											"additionalProp3": "string"
+										},
+										"markedAsDefault": true,
+										"renderedContentURL": "string",
+										"renderedContentValue": "string",
+										"x-class-name": "com.liferay.headless.delivery.dto.v1_0.RenderedContent"
+									}
+								],
+								"siteId": 0,
+								"subscribed": true,
+								"taxonomyCategoryBriefs": [
+									{
+										"embeddedTaxonomyCategory": {},
+										"taxonomyCategoryId": 0,
+										"taxonomyCategoryName": "string",
+										"taxonomyCategoryName_i18n": {
+											"additionalProp1": "string",
+											"additionalProp2": "string",
+											"additionalProp3": "string"
+										},
+										"x-class-name": "com.liferay.headless.delivery.dto.v1_0.TaxonomyCategoryBrief"
+									}
+								],
+								"title": "string",
+								"title_i18n": {
+									"additionalProp1": "string",
+									"additionalProp2": "string",
+									"additionalProp3": "string"
+								},
+								"uuid": "string",
+								"x-class-name": "com.liferay.headless.delivery.dto.v1_0.StructuredContent"
+							},
+							"id": 0,
+							"title": "string",
+							"x-class-name": "com.liferay.headless.delivery.dto.v1_0.StructuredContentLink"
+						},
+						"x-class-name": "com.liferay.headless.delivery.dto.v1_0.ContentFieldValue"
+					}
+				},
+				"dataType": "string",
+				"inputControl": "string",
+				"label": "string",
+				"label_i18n": {
+					"additionalProp1": "string",
+					"additionalProp2": "string",
+					"additionalProp3": "string"
+				},
+				"name": "string",
+				"nestedContentFields": ["string"],
+				"repeatable": true,
+				"x-class-name": "com.liferay.headless.delivery.dto.v1_0.ContentField"
+			}
+		],
+		"description": "string",
+		"description_i18n": {
+			"additionalProp1": "string",
+			"additionalProp2": "string",
+			"additionalProp3": "string"
+		},
+		"name": "string",
+		"name_i18n": {
+			"additionalProp1": "string",
+			"additionalProp2": "string",
+			"additionalProp3": "string"
+		},
+		"x-class-name": "com.liferay.headless.delivery.dto.v1_0.DocumentType"
+	},
+	"encodingFormat": "string",
+	"externalReferenceCode": "string",
+	"fileExtension": "string",
+	"id": 0,
+	"keywords": ["string"],
+	"numberOfComments": 0,
+	"relatedContents": [
+		{
+			"contentType": "string",
+			"id": 0,
+			"title": "string",
+			"x-class-name": "com.liferay.headless.delivery.dto.v1_0.RelatedContent"
+		}
+	],
+	"renderedContents": [
+		{
+			"contentTemplateId": "string",
+			"contentTemplateName": "string",
+			"contentTemplateName_i18n": {
+				"additionalProp1": "string",
+				"additionalProp2": "string",
+				"additionalProp3": "string"
+			},
+			"markedAsDefault": true,
+			"renderedContentURL": "string",
+			"renderedContentValue": "string",
+			"x-class-name": "com.liferay.headless.delivery.dto.v1_0.RenderedContent"
+		}
+	],
+	"siteId": 0,
+	"sizeInBytes": 0,
+	"taxonomyCategoryBriefs": [
+		{
+			"embeddedTaxonomyCategory": {},
+			"taxonomyCategoryId": 0,
+			"taxonomyCategoryName": "string",
+			"taxonomyCategoryName_i18n": {
+				"additionalProp1": "string",
+				"additionalProp2": "string",
+				"additionalProp3": "string"
+			},
+			"x-class-name": "com.liferay.headless.delivery.dto.v1_0.TaxonomyCategoryBrief"
+		}
+	],
+	"title": "string",
+	"x-class-name": "com.liferay.headless.delivery.dto.v1_0.Document"
+}
