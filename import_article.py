@@ -1,5 +1,5 @@
 from configuration import config
-from util import save_as_json
+from util import sha_256sum_from_dictionary, save_as_json
 import re
 import requests
 import json
@@ -20,7 +20,7 @@ def get_breadcrumb(current_page_name, parents):
 
 
 @oauth_token.api_call(200)
-def import_article(article):
+def import_article(article, articles_by_friendlyurlpath):
     logger = logging.getLogger(__name__)
     headers = {
         "Accept": "application/json",
@@ -29,7 +29,13 @@ def import_article(article):
     }
     translations = []
 
-    contentFieldValues = {"body": {}, "breadcrumb": {}, "navtoc": {}, "toc": {}}
+    contentFieldValues = {
+        "body": {},
+        "breadcrumb": {},
+        "navtoc": {},
+        "toc": {},
+        "sha_256sum": {},
+    }
     title_i18n = {}
     available_languages = []
 
@@ -114,10 +120,42 @@ def import_article(article):
         ],
         "contentStructureId": config["ARTICLE_STRUCTURE_ID"],
         "externalReferenceCode": external_reference_code,
-        "friendlyUrlPath": f"{article['product']}/{translations[0]['current_page_name']}.html",
+        # friendlyUrlPaths are all lower case (otherwise Liferay will modify it)
+        "friendlyUrlPath": f"{article['product']}/{translations[0]['current_page_name'].lower()}.html",
         "title_i18n": title_i18n,
         "title": translations[0]["current_page_name"],
     }
+
+    sha_256sum = sha_256sum_from_dictionary(translatedArticle)
+
+    if translatedArticle["friendlyUrlPath"] in articles_by_friendlyurlpath:
+        liferay_article = articles_by_friendlyurlpath[
+            translatedArticle["friendlyUrlPath"]
+        ]
+        if liferay_article["sha_256sum"] == sha_256sum:
+            logger.debug(f"Skipping due to sha match {article['article_key']}")
+            return
+        else:
+            logger.info(
+                f"Importing... {article['article_key']} since {liferay_article['sha_256sum']} does not match {sha_256sum} "
+            )
+    else:
+        logger.info(
+            f"Did not find {translatedArticle['friendlyUrlPath']} in existing articles"
+        )
+
+    logger.info(f"Importing... {article['article_key']}")
+
+    # Make sure the default language has the sha value since it's what's returned in get_articles
+    DEFAULT_LANGUAGE_ID = "en-US"
+
+    translatedArticle["contentFields"].append(
+        {
+            "contentFieldValue": {"data": ""},
+            "contentFieldValue_i18n": {DEFAULT_LANGUAGE_ID: {"data": sha_256sum}},
+            "name": "sha_256sum",
+        }
+    )
 
     save_as_json("article_request", translatedArticle)
     session = requests.Session()

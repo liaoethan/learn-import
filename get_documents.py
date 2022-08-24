@@ -5,20 +5,19 @@ import logging
 import oauth_token
 import requests
 from util import save_as_json
-
 from jsonpath_ng.ext import parse
 
 
 def get_documents():
 
-    sha256_sum_jsonpath = parse(
+    sha_256sum_jsonpath = parse(
         '$.documentType.contentFields[?(@.label=="sha_256sum")].contentFieldValue.data'
     )
     documents = get_all_items.get_all_items(get_document_batch)
     documents_by_title = {}
     for document in documents:
 
-        sha_256sum_jsonpath_find_result = sha256_sum_jsonpath.find(document)
+        sha_256sum_jsonpath_find_result = sha_256sum_jsonpath.find(document)
         sha_256sum = (
             sha_256sum_jsonpath_find_result[0].value
             if len(sha_256sum_jsonpath_find_result) == 1

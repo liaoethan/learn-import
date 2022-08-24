@@ -117,11 +117,10 @@ def import_images(documents_by_title, images):
 
 
 @timer
-def import_articles(articles):
+def import_articles(articles, articles_by_friendlyurlpath):
     article_counter = 0
     for article in articles:
-        logger.info(f"Importing... {article['article_key']}")
-        import_article.import_article(article)
+        import_article.import_article(article, articles_by_friendlyurlpath)
 
         article_counter = article_counter + 1
         if (
@@ -144,8 +143,8 @@ def import_learn():
         sphinx_articles, images, other = collect_sphinx_files()
         documents_by_title = get_documents.get_documents()
         import_images(documents_by_title, images)
-        articles = get_articles.get_articles()
-        import_articles(sphinx_articles)
+        articles_by_friendlyurlpath = get_articles.get_articles()
+        import_articles(sphinx_articles, articles_by_friendlyurlpath)
 
         import_success = True
     except BaseException as err:

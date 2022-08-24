@@ -11,6 +11,13 @@ def save_as_json(name, object):
         outfile.write(json.dumps(object, indent=4))
 
 
+def sha_256sum_from_dictionary(dictionary):
+    hash = hashlib.sha256()
+    encoded = json.dumps(dictionary, sort_keys=True).encode()
+    hash.update(encoded)
+    return hash.hexdigest()
+
+
 def sha_256sum(filename):
     BLOCK_SIZE = 65536
 
