@@ -1,3 +1,5 @@
 config.local.*
 __pycache__/*
 build
+*.code-workspace
+TODO*
