@@ -251,38 +251,47 @@ html{box-sizing:border-box;-ms-overflow-style:scrollbar}*,::after,::before{box-s
 
 				// Documentation dropdown
 
-				const breadcrumbAncestor = document.querySelector('.breadcrumb-parent');
-				const breadcrumbCurrentArticle = document.getElementById('breadcrumbCurrentArticle');
-
 				const productDocumentationSelector = document.getElementById('productDocumentationSelector');
 
-				if (breadcrumbCurrentArticle && productDocumentationSelector) {
-
+				if (productDocumentationSelector) {
 					// Preselect documentation dropdown to be the current article's product
 
-					const currentDocProduct = breadcrumbAncestor ? breadcrumbAncestor : breadcrumbCurrentArticle;
+					const breadcrumbFirstEntry = document.querySelector('.breadcrumb-wrapper a');
 
-					const currentDocProductValue = currentDocProduct.innerText.replace(/\s/g, '-').toLowerCase();
+					const pathName = window.location.pathname;
 
-					productDocumentationSelector.value = currentDocProductValue;
+					if (breadcrumbFirstEntry) {
+						const breadcrumbFirstEntryValue = breadcrumbFirstEntry.innerText.replace(/\s/g, '-').toLowerCase();
+
+						productDocumentationSelector.value = breadcrumbFirstEntryValue;
+					}
+					else if (pathName.includes("analytics-cloud")) { // if breadcrumb is empty, then defer to URL
+						productDocumentationSelector.value = "analytics-cloud";
+					} else if (pathName.includes("commerce")) {
+						productDocumentationSelector.value = "commerce";
+					} else if (pathName.includes("dxp-cloud")) {
+						productDocumentationSelector.value = "dxp-cloud";
+					} else if (pathName.includes("reference")) {
+						productDocumentationSelector.value = "reference";
+					} else {
+						productDocumentationSelector.value = "dxp";
+					}
 
 					// Route user to the selected documentation landing page
 
 					productDocumentationSelector.addEventListener('change', event => {
 						const target = event.target.value;
 
-						if (target !== currentDocProductValue) {
-							if (target === 'analytics-cloud') {
-								window.location.pathname = '/analytics-cloud/latest/en/index.html';
-							} else if (target === 'commerce') {
-								window.location.pathname = '/commerce/latest/en/index.html';
-							} else if (target === 'dxp-cloud') {
-								window.location.pathname = '/dxp-cloud/latest/en/index.html';
-							} else if (target === 'reference') {
-								window.location.pathname = '/reference/latest/en/index.html';
-							} else {
-								window.location.pathname = '/dxp/latest/en/index.html';
-							}
+						if (target === 'analytics-cloud') {
+							window.location.pathname = '/web/learn/w/analytics-cloud/readme.html';
+						} else if (target === 'commerce') {
+							window.location.pathname = '/web/learn/w/commerce/readme.html';
+						} else if (target === 'dxp-cloud') {
+							window.location.pathname = '/web/learn/w/dxp-cloud/readme.html';
+						} else if (target === 'reference') {
+							window.location.pathname = '/web/learn/w/reference/readme.html';
+						} else {
+							window.location.pathname = '/web/learn/w/dxp/readme.html';
 						}
 					});
 				}
@@ -346,7 +355,7 @@ html{box-sizing:border-box;-ms-overflow-style:scrollbar}*,::after,::before{box-s
 				console.log(err.message);
 			}
 		</script>
-		<#recover>
-			<div>script error</div>
+	<#recover>
+		<div>script error</div>
 	</#attempt>
 </#noparse>
