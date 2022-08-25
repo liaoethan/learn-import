@@ -8,5 +8,6 @@
 	"API_PAGESIZE": "300",
 	"WEBDAV_IMAGE_URL_PREFIX": "/webdav/learn-python-import/document_library/",
 	"IMAGE_IMPORT_LIMIT": 1,
-	"ARTICLE_IMPORT_LIMIT": 1
+	"ARTICLE_IMPORT_LIMIT": 1,
+	"API_PAGE_LIMIT": -1
 }
