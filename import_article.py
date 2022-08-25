@@ -163,4 +163,11 @@ def import_article(article, articles_by_friendlyurlpath):
     uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/structured-contents/by-external-reference-code/{external_reference_code}"
     # post_uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/structured-contents"
 
-    return session.put(uri, headers=headers, data=json.dumps(translatedArticle))
+    res = session.put(uri, headers=headers, data=json.dumps(translatedArticle))
+
+    response_friendly_url_path = res.json()["friendlyUrlPath"]
+    if response_friendly_url_path != translatedArticle["friendlyUrlPath"]:
+        raise Exception (f"Different friendlyUrlPath created: {response_friendly_url_path}, requested {translatedArticle['friendlyUrlPath']}"
+        )
+
+    return res
