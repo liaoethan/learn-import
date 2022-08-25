@@ -22,26 +22,25 @@
 					<label for="productDocumentationSelector">
 						<select class="form-control" id="productDocumentationSelector">
 							<option value="analytics-cloud">
-								{% trans %}Analytics Cloud{% endtrans %}
+								Analytics Cloud
 							</option>
 							<option value="commerce">
-								{% trans %}Commerce{% endtrans %}
+								Commerce
 							</option>
 							<option value="dxp">
-								{% trans %}DXP / Portal{% endtrans %}
+								DXP / Portal
 							</option>
 							<option value="dxp-cloud">
-								{% trans %}DXP Cloud{% endtrans %}
+								DXP Cloud
 							</option>
 							<option value="reference">
-								{% trans %}Reference{% endtrans %}
+								Reference
 							</option>
 						</select>
 					</label>
 				</div>
 
-				<div class="d-md-none mobile-doc-nav-toggler" id="mobileDocNavToggler">{% trans %}Documentation Menu{%
-					endtrans %}
+				<div class="d-md-none mobile-doc-nav-toggler" id="mobileDocNavToggler">Documentation Menu
 					<button aria-label="Expand Documentation Menu" class="btn expand-btn" onclick="javascript:;"
 						title="Expand Documentation Menu" type="button">
 						<svg class="lexicon-icon lexicon-icon-product-menu" role="presentation">
@@ -58,32 +57,16 @@
 				</div>
 
 				<div class="doc-nav">
-					{% include "highlighting-alert.html" %}
-
-					{% if parents|length > 0 %}
-					{% set backURL %}
-					{%- for doc in parents -%}
-					{% if loop.last %}
-					{{ doc.link|e }}
-					{% endif %}
-					{%- endfor -%}
-					{% endset %}
-
-					{% set backURL = backURL.replace("README", "index") %}
-
 					<a class="back-link btn btn-monospaced btn-link" href="{{ backURL }}" id="backLink">
 						<svg class="lexicon-icon lexicon-icon-angle-left" role="presentation" viewBox="0 0 512 512">
 							<use xlink:href="#angle-left" />
 						</svg>
-						{% trans %}Go Back{% endtrans %}
+						Go Back
 					</a>
-					{% endif %}
 
-					{% block sidebar1 %}
 					<#if (Navigation.getData())??>
 						${Navigation.getData()}
 					</#if>
-					{% endblock %}
 				</div>
 
 				<div class="d-none d-md-flex doc-nav-footer">
