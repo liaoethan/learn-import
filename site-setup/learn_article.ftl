@@ -167,181 +167,186 @@ html{box-sizing:border-box;-ms-overflow-style:scrollbar}*,::after,::before{box-s
 	</div>
 </div>
 
-<#attempt>
-	<script>
-		// Table of contents reading indicator
+<#noparse>
+	<#attempt>
+		<script>
+			try {
+				// Table of contents reading indicator
 
-		const headings = document.querySelectorAll('.article-body h2');
+				const headings = document.querySelectorAll('.article-body h2');
 
-		let activeIndex;
-		let targets = [];
+				let activeIndex;
+				let targets = [];
 
-		if (headings) {
-			const articleTOC = document.getElementById('articleTOC');
+				if (headings) {
+					const articleTOC = document.getElementById('articleTOC');
 
-			headings.forEach(
-				heading => {
-					const id = heading.querySelector('a').hash.replace('#', '');
+					headings.forEach(
+						heading => {
+							const id = heading.querySelector('a').hash.replace('#', '');
 
-					if (articleTOC) {
-						articleTOC.innerHTML += `
-                    <li class="nav-item">
-                        <a class="nav-link" id="toc-${id}" href="#${id}">
-                            ${heading.innerText}
-                        </a>
-                    </li>`;
+							if (articleTOC) {
+								articleTOC.innerHTML += `
+							<li class="nav-item">
+								<a class="nav-link" id="toc-${id}" href="#${id}">
+									${heading.innerText}
+								</a>
+							</li>`;
+							}
+
+							targets.push({ id: id, isIntersecting: false });
+						}
+					);
+				}
+
+				const callback = entries => {
+					entries.forEach(entry => {
+						const index = targets.findIndex(target => target.id === entry.target.id);
+
+						targets[index].isIntersecting = entry.isIntersecting;
+
+						if (!targets[activeIndex] || !targets[activeIndex].isIntersecting) {
+							setActiveIndex()
+						}
+					});
+
+					if (targets[activeIndex]) {
+						toggleActiveClass(targets[activeIndex].id);
 					}
+				};
 
-					targets.push({ id: id, isIntersecting: false });
-				}
-			);
-		}
+				// rootMargin of 157px is header height + info bar height + 24px gutter offset
 
-		const callback = entries => {
-			entries.forEach(entry => {
-				const index = targets.findIndex(target => target.id === entry.target.id);
+				const observer = new IntersectionObserver(callback, { rootMargin: '-157px', threshold: [0, 0.2, 0.4, 0.6, 0.8, 1] });
 
-				targets[index].isIntersecting = entry.isIntersecting;
+				const setActiveIndex = () => {
+					activeIndex = targets.findIndex(target => target.isIntersecting === true);
+				};
 
-				if (!targets[activeIndex] || !targets[activeIndex].isIntersecting) {
-					setActiveIndex()
-				}
-			});
+				const toggleActiveClass = id => {
+					targets.forEach(target => {
+						const node = document.getElementById(`toc-${target.id}`);
 
-			if (targets[activeIndex]) {
-				toggleActiveClass(targets[activeIndex].id);
-			}
-		};
+						if (node) {
+							node.classList.remove('active');
+						}
+					});
 
-		// rootMargin of 157px is header height + info bar height + 24px gutter offset
+					const activeNode = document.getElementById(`toc-${id}`);
 
-		const observer = new IntersectionObserver(callback, { rootMargin: '-157px', threshold: [0, 0.2, 0.4, 0.6, 0.8, 1] });
-
-		const setActiveIndex = () => {
-			activeIndex = targets.findIndex(target => target.isIntersecting === true);
-		};
-
-		const toggleActiveClass = id => {
-			targets.forEach(target => {
-				const node = document.getElementById(`toc-${target.id}`);
-
-				if (node) {
-					node.classList.remove('active');
-				}
-			});
-
-			const activeNode = document.getElementById(`toc-${id}`);
-
-			if (activeNode) {
-				activeNode.classList.add('active');
-			}
-		}
-
-		targets.forEach(target => {
-			const node = target.id ? document.getElementById(target.id) : null;
-
-			if (node) {
-				observer.observe(node);
-
-				node.style.cssText = "margin-top: -157px; padding-top: 157px;"
-			}
-		});
-
-		// Documentation dropdown
-
-		const breadcrumbAncestor = document.querySelector('.breadcrumb-parent');
-		const breadcrumbCurrentArticle = document.getElementById('breadcrumbCurrentArticle');
-
-		const productDocumentationSelector = document.getElementById('productDocumentationSelector');
-
-		if (breadcrumbCurrentArticle && productDocumentationSelector) {
-
-			// Preselect documentation dropdown to be the current article's product
-
-			const currentDocProduct = breadcrumbAncestor ? breadcrumbAncestor : breadcrumbCurrentArticle;
-
-			const currentDocProductValue = currentDocProduct.innerText.replace(/\s/g, '-').toLowerCase();
-
-			productDocumentationSelector.value = currentDocProductValue;
-
-			// Route user to the selected documentation landing page
-
-			productDocumentationSelector.addEventListener('change', event => {
-				const target = event.target.value;
-
-				if (target !== currentDocProductValue) {
-					if (target === 'analytics-cloud') {
-						window.location.pathname = '/analytics-cloud/latest/en/index.html';
-					} else if (target === 'commerce') {
-						window.location.pathname = '/commerce/latest/en/index.html';
-					} else if (target === 'dxp-cloud') {
-						window.location.pathname = '/dxp-cloud/latest/en/index.html';
-					} else if (target === 'reference') {
-						window.location.pathname = '/reference/latest/en/index.html';
-					} else {
-						window.location.pathname = '/dxp/latest/en/index.html';
+					if (activeNode) {
+						activeNode.classList.add('active');
 					}
 				}
-			});
-		}
 
-		// Left nav interaction
+				targets.forEach(target => {
+					const node = target.id ? document.getElementById(target.id) : null;
 
-		const activeNavL1 = document.querySelector('.toctree-l1.current');
+					if (node) {
+						observer.observe(node);
 
-		const checkDescendantLevel = (level, lastActiveItem) => {
-			const grandparent = document.querySelector(`.toctree-l${level - 2}.current`);
-			const parent = lastActiveItem || document.querySelector(`.toctree-l${level - 1}.current`);
-			const parentSiblings = document.querySelectorAll(`.toctree-l${level - 1}:not(.current)`);
-
-			const currentLevel = parent ?
-				parent.querySelectorAll(`li.toctree-l${level}`) :
-				document.querySelectorAll(`li.toctree-l${level}`);
-
-			if (currentLevel.length) {
-				let activeItem = null;
-
-				grandparent ? grandparent.querySelector('a').classList.add('d-none') : '';
-				parentSiblings.forEach(node => node.classList.add('d-none'));
-				parent ? parent.classList.add('parent-level') : '';
-
-				currentLevel.forEach(node => {
-					if (node.classList.contains('current')) {
-						activeItem = node;
+						node.style.cssText = "margin-top: -157px; padding-top: 157px;"
 					}
-				})
+				});
 
-				if (activeItem) {
-					level++;
+				// Documentation dropdown
 
-					checkDescendantLevel(level, activeItem);
-				} else {
-					return;
+				const breadcrumbAncestor = document.querySelector('.breadcrumb-parent');
+				const breadcrumbCurrentArticle = document.getElementById('breadcrumbCurrentArticle');
+
+				const productDocumentationSelector = document.getElementById('productDocumentationSelector');
+
+				if (breadcrumbCurrentArticle && productDocumentationSelector) {
+
+					// Preselect documentation dropdown to be the current article's product
+
+					const currentDocProduct = breadcrumbAncestor ? breadcrumbAncestor : breadcrumbCurrentArticle;
+
+					const currentDocProductValue = currentDocProduct.innerText.replace(/\s/g, '-').toLowerCase();
+
+					productDocumentationSelector.value = currentDocProductValue;
+
+					// Route user to the selected documentation landing page
+
+					productDocumentationSelector.addEventListener('change', event => {
+						const target = event.target.value;
+
+						if (target !== currentDocProductValue) {
+							if (target === 'analytics-cloud') {
+								window.location.pathname = '/analytics-cloud/latest/en/index.html';
+							} else if (target === 'commerce') {
+								window.location.pathname = '/commerce/latest/en/index.html';
+							} else if (target === 'dxp-cloud') {
+								window.location.pathname = '/dxp-cloud/latest/en/index.html';
+							} else if (target === 'reference') {
+								window.location.pathname = '/reference/latest/en/index.html';
+							} else {
+								window.location.pathname = '/dxp/latest/en/index.html';
+							}
+						}
+					});
+				}
+
+				// Left nav interaction
+
+				const activeNavL1 = document.querySelector('.toctree-l1.current');
+
+				const checkDescendantLevel = (level, lastActiveItem) => {
+					const grandparent = document.querySelector(`.toctree-l${level - 2}.current`);
+					const parent = lastActiveItem || document.querySelector(`.toctree-l${level - 1}.current`);
+					const parentSiblings = document.querySelectorAll(`.toctree-l${level - 1}:not(.current)`);
+
+					const currentLevel = parent ?
+						parent.querySelectorAll(`li.toctree-l${level}`) :
+						document.querySelectorAll(`li.toctree-l${level}`);
+
+					if (currentLevel.length) {
+						let activeItem = null;
+
+						grandparent ? grandparent.querySelector('a').classList.add('d-none') : '';
+						parentSiblings.forEach(node => node.classList.add('d-none'));
+						parent ? parent.classList.add('parent-level') : '';
+
+						currentLevel.forEach(node => {
+							if (node.classList.contains('current')) {
+								activeItem = node;
+							}
+						})
+
+						if (activeItem) {
+							level++;
+
+							checkDescendantLevel(level, activeItem);
+						} else {
+							return;
+						}
+					}
+				}
+
+				if (activeNavL1) {
+					checkDescendantLevel(1);
+				}
+
+				// Left Nav mobile interaction
+
+				const docNavWrapper = document.querySelector('.doc-nav-wrapper');
+				const mobileDocNavToggler = document.getElementById('mobileDocNavToggler');
+
+				if (docNavWrapper && mobileDocNavToggler) {
+					const togglers = mobileDocNavToggler.querySelectorAll('button');
+
+					togglers.forEach(toggler =>
+						toggler.addEventListener('click', () => {
+							docNavWrapper.classList.toggle('mobile-nav-hide');
+						})
+					);
 				}
 			}
-		}
-
-		if (activeNavL1) {
-			checkDescendantLevel(1);
-		}
-
-		// Left Nav mobile interaction
-
-		const docNavWrapper = document.querySelector('.doc-nav-wrapper');
-		const mobileDocNavToggler = document.getElementById('mobileDocNavToggler');
-
-		if (docNavWrapper && mobileDocNavToggler) {
-			const togglers = mobileDocNavToggler.querySelectorAll('button');
-
-			togglers.forEach(toggler =>
-				toggler.addEventListener('click', () => {
-					docNavWrapper.classList.toggle('mobile-nav-hide');
-				})
-			);
-		}
-	</script>
-	<#recover>
-		<div>script error</div>
-</#attempt>
-
-{% endblock %}
+			catch (err) {
+				console.log(err.message);
+			}
+		</script>
+		<#recover>
+			<div>script error</div>
+	</#attempt>
+</#noparse>
