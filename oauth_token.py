@@ -69,7 +69,10 @@ def api_call(success_code=200):
                 return
             if not res.status_code == success_code:
                 logger = logging.getLogger(func.__name__)
-                error_message = f"API call for {func.__name__} failed with return code: {res.status_code} and error message {json.dumps(res.json(), indent=4)}"
+                try:
+                    error_message = f"API call for {func.__name__} failed with return code: {res.status_code} and error message {json.dumps(res.json(), indent=4)}"
+                except json.JSONDecodeError:
+                    error_message = f"API call for {func.__name__} failed with return code: {res.status_code} and error message {res}"
                 logger.error(error_message)
                 if res.status_code == 401 or res.status_code == 403:
                     raise AuthClientError

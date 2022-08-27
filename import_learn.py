@@ -7,6 +7,10 @@ from document_folder import (
     add_missing_document_folders,
     get_liferay_document_folders_by_path,
 )
+from structured_content_folder import (
+    add_missing_structured_content_folders,
+    get_liferay_structured_content_folders_by_path,
+)
 import import_article
 from document_rest import (
     delete_document,
@@ -33,7 +37,8 @@ session = requests.Session()
 @timer
 def collect_sphinx_files():
     articles_by_article_key = {}
-    document_paths = set()
+    sphinx_article_paths = set()
+    sphinx_document_paths = set()
     sphinx_documents = []
     sphinx_other_files = []
     for root, d_names, f_names in os.walk(config["SPHINX_OUTPUT_DIRECTORY"]):
@@ -57,6 +62,9 @@ def collect_sphinx_files():
                 ) = sphinx_output_path.split(os.sep)
 
             if filename.endswith(LEARN_ARTICLE_JSON_EXTENSION):
+                # Leave out language since we are consolidating translations into one article
+                path = "/".join([product, version] + subdirectories)
+                sphinx_article_paths.add(path)
                 article_key = f"{product}_{version}_{'_'.join(subdirectories)}_{name}"
 
                 translation = {
@@ -67,6 +75,7 @@ def collect_sphinx_files():
                 if article_key not in articles_by_article_key:
                     articles_by_article_key[article_key] = {
                         "product": product,
+                        "path": path,
                         "translations": [translation],
                         "version": version,
                         "subdirectories": subdirectories,
@@ -78,7 +87,7 @@ def collect_sphinx_files():
                     )
             elif root.endswith(IMAGES_DIRECTORY) or filename.endswith(".zip"):
                 path = "/".join([product, version, language] + subdirectories)
-                document_paths.add(path)
+                sphinx_document_paths.add(path)
                 sphinx_documents.append(
                     {
                         "local_file_path": filename,
@@ -107,9 +116,16 @@ def collect_sphinx_files():
     save_as_json("articles", articles)
     save_as_json("sphinx_documents", sphinx_documents)
     save_as_json("sphinx_other_files", sphinx_other_files)
-    save_as_json("document_paths", sorted(document_paths))
+    save_as_json("sphinx_document_paths", sorted(sphinx_document_paths))
+    save_as_json("sphinx_article_paths", sorted(sphinx_article_paths))
 
-    return [articles, sphinx_documents, sphinx_other_files, sorted(document_paths)]
+    return [
+        articles,
+        sphinx_documents,
+        sphinx_other_files,
+        sorted(sphinx_document_paths),
+        sorted(sphinx_article_paths),
+    ]
 
 
 @timer
@@ -244,6 +260,7 @@ def import_learn():
             sphinx_documents,
             sphinx_other_files,
             sphinx_document_paths,
+            sphinx_article_paths,
         ) = collect_sphinx_files()
 
         (
@@ -254,6 +271,14 @@ def import_learn():
 
         add_missing_document_folders(
             sphinx_document_paths, liferay_document_folders_by_path
+        )
+
+        liferay_structured_content_folders_by_path = (
+            get_liferay_structured_content_folders_by_path()
+        )
+
+        add_missing_structured_content_folders(
+            sphinx_article_paths, liferay_structured_content_folders_by_path
         )
         liferay_site_documents_by_path = get_liferay_site_documents_by_path(
             liferay_document_folders_by_path
