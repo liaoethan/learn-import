@@ -32,8 +32,10 @@ def get_config():
 
     if (config["DOCUMENT_IMPORT_LIMIT"]) > 0:
         logger.warning(f"Only importing {config['DOCUMENT_IMPORT_LIMIT']} images!")
-    if (config["ARTICLE_IMPORT_LIMIT"]) > 0:
-        logger.warning(f"Only importing {config['ARTICLE_IMPORT_LIMIT']} articles!")
+    if (config["STRUCTURED_CONTENT_IMPORT_LIMIT"]) > 0:
+        logger.warning(
+            f"Only importing {config['STRUCTURED_CONTENT_IMPORT_LIMIT']} articles!"
+        )
     if (config["API_PAGE_LIMIT"]) > 0:
         logger.warning(
             f"Only fetching {config['API_PAGE_LIMIT']} pages for api get calls"
