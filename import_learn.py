@@ -68,6 +68,9 @@ def collect_sphinx_files():
                     articles_by_article_key[article_key] = {
                         "product": product,
                         "translations": [translation],
+                        "version": version,
+                        "subdirectories": subdirectories,
+                        "name": name,
                     }
                 else:
                     articles_by_article_key[article_key]["translations"].append(

@@ -6,7 +6,7 @@ import json
 import logging
 import oauth_token
 import hashlib
-
+import os
 
 def get_breadcrumb_element(parent):
     link = parent["link"]
@@ -35,6 +35,7 @@ def import_article(article, articles_by_friendlyurlpath, article_structure_id):
         "navtoc": {},
         "toc": {},
         "sha_256sum": {},
+        "github_edit_link": {},
     }
     title_i18n = {}
     available_languages = []
@@ -55,6 +56,14 @@ def import_article(article, articles_by_friendlyurlpath, article_structure_id):
 
             if not "navtoc" in translation_data:
                 translation_data["navtoc"] = ""
+
+            if not "github_edit_link" in translation_data:
+                subdirectories = ""
+
+                if (article["subdirectories"]):
+                    subdirectories = f"{'/'.join(article['subdirectories'])}/"
+                translation_data["github_edit_link"] = f"{config['GITHUB_EDIT_LINK_BASE_URL']}{article['product']}/{article['version']}/{translation['language']}/{subdirectories}{os.path.splitext(article['name'])[0] + '.md'}";
+
 
             languages = {"en": "en-US", "ja": "ja-JP"}
             liferay_language_id = languages[translation["language"]]
@@ -86,6 +95,10 @@ def import_article(article, articles_by_friendlyurlpath, article_structure_id):
 
             contentFieldValues["navtoc"][liferay_language_id] = {
                 "data": translation_data["navtoc"]
+            }
+
+            contentFieldValues["github_edit_link"][liferay_language_id] = {
+                "data": translation_data["github_edit_link"]
             }
 
             translations.append(translation_data)
@@ -120,6 +133,11 @@ def import_article(article, articles_by_friendlyurlpath, article_structure_id):
                 "contentFieldValue_i18n": contentFieldValues["navtoc"],
                 "name": "Navigation",
             },
+            {
+                "contentFieldValue": {"data": ""},
+                "contentFieldValue_i18n": contentFieldValues["github_edit_link"],
+                "name": "githubEditLink",
+            }
         ],
         "contentStructureId": article_structure_id,
         "externalReferenceCode": external_reference_code,

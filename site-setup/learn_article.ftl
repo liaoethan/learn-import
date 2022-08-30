@@ -4,39 +4,6 @@ html{box-sizing:border-box;-ms-overflow-style:scrollbar}*,::after,::before{box-s
 
 {%- extends "layout.html" %}
 
-{% macro githubEdit() -%}
-{%- if parents|length > 1 %}
-{% set product = parents[0].title.lower().replace(' ', '-') %}
-
-{# hardcode version values for now #}
-{% if product == "commerce" %}
-{% set version = "latest" %}
-{% elif product == "dxp" %}
-{% set version = "latest" %}
-{% else %}
-{% set version = "latest" %}
-{% endif %}
-
-{% set parentPath %}
-{%- for doc in parents -%}
-{{ doc.title.lower().replace(' ', '-') }}/
-{%- endfor -%}
-{% endset %}
-
-{% set folderPath = parentPath.replace(product + "/", '', 1) %}
-
-{% set fileName = title.lower().replace(' ', '-') %}
-
-<a aria-label="{% trans %}Github icon{% endtrans %}"
-	href="https://github.com/liferay/liferay-learn/edit/master/docs/{{ product }}/{{ version }}/{{ language }}/{{ folderPath }}{{ fileName }}.md"
-	title="{% trans %}Contribute on Github{% endtrans %}">
-	<svg>
-		<use xlink:href="#edit"></use>
-	</svg>
-</a>
-{%- endif %}
-{%- endmacro %}
-
 {% macro getLanguageLabel(language_code) -%}
 {% if language_code == 'ja' %}
 {% trans %}Japanese{% endtrans %}
@@ -159,7 +126,13 @@ html{box-sizing:border-box;-ms-overflow-style:scrollbar}*,::after,::before{box-s
 					</div>
 
 					<div class="actions col-md-2 d-none d-md-block offset-md-1">
-						{{ githubEdit() }}
+						<a aria-label="${languageUtil.get(locale, 'github-icon', 'Github Icon')}"
+							href="<#if (githubEditLink.getData())??> ${githubEditLink.getData()}</#if>"
+							title="${languageUtil.get(locale, 'contribute-on-github', 'Contribute on Github')}">
+							<svg>
+								<use xlink:href="#edit"></use>
+							</svg>
+						</a>
 					</div>
 				</div>
 			</div>
