@@ -154,7 +154,7 @@ def get_structured_content_request_body(sphinx_article: dict, article_structure_
     for liferay_language_id in available_languages:
         contentFieldValues["sha_256sum"][liferay_language_id] = {"data": sha_256sum}
 
-    translatedArticle["contentFields"].append(
+    structured_content_request_body["contentFields"].append(
         {
             "contentFieldValue": {"data": ""},
             "contentFieldValue_i18n": contentFieldValues["sha_256sum"],
