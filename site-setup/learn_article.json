@@ -186,5 +186,6 @@
 	"defaultLanguageId": "en_US",
 	"description": {},
 	"name": {"en_US": "Learn Article"},
-	"storageType": "default"
+	"storageType": "default",
+	"dataDefinitionKey": "LEARN-ARTICLE"
 }

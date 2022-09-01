@@ -3,7 +3,6 @@
 	"CLIENT_ID": "id-xxx",
 	"CLIENT_SECRET": "secret-yyyy",
 	"SITE_ID": "83630",
-	"ARTICLE_STRUCTURE_ID": 90953,
 	"SPHINX_OUTPUT_DIRECTORY": "<learn repo location>/liferay-learn/site/build/output/",
 	"API_PAGESIZE": "300",
 	"WEBDAV_IMAGE_URL_PREFIX": "/webdav/learn-python-import/document_library/",

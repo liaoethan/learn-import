@@ -11,14 +11,7 @@ import requests
 logging.config.fileConfig("logging.conf")
 logger = logging.getLogger(__name__)
 
-logger.info(
-    "Using host "
-    + config["OAUTH_HOST"]
-    + " and site "
-    + config["SITE_ID"]
-    + " and structureId "
-    + str(config["ARTICLE_STRUCTURE_ID"])
-)
+logger.info("Using host " + config["OAUTH_HOST"] + " and site " + config["SITE_ID"])
 
 REPOSITORY_ID = 83630
 FOLDER_ID = 268532

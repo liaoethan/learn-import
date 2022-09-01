@@ -15,6 +15,7 @@ from document_rest import (
     post_document_folder_document,
     delete_document,
 )
+from site_setup import check_site_setup
 import json
 import logging
 import os
@@ -210,10 +211,12 @@ def import_documents(
 
 
 @timer
-def import_articles(articles, articles_by_friendlyurlpath):
+def import_articles(articles, articles_by_friendlyurlpath, article_structure_id):
     article_counter = 0
     for article in articles:
-        import_article.import_article(article, articles_by_friendlyurlpath)
+        import_article.import_article(
+            article, articles_by_friendlyurlpath, article_structure_id
+        )
 
         article_counter = article_counter + 1
         if (
@@ -240,6 +243,10 @@ def import_learn():
             sphinx_document_paths,
         ) = collect_sphinx_files()
 
+        (
+            learn_article_data_definition,
+            learn_synced_file_definition,
+        ) = check_site_setup()
         liferay_document_folders_by_path = get_liferay_document_folders_by_path()
 
         add_missing_document_folders(
@@ -258,7 +265,11 @@ def import_learn():
             "updated_liferay_site_documents_by_path", liferay_site_documents_by_path
         )
         articles_by_friendlyurlpath = get_articles.get_articles()
-        import_articles(sphinx_articles, articles_by_friendlyurlpath)
+        import_articles(
+            sphinx_articles,
+            articles_by_friendlyurlpath,
+            learn_article_data_definition["id"],
+        )
 
         import_success = True
     except BaseException as err:

@@ -1,0 +1,820 @@
+{
+    "actions": {},
+    "facets": [],
+    "items": [
+      {
+        "availableLanguageIds": [
+          "ja_JP",
+          "en_US"
+        ],
+        "contentType": "journal",
+        "dataDefinitionFields": [
+          {
+            "customProperties": {
+              "labelAtStructureLevel": true,
+              "confirmationErrorMessage": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "hideField": false,
+              "dataType": "string",
+              "tooltip": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "requireConfirmation": false,
+              "displayStyle": "singleline",
+              "fieldNamespace": "",
+              "visibilityExpression": "",
+              "options": {},
+              "nativeField": false,
+              "confirmationLabel": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "fieldReference": "Body",
+              "placeholder": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "direction": [
+                "vertical"
+              ]
+            },
+            "defaultValue": {},
+            "fieldType": "text",
+            "indexType": "text",
+            "indexable": true,
+            "label": {
+              "en_US": "Body",
+              "ja_JP": "Body"
+            },
+            "localizable": true,
+            "name": "Text67320258",
+            "nestedDataDefinitionFields": [],
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "tip": {
+              "en_US": "",
+              "ja_JP": ""
+            }
+          },
+          {
+            "customProperties": {
+              "labelAtStructureLevel": true,
+              "confirmationErrorMessage": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "hideField": false,
+              "dataType": "string",
+              "tooltip": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "requireConfirmation": false,
+              "displayStyle": "singleline",
+              "fieldNamespace": "",
+              "visibilityExpression": "",
+              "options": {},
+              "nativeField": false,
+              "confirmationLabel": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "fieldReference": "TOC",
+              "placeholder": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "direction": [
+                "vertical"
+              ]
+            },
+            "defaultValue": {},
+            "fieldType": "text",
+            "indexType": "none",
+            "indexable": true,
+            "label": {
+              "en_US": "TOC",
+              "ja_JP": "TOC"
+            },
+            "localizable": true,
+            "name": "Text17075005",
+            "nestedDataDefinitionFields": [],
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "tip": {
+              "en_US": "",
+              "ja_JP": ""
+            }
+          },
+          {
+            "customProperties": {
+              "labelAtStructureLevel": true,
+              "confirmationErrorMessage": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "hideField": false,
+              "dataType": "string",
+              "tooltip": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "requireConfirmation": false,
+              "displayStyle": "singleline",
+              "fieldNamespace": "",
+              "visibilityExpression": "",
+              "options": {},
+              "nativeField": false,
+              "confirmationLabel": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "fieldReference": "Breadcrumb",
+              "placeholder": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "direction": [
+                "vertical"
+              ]
+            },
+            "defaultValue": {},
+            "fieldType": "text",
+            "indexType": "none",
+            "indexable": true,
+            "label": {
+              "en_US": "Breadcrumb",
+              "ja_JP": "Breadcrumb"
+            },
+            "localizable": true,
+            "name": "Text33187582",
+            "nestedDataDefinitionFields": [],
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "tip": {
+              "en_US": "",
+              "ja_JP": ""
+            }
+          },
+          {
+            "customProperties": {
+              "labelAtStructureLevel": true,
+              "confirmationErrorMessage": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "hideField": false,
+              "dataType": "string",
+              "tooltip": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "requireConfirmation": false,
+              "displayStyle": "singleline",
+              "fieldNamespace": "",
+              "visibilityExpression": "",
+              "options": {},
+              "nativeField": false,
+              "confirmationLabel": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "fieldReference": "Navigation",
+              "placeholder": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "direction": [
+                "vertical"
+              ]
+            },
+            "defaultValue": {},
+            "fieldType": "text",
+            "indexType": "none",
+            "indexable": true,
+            "label": {
+              "en_US": "Navigation",
+              "ja_JP": "Navigation"
+            },
+            "localizable": true,
+            "name": "Text59990666",
+            "nestedDataDefinitionFields": [],
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "tip": {
+              "en_US": "",
+              "ja_JP": ""
+            }
+          },
+          {
+            "customProperties": {
+              "labelAtStructureLevel": true,
+              "confirmationErrorMessage": {
+                "en_US": ""
+              },
+              "hideField": false,
+              "dataType": "string",
+              "tooltip": {
+                "en_US": ""
+              },
+              "requireConfirmation": false,
+              "displayStyle": "singleline",
+              "fieldNamespace": "",
+              "visibilityExpression": "",
+              "options": {},
+              "nativeField": false,
+              "confirmationLabel": {
+                "en_US": ""
+              },
+              "fieldReference": "sha_256sum",
+              "placeholder": {
+                "en_US": ""
+              },
+              "direction": [
+                "vertical"
+              ]
+            },
+            "defaultValue": {},
+            "fieldType": "text",
+            "indexType": "none",
+            "indexable": true,
+            "label": {
+              "en_US": "sha_256sum"
+            },
+            "localizable": true,
+            "name": "Text05832569",
+            "nestedDataDefinitionFields": [],
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "tip": {
+              "en_US": ""
+            }
+          }
+        ],
+        "dataDefinitionKey": "43219",
+        "dateCreated": "2022-08-30T00:01:54Z",
+        "dateModified": "2022-08-30T00:01:54Z",
+        "defaultDataLayout": {
+          "dataDefinitionId": 43220,
+          "dataLayoutFields": {},
+          "dataLayoutKey": "43219",
+          "dataLayoutPages": [
+            {
+              "dataLayoutRows": [
+                {
+                  "dataLayoutColumns": [
+                    {
+                      "columnSize": 12,
+                      "fieldNames": [
+                        "Text67320258"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "dataLayoutColumns": [
+                    {
+                      "columnSize": 12,
+                      "fieldNames": [
+                        "Text17075005"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "dataLayoutColumns": [
+                    {
+                      "columnSize": 12,
+                      "fieldNames": [
+                        "Text33187582"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "dataLayoutColumns": [
+                    {
+                      "columnSize": 12,
+                      "fieldNames": [
+                        "Text59990666"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "dataLayoutColumns": [
+                    {
+                      "columnSize": 12,
+                      "fieldNames": [
+                        "Text05832569"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "description": {
+                "en_US": ""
+              },
+              "title": {
+                "en_US": ""
+              }
+            }
+          ],
+          "dataRules": [],
+          "dateCreated": "2022-08-30T00:01:54Z",
+          "dateModified": "2022-08-30T00:01:54Z",
+          "description": {},
+          "id": 43222,
+          "name": {
+            "en_US": "Learn Article"
+          },
+          "paginationMode": "single-page",
+          "siteId": 20123,
+          "userId": 20125
+        },
+        "defaultLanguageId": "en_US",
+        "description": {},
+        "id": 43220,
+        "name": {
+          "en_US": "Learn Article"
+        },
+        "siteId": 20123,
+        "storageType": "default",
+        "userId": 20125
+      },
+      {
+        "availableLanguageIds": [
+          "ja_JP",
+          "en_US"
+        ],
+        "contentType": "journal",
+        "dataDefinitionFields": [
+          {
+            "customProperties": {
+              "labelAtStructureLevel": true,
+              "confirmationErrorMessage": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "hideField": false,
+              "dataType": "string",
+              "tooltip": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "requireConfirmation": false,
+              "displayStyle": "singleline",
+              "fieldNamespace": "",
+              "visibilityExpression": "",
+              "options": {},
+              "nativeField": false,
+              "confirmationLabel": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "fieldReference": "Body",
+              "placeholder": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "direction": [
+                "vertical"
+              ]
+            },
+            "defaultValue": {},
+            "fieldType": "text",
+            "indexType": "text",
+            "indexable": true,
+            "label": {
+              "en_US": "Body",
+              "ja_JP": "Body"
+            },
+            "localizable": true,
+            "name": "Text67320258",
+            "nestedDataDefinitionFields": [],
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "tip": {
+              "en_US": "",
+              "ja_JP": ""
+            }
+          },
+          {
+            "customProperties": {
+              "labelAtStructureLevel": true,
+              "confirmationErrorMessage": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "hideField": false,
+              "dataType": "string",
+              "tooltip": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "requireConfirmation": false,
+              "displayStyle": "singleline",
+              "fieldNamespace": "",
+              "visibilityExpression": "",
+              "options": {},
+              "nativeField": false,
+              "confirmationLabel": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "fieldReference": "TOC",
+              "placeholder": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "direction": [
+                "vertical"
+              ]
+            },
+            "defaultValue": {},
+            "fieldType": "text",
+            "indexType": "none",
+            "indexable": true,
+            "label": {
+              "en_US": "TOC",
+              "ja_JP": "TOC"
+            },
+            "localizable": true,
+            "name": "Text17075005",
+            "nestedDataDefinitionFields": [],
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "tip": {
+              "en_US": "",
+              "ja_JP": ""
+            }
+          },
+          {
+            "customProperties": {
+              "labelAtStructureLevel": true,
+              "confirmationErrorMessage": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "hideField": false,
+              "dataType": "string",
+              "tooltip": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "requireConfirmation": false,
+              "displayStyle": "singleline",
+              "fieldNamespace": "",
+              "visibilityExpression": "",
+              "options": {},
+              "nativeField": false,
+              "confirmationLabel": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "fieldReference": "Breadcrumb",
+              "placeholder": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "direction": [
+                "vertical"
+              ]
+            },
+            "defaultValue": {},
+            "fieldType": "text",
+            "indexType": "none",
+            "indexable": true,
+            "label": {
+              "en_US": "Breadcrumb",
+              "ja_JP": "Breadcrumb"
+            },
+            "localizable": true,
+            "name": "Text33187582",
+            "nestedDataDefinitionFields": [],
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "tip": {
+              "en_US": "",
+              "ja_JP": ""
+            }
+          },
+          {
+            "customProperties": {
+              "labelAtStructureLevel": true,
+              "confirmationErrorMessage": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "hideField": false,
+              "dataType": "string",
+              "tooltip": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "requireConfirmation": false,
+              "displayStyle": "singleline",
+              "fieldNamespace": "",
+              "visibilityExpression": "",
+              "options": {},
+              "nativeField": false,
+              "confirmationLabel": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "fieldReference": "Navigation",
+              "placeholder": {
+                "en_US": "",
+                "ja_JP": ""
+              },
+              "direction": [
+                "vertical"
+              ]
+            },
+            "defaultValue": {},
+            "fieldType": "text",
+            "indexType": "none",
+            "indexable": true,
+            "label": {
+              "en_US": "Navigation",
+              "ja_JP": "Navigation"
+            },
+            "localizable": true,
+            "name": "Text59990666",
+            "nestedDataDefinitionFields": [],
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "tip": {
+              "en_US": "",
+              "ja_JP": ""
+            }
+          },
+          {
+            "customProperties": {
+              "labelAtStructureLevel": true,
+              "confirmationErrorMessage": {
+                "en_US": ""
+              },
+              "hideField": false,
+              "dataType": "string",
+              "tooltip": {
+                "en_US": ""
+              },
+              "requireConfirmation": false,
+              "displayStyle": "singleline",
+              "fieldNamespace": "",
+              "visibilityExpression": "",
+              "options": {},
+              "nativeField": false,
+              "confirmationLabel": {
+                "en_US": ""
+              },
+              "fieldReference": "sha_256sum",
+              "placeholder": {
+                "en_US": ""
+              },
+              "direction": [
+                "vertical"
+              ]
+            },
+            "defaultValue": {},
+            "fieldType": "text",
+            "indexType": "none",
+            "indexable": true,
+            "label": {
+              "en_US": "sha_256sum"
+            },
+            "localizable": true,
+            "name": "Text05832569",
+            "nestedDataDefinitionFields": [],
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "tip": {
+              "en_US": ""
+            }
+          }
+        ],
+        "dataDefinitionKey": "43207",
+        "dateCreated": "2022-08-30T00:01:09Z",
+        "dateModified": "2022-08-30T00:01:09Z",
+        "defaultDataLayout": {
+          "dataDefinitionId": 43208,
+          "dataLayoutFields": {},
+          "dataLayoutKey": "43207",
+          "dataLayoutPages": [
+            {
+              "dataLayoutRows": [
+                {
+                  "dataLayoutColumns": [
+                    {
+                      "columnSize": 12,
+                      "fieldNames": [
+                        "Text67320258"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "dataLayoutColumns": [
+                    {
+                      "columnSize": 12,
+                      "fieldNames": [
+                        "Text17075005"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "dataLayoutColumns": [
+                    {
+                      "columnSize": 12,
+                      "fieldNames": [
+                        "Text33187582"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "dataLayoutColumns": [
+                    {
+                      "columnSize": 12,
+                      "fieldNames": [
+                        "Text59990666"
+                      ]
+                    }
+                  ]
+                },
+                {
+                  "dataLayoutColumns": [
+                    {
+                      "columnSize": 12,
+                      "fieldNames": [
+                        "Text05832569"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "description": {
+                "en_US": ""
+              },
+              "title": {
+                "en_US": ""
+              }
+            }
+          ],
+          "dataRules": [],
+          "dateCreated": "2022-08-30T00:01:09Z",
+          "dateModified": "2022-08-30T00:01:09Z",
+          "description": {},
+          "id": 43210,
+          "name": {
+            "en_US": "Learn Article"
+          },
+          "paginationMode": "single-page",
+          "siteId": 20123,
+          "userId": 20125
+        },
+        "defaultLanguageId": "en_US",
+        "description": {},
+        "id": 43208,
+        "name": {
+          "en_US": "Learn Article"
+        },
+        "siteId": 20123,
+        "storageType": "default",
+        "userId": 20125
+      },
+      {
+        "availableLanguageIds": [
+          "en_US"
+        ],
+        "contentType": "journal",
+        "dataDefinitionFields": [
+          {
+            "customProperties": {
+              "fieldNamespace": "ddm",
+              "dataType": "string",
+              "fieldReference": "content"
+            },
+            "defaultValue": {},
+            "fieldType": "rich_text",
+            "indexType": "text",
+            "indexable": true,
+            "label": {
+              "en_US": "Content"
+            },
+            "localizable": true,
+            "name": "content",
+            "nestedDataDefinitionFields": [],
+            "readOnly": false,
+            "repeatable": false,
+            "required": false,
+            "showLabel": true,
+            "tip": {}
+          }
+        ],
+        "dataDefinitionKey": "BASIC-WEB-CONTENT",
+        "dateCreated": "2022-08-29T19:11:42Z",
+        "dateModified": "2022-08-29T19:11:42Z",
+        "defaultDataLayout": {
+          "dataDefinitionId": 30948,
+          "dataLayoutFields": {},
+          "dataLayoutKey": "BASIC-WEB-CONTENT",
+          "dataLayoutPages": [
+            {
+              "dataLayoutRows": [
+                {
+                  "dataLayoutColumns": [
+                    {
+                      "columnSize": 12,
+                      "fieldNames": [
+                        "content"
+                      ]
+                    }
+                  ]
+                }
+              ],
+              "description": {
+                "en_US": "Description"
+              },
+              "title": {
+                "en_US": "Basic Web Content"
+              }
+            }
+          ],
+          "dataRules": [],
+          "dateCreated": "2022-08-29T19:11:42Z",
+          "dateModified": "2022-08-29T19:11:42Z",
+          "description": {},
+          "id": 30950,
+          "name": {},
+          "paginationMode": "single-page",
+          "siteId": 20123,
+          "userId": 20101
+        },
+        "defaultLanguageId": "en_US",
+        "description": {
+          "sv_SE": "Vanligt innehåll",
+          "pt_BR": "Conteúdo Web básico",
+          "ja_JP": "基本Webコンテンツ",
+          "fr_FR": "Contenu web basique",
+          "hu_HU": "Alapvető webtartalom",
+          "de_DE": "Einfacher Webcontent",
+          "ca_ES": "Contigut web bàsic",
+          "ar_SA": "تحرير محتوى",
+          "fi_FI": "Tavallinen web-sisältö",
+          "en_US": "Basic Web Content",
+          "zh_CN": "基本 Web 内容",
+          "es_ES": "Contenido web básico",
+          "nl_NL": "Basiswebcontent"
+        },
+        "id": 30948,
+        "name": {
+          "sv_SE": "Vanligt innehåll",
+          "pt_BR": "Conteúdo Web básico",
+          "ja_JP": "基本Webコンテンツ",
+          "fr_FR": "Contenu web basique",
+          "hu_HU": "Alapvető webtartalom",
+          "de_DE": "Einfacher Webcontent",
+          "ca_ES": "Contigut web bàsic",
+          "ar_SA": "تحرير محتوى",
+          "fi_FI": "Tavallinen web-sisältö",
+          "en_US": "Basic Web Content",
+          "zh_CN": "基本 Web 内容",
+          "es_ES": "Contenido web básico",
+          "nl_NL": "Basiswebcontent"
+        },
+        "siteId": 20123,
+        "storageType": "default",
+        "userId": 20101
+      }
+    ],
+    "lastPage": 1,
+    "page": 1,
+    "pageSize": 20,
+    "totalCount": 3
+  }

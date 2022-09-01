@@ -53,8 +53,6 @@ If you want to start liferay / db from scratch you can remove the volumes and th
 
     `python3 site_setup.py`
 
-3. After running that script, check the structure id of the "Learn Article" and include that in the config file under `ARTICLE_STRUCTURE_ID`
-
 ### Building sphinx site
 
 1. Clone this branch https://github.com/allen-ziegenfus/liferay-learn/tree/sphinx-json-builder

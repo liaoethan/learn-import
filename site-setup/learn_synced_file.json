@@ -87,5 +87,6 @@
 	"name": {
 		"en_US": "Learn Synced File"
 	},
-	"storageType": "default"
+	"storageType": "default",
+	"dataDefinitionKey": "LEARN-SYNCED-FILE"
 }

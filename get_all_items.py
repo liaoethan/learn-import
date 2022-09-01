@@ -4,7 +4,7 @@ import logging
 
 
 @timer
-def get_all_items(callback):
+def get_all_items(callback, *args):
     logger = logging.getLogger(__name__)
 
     items = []
@@ -12,7 +12,7 @@ def get_all_items(callback):
     fetched_all_items = False
 
     while not fetched_all_items:
-        item_batch = callback(page).json()
+        item_batch = callback(page, *args).json()
         items += item_batch["items"]
         if item_batch["lastPage"] == page:
             fetched_all_items = True

@@ -76,4 +76,3 @@ def import_article(structureId):
 
 
 # import_article(85718)
-import_article(config["ARTICLE_STRUCTURE_ID"])

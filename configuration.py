@@ -28,14 +28,7 @@ def get_config():
     with open(configfile, encoding="utf-8") as configfile:
         config = json.load(configfile)
 
-    logger.info(
-        "Using host "
-        + config["OAUTH_HOST"]
-        + " and site "
-        + config["SITE_ID"]
-        + " and structureId "
-        + str(config["ARTICLE_STRUCTURE_ID"])
-    )
+    logger.info("Using host " + config["OAUTH_HOST"] + " and site " + config["SITE_ID"])
 
     if (config["DOCUMENT_IMPORT_LIMIT"]) > 0:
         logger.warning(f"Only importing {config['DOCUMENT_IMPORT_LIMIT']} images!")

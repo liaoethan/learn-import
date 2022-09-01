@@ -20,7 +20,7 @@ def get_breadcrumb(current_page_name, parents):
 
 
 @oauth_token.api_call(200)
-def import_article(article, articles_by_friendlyurlpath):
+def import_article(article, articles_by_friendlyurlpath, article_structure_id):
     logger = logging.getLogger(__name__)
     headers = {
         "Accept": "application/json",
@@ -121,7 +121,7 @@ def import_article(article, articles_by_friendlyurlpath):
                 "name": "Navigation",
             },
         ],
-        "contentStructureId": config["ARTICLE_STRUCTURE_ID"],
+        "contentStructureId": article_structure_id,
         "externalReferenceCode": external_reference_code,
         # friendlyUrlPaths are all lower case (otherwise Liferay will modify it)
         "friendlyUrlPath": f"{article['product']}/{translations[0]['current_page_name'].lower()}.html",
