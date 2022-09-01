@@ -84,11 +84,14 @@ def check_site_setup():
     with open("styles/main.min.css") as f:
         style_file_content = f.read()
 
+    with open("styles/svg.html") as f:
+        svg_file_content = f.read()
+
     with open("site-setup/learn_article.ftl") as f:
         template_file_content = f.read()
 
     template_file_content_with_styles = (
-        f"<style>{style_file_content}</style>{template_file_content}"
+        f"{svg_file_content}<style>{style_file_content}</style>{template_file_content}"
     )
 
     if len(learn_template) == 0:
