@@ -9,7 +9,7 @@ import util
 from jsonpath_ng.ext import parse
 
 
-def get_liferay_site_structured_contents_by_friendlyurlpath():
+def get_liferay_site_structured_contents_by_friendlyurlpath(article_structure_id):
     sha_256sum_jsonpath = parse(
         '$.contentFields[?(@.label=="sha_256sum")].contentFieldValue.data'
     )
@@ -21,7 +21,7 @@ def get_liferay_site_structured_contents_by_friendlyurlpath():
     # Only consider articles that are of the Learn Sync structure
     liferay_site_learn_structured_contents = filter(
         lambda site_structured_content: site_structured_content["contentStructureId"]
-        == config["ARTICLE_STRUCTURE_ID"],
+        == article_structure_id,
         liferay_site_structured_contents,
     )
 

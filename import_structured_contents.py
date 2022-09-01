@@ -64,11 +64,11 @@ def get_structured_content_request_body(sphinx_article: dict, article_structure_
             if not "github_edit_link" in translation_data:
                 subdirectories = ""
 
-                if article["subdirectories"]:
-                    subdirectories = f"{'/'.join(article['subdirectories'])}/"
+                if sphinx_article["subdirectories"]:
+                    subdirectories = f"{'/'.join(sphinx_article['subdirectories'])}/"
                 translation_data[
                     "github_edit_link"
-                ] = f"{config['GITHUB_EDIT_LINK_BASE_URL']}{article['product']}/{article['version']}/{translation['language']}/{subdirectories}{os.path.splitext(article['name'])[0] + '.md'}"
+                ] = f"{config['GITHUB_EDIT_LINK_BASE_URL']}{sphinx_article['product']}/{sphinx_article['version']}/{translation['language']}/{subdirectories}{os.path.splitext(sphinx_article['name'])[0] + '.md'}"
 
             languages = {"en": "en-US", "ja": "ja-JP"}
             liferay_language_id = languages[translation["language"]]
@@ -173,7 +173,7 @@ def import_structured_contents(
 ):
 
     liferay_site_structured_contents_by_friendlyurlpath = (
-        get_liferay_site_structured_contents_by_friendlyurlpath()
+        get_liferay_site_structured_contents_by_friendlyurlpath(article_structure_id)
     )
 
     logger = logging.getLogger(__name__)
