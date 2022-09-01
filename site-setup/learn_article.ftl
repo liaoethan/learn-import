@@ -22,25 +22,25 @@
 					<label for="productDocumentationSelector">
 						<select class="form-control" id="productDocumentationSelector">
 							<option value="analytics-cloud">
-								Analytics Cloud
+								${languageUtil.get(locale, "analytics-cloud", "Analytics Cloud")}
 							</option>
 							<option value="commerce">
-								Commerce
+								${languageUtil.get(locale, "commerce", "Commerce")}
 							</option>
 							<option value="dxp">
-								DXP / Portal
+								${languageUtil.get(locale, "dxp", "DXP / Portal")}
 							</option>
 							<option value="dxp-cloud">
-								DXP Cloud
+								${languageUtil.get(locale, "dxp-cloud", "DXP Cloud")}
 							</option>
 							<option value="reference">
-								Reference
+								${languageUtil.get(locale, "reference", "Reference")}
 							</option>
 						</select>
 					</label>
 				</div>
 
-				<div class="d-md-none mobile-doc-nav-toggler" id="mobileDocNavToggler">Documentation Menu
+				<div class="d-md-none mobile-doc-nav-toggler" id="mobileDocNavToggler">${languageUtil.get(locale, "documentation-menu", "Documentation Menu")}
 					<button aria-label="Expand Documentation Menu" class="btn expand-btn" onclick="javascript:;"
 						title="Expand Documentation Menu" type="button">
 						<svg class="lexicon-icon lexicon-icon-product-menu" role="presentation">
@@ -61,7 +61,7 @@
 						<svg class="lexicon-icon lexicon-icon-angle-left" role="presentation" viewBox="0 0 512 512">
 							<use xlink:href="#angle-left" />
 						</svg>
-						Go Back
+						${languageUtil.get(locale, "go-back", "Go Back")}
 					</a>
 
 					<#if (Navigation.getData())??>
