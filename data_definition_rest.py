@@ -56,3 +56,21 @@ def post_site_data_definition_by_content_type(content_type, data_definition):
         },
         data=json.dumps(data_definition),
     )
+
+
+@oauth_token.api_call(200)
+def put_data_definition(data_definition_id, data_definition):
+    logger = logging.getLogger(__name__)
+
+    uri = f"{config['OAUTH_HOST']}/o/data-engine/v2.0/data-definitions/{data_definition_id}"
+
+    return requests.request(
+        "PUT",
+        uri,
+        headers={
+            "Accept": "application/json",
+            "Authorization": oauth_token.authorization,
+            "Content-Type": "application/json",
+        },
+        data=json.dumps(data_definition),
+    )

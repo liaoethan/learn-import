@@ -4,6 +4,7 @@ from ddm_template import add_ddm_template, fetch_template, update_ddm_template
 from data_definition_rest import (
     get_site_data_definition_by_content_type_page,
     post_site_data_definition_by_content_type,
+    put_data_definition,
 )
 from document_type import add_file_entry_type_invoke
 import logging
@@ -46,26 +47,37 @@ def check_site_setup():
         None,
     )
 
+    with open("site-setup/learn_article.json", encoding="utf-8") as f:
+        data_definition = json.load(f)
+
     if learn_article_data_definition is None:
         logger.info("Learn article structure not found, importing")
+        learn_article_data_definition = post_site_data_definition_by_content_type(
+            ARTICLE_CONTENT_TYPE, data_definition
+        ).json()
+    else:
+        logger.info("Updating Learn article structure")
+        learn_article_data_definition = put_data_definition(
+            learn_article_data_definition["id"], data_definition
+        ).json()
 
-        with open("site-setup/learn_article.json", encoding="utf-8") as f:
-            data_definition = json.load(f)
-            learn_article_data_definition = post_site_data_definition_by_content_type(
-                ARTICLE_CONTENT_TYPE, data_definition
-            ).json()
+    with open("site-setup/learn_synced_file.json", encoding="utf-8") as f:
+        data_definition = json.load(f)
 
     if learn_synced_file_definition is None:
         logger.info("Learn synced file structure not found, importing")
-        with open("site-setup/learn_synced_file.json", encoding="utf-8") as f:
-            data_definition = json.load(f)
-            learn_synced_file_definition = post_site_data_definition_by_content_type(
-                FILE_ENTRY_CONTENT_TYPE, data_definition
-            ).json()
+        learn_synced_file_definition = post_site_data_definition_by_content_type(
+            FILE_ENTRY_CONTENT_TYPE, data_definition
+        ).json()
 
-            add_file_entry_type_invoke(
-                learn_synced_file_definition["id"], "Learn Synced File"
-            )
+        add_file_entry_type_invoke(
+            learn_synced_file_definition["id"], "Learn Synced File"
+        )
+    else:
+        logger.info("Updating learn synced file structure not found")
+        learn_synced_file_definition = put_data_definition(
+            learn_synced_file_definition["id"], data_definition
+        ).json()
 
     learn_template = fetch_template(LEARN_ARTICLE_TEMPLATE_KEY).json()
 
