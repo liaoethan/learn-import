@@ -11,7 +11,6 @@ import sys
 import urllib
 
 
-@timer
 @oauth_token.api_call(200)
 def fetch_classname(className):
     logger = logging.getLogger(__name__)
@@ -32,7 +31,6 @@ def fetch_classname(className):
     return res
 
 
-@timer
 @oauth_token.api_call(200)
 def fetch_ddm_template(template_key):
     return fetch_template(
@@ -40,7 +38,6 @@ def fetch_ddm_template(template_key):
     )
 
 
-@timer
 @oauth_token.api_call(200)
 def fetch_template(template_key, class_name):
     logger = logging.getLogger(__name__)
@@ -119,7 +116,6 @@ def add_journal_article_ddm_template(
     )
 
 
-@timer
 @oauth_token.api_call(200)
 def add_ddm_template(
     class_name_id,
@@ -179,7 +175,6 @@ def add_ddm_template(
     return res
 
 
-@timer
 @oauth_token.api_call(200)
 def update_ddm_template(data_definition_id, name, template_id, script, cacheable):
     logger = logging.getLogger(__name__)
