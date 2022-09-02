@@ -137,12 +137,32 @@
 			<div class="col-12 doc-content" id="docContent">
 				<div class="row">
 					<div class="article-body col-12 col-md-8">
-						{% block document %}
 						<#if (Body.getData())??>
 							${Body.getData()}
 						</#if>
-						{% endblock %}
-						{% include "help-center-footer.html" %}
+						<div class="autofit-padded-no-gutters-x autofit-row help-center-footer">
+                            <div class="autofit-col">
+                                <div class="icon-container">
+                                    <svg class="lexicon-icon liferay-waffle-icon" focusable="false" role="presentation" viewBox="0 0 512 512">
+                                        <use xlink:href="#liferay-waffle" />
+                                    </svg>
+                                </div>
+                            </div>
+
+                            <div class="autofit-col autofit-col-expand">
+                                <h3>${languageUtil.get(locale, "not-finding-what-you-are-looking-for", "Not finding what you're looking for?")}</h3>
+
+                                <p class="text-secondary">${languageUtil.get(locale, "pardon-our-dust-as-we-revamp", "Pardon our dust as we revamp and transition our product documentation to this site. If something seems missing, please check Liferay Help Center documentation for Liferay DXP 7.2 and previous versions.")}</p>
+
+                                <a href="https://help.liferay.com/hc/en-us/categories/360001749912">
+                                    <strong>${languageUtil.get(locale, "try-liferays-help-center", "Try Liferay's Help Center")}</strong>
+
+                                    <svg class="lexicon-icon lexicon-icon-shortcut" focusable="false" role="presentation" viewBox="0 0 512 512">
+                                        <use xlink:href="#shortcut" />
+                                    </svg>
+                                </a>
+                            </div>
+                        </div>
 					</div>
 
 					<div class="col-md-4 d-none d-sm-block toc-container">
@@ -330,8 +350,6 @@
 	<#recover>
 		<div>script error</div>
 </#attempt>
-
-{% endblock %}
 
 <script>
     <#include "${templatesPath}/PAGE-ALERT-JS">

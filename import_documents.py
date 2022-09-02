@@ -60,6 +60,7 @@ def import_documents(sphinx_documents, liferay_document_folders_by_path):
                 ],
                 "name": config["DOCUMENT_TYPE"],
             },
+            "viewableBy": "Anyone",
         }
 
         # Check if document already exists in liferay

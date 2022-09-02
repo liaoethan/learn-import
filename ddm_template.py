@@ -109,7 +109,7 @@ def add_ddm_template(data_definition_id, name, template_key, script, cacheable):
         "jsonrpc": "2.0",
     }
 
-    logger.info(f"Executing {json.dumps(data, indent=4)}")
+    logger.debug(f"Executing {json.dumps(data, indent=4)}")
     res = session.request(method, uri, headers=headers, data=json.dumps(data))
 
     response_payload = res.json()

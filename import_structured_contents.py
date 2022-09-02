@@ -17,8 +17,12 @@ import hashlib
 import os
 
 
+def rename_readme(page_name):
+    return re.sub(r"README", "index", page_name)
+
+
 def get_breadcrumb_element(parent):
-    link = parent["link"]
+    link = rename_readme(parent["link"])
     title = parent["title"]
     return f'<a href="{link}">{title}</a>'
 
@@ -47,6 +51,10 @@ def get_structured_content_request_body(sphinx_article: dict, article_structure_
     for translation in sphinx_article["translations"]:
         with open(translation["filename"], encoding="utf-8") as f:
             translation_data = json.load(f)
+
+            translation_data["current_page_name"] = rename_readme(
+                translation_data["current_page_name"]
+            )
 
             if not "body" in translation_data:
                 logger.warn("No HTML body found for " + translation["filename"])
@@ -145,6 +153,7 @@ def get_structured_content_request_body(sphinx_article: dict, article_structure_
         "friendlyUrlPath": f"{sphinx_article['product']}/{sphinx_article['version']}/{translations[0]['current_page_name'].lower()}.html",
         "title_i18n": title_i18n,
         "title": translations[0]["title"],
+        "viewableBy": "Anyone",
     }
 
     sha_256sum = sha_256sum_from_dictionary(structured_content_request_body)

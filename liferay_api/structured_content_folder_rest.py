@@ -46,6 +46,7 @@ def post_structured_content_folder(name, parentStructuredContentFolderId):
             {
                 "name": name,
                 "parentStructuredContentFolderId": parentStructuredContentFolderId,
+                "viewableBy": "Anyone",
             }
         ),
     )

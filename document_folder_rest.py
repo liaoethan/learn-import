@@ -43,6 +43,10 @@ def post_document_folder(name, parentDocumentFolderId):
         uri,
         headers=headers,
         data=json.dumps(
-            {"name": name, "parentDocumentFolderId": parentDocumentFolderId}
+            {
+                "name": name,
+                "parentDocumentFolderId": parentDocumentFolderId,
+                "viewableBy": "Anyone",
+            }
         ),
     )
