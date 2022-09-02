@@ -1,7 +1,13 @@
 from functools import cache
 import json
 from get_all_items import get_all_items
-from ddm_template import add_ddm_template, fetch_template, update_ddm_template
+from ddm_template import (
+    add_journal_article_ddm_template,
+    add_adt_ddm_template,
+    fetch_template,
+    fetch_ddm_template,
+    update_ddm_template,
+)
 from data_definition_rest import (
     get_site_data_definition_by_content_type_page,
     post_site_data_definition_by_content_type,
@@ -10,20 +16,71 @@ from data_definition_rest import (
 from document_type import add_file_entry_type_invoke
 import logging
 from util import save_as_json
+import os
+
+
+def add_adt_templates():
+    logger = logging.getLogger(__name__)
+    ADT_DIRECTORY = "site-setup/adt/"
+    for root, d_names, f_names in os.walk(ADT_DIRECTORY):
+        for f in f_names:
+            local_file_path = str(os.path.join(root, f))
+
+            _, adt_path = local_file_path.split(ADT_DIRECTORY)
+
+            (
+                class_name,
+                file_name,
+            ) = adt_path.split(os.sep)
+
+            (
+                base_file_name,
+                extension,
+            ) = file_name.split(os.extsep)
+
+            with open(local_file_path) as f:
+                template_file_content = f.read()
+
+            cacheable = False
+
+            template_key = base_file_name.upper()
+            template_name = base_file_name
+            template = fetch_template(template_key, class_name).json()
+            if len(template) == 0:
+                logger.info(
+                    f"Template {template_name} with key {template_key} not found, importing"
+                )
+                add_adt_ddm_template(
+                    class_name,
+                    0,
+                    template_name,
+                    template_key,
+                    template_file_content,
+                    cacheable,
+                )
+            else:
+                logger.info(f"Template {template_name} found, updating")
+                update_ddm_template(
+                    0,
+                    template_name,
+                    template["templateId"],
+                    template_file_content,
+                    cacheable,
+                )
 
 
 def add_or_update_article_template(
     data_definition_id, template_key, local_file_path, template_name, cacheable
 ):
     logger = logging.getLogger(__name__)
-    template = fetch_template(template_key).json()
+    template = fetch_ddm_template(template_key).json()
 
     with open(local_file_path) as f:
         template_file_content = f.read()
 
     if len(template) == 0:
         logger.info(f"Template {template_name} not found, importing")
-        add_ddm_template(
+        add_journal_article_ddm_template(
             data_definition_id,
             template_name,
             template_key,
@@ -141,6 +198,7 @@ def check_site_setup():
         False,
     )
 
+    add_adt_templates()
     return (learn_article_data_definition, learn_synced_file_definition)
 
 

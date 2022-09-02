@@ -87,27 +87,13 @@
 				</div>
 
 				<div class="d-none d-md-flex doc-nav-footer">
-					<div class="dropdown dropdown-action">
-						<button aria-expanded="false" aria-haspopup="true" class="btn btn-unstyled"
-							data-toggle="dropdown" id="languageSelector" type="button">
-							<svg class="lexicon-icon" focusable="false" role="presentation" viewBox="0 0 512 512">
-								<use xlink:href="#language" />
-							</svg>
-
-							<span>{{ getLanguageLabel(language) }}</span>
-						</button>
-
-						<ul aria-labelledby="languageSelector" class="dropdown-menu">
-							{% for language_code in available_languages %}
-							<li>
-								<a class="dropdown-item"
-									href="/{{ product_name }}/{{ product_version }}/{{ language_code }}/index.html">
-									{{ getLanguageLabel(language_code) }}
-								</a>
-							</li>
-							{% endfor %}
-						</ul>
-					</div>
+                    <@liferay_ui["language"]
+                        ddmTemplateKey="LANGUAGE_MENU"
+                        ddmTemplateGroupId=groupId
+                        displayCurrentLocale=true
+                        languageIds=localeUtil.toLanguageIds(languageUtil.getAvailableLocales(themeDisplay.getSiteGroupId()))
+                        useNamespace=false
+				    />
 				</div>
 			</div>
 		</div>

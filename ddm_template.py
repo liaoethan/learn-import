@@ -34,7 +34,15 @@ def fetch_classname(className):
 
 @timer
 @oauth_token.api_call(200)
-def fetch_template(template_key):
+def fetch_ddm_template(template_key):
+    return fetch_template(
+        template_key, "com.liferay.dynamic.data.mapping.model.DDMStructure"
+    )
+
+
+@timer
+@oauth_token.api_call(200)
+def fetch_template(template_key, class_name):
     logger = logging.getLogger(__name__)
     session = requests.Session()
     headers = {
@@ -43,17 +51,15 @@ def fetch_template(template_key):
         "Content-Type": "application/json",
     }
 
-    uri = f"{config['OAUTH_HOST']}/api/jsonws/ddm.ddmtemplate/fetch-template"
+    classname = fetch_classname(class_name).json()
 
-    ddm_structure_classname = fetch_classname(
-        "com.liferay.dynamic.data.mapping.model.DDMStructure"
-    ).json()
+    uri = f"{config['OAUTH_HOST']}/api/jsonws/ddm.ddmtemplate/fetch-template"
 
     logger.debug(f"Using uri {uri}")
     method = "GET"
     params = {
         "groupId": int(config["SITE_ID"]),
-        "classNameId": int(ddm_structure_classname["classNameId"]),
+        "classNameId": int(classname["classNameId"]),
         "templateKey": template_key,
     }
 
@@ -62,9 +68,68 @@ def fetch_template(template_key):
     return res
 
 
+def add_adt_ddm_template(
+    class_name,
+    data_definition_id,
+    name,
+    template_key,
+    script,
+    cacheable,
+):
+    adt_class_name = fetch_classname(class_name).json()
+
+    portlet_display_template_classname = fetch_classname(
+        "com.liferay.portlet.display.template.PortletDisplayTemplate"
+    ).json()
+
+    return add_ddm_template(
+        adt_class_name["classNameId"],
+        portlet_display_template_classname["classNameId"],
+        data_definition_id,
+        name,
+        template_key,
+        script,
+        cacheable,
+    )
+
+
+def add_journal_article_ddm_template(
+    data_definition_id,
+    name,
+    template_key,
+    script,
+    cacheable,
+):
+    journal_article_classname = fetch_classname(
+        "com.liferay.journal.model.JournalArticle"
+    ).json()
+
+    ddm_structure_classname = fetch_classname(
+        "com.liferay.dynamic.data.mapping.model.DDMStructure"
+    ).json()
+
+    return add_ddm_template(
+        ddm_structure_classname["classNameId"],
+        journal_article_classname["classNameId"],
+        data_definition_id,
+        name,
+        template_key,
+        script,
+        cacheable,
+    )
+
+
 @timer
 @oauth_token.api_call(200)
-def add_ddm_template(data_definition_id, name, template_key, script, cacheable):
+def add_ddm_template(
+    class_name_id,
+    resource_class_name_id,
+    data_definition_id,
+    name,
+    template_key,
+    script,
+    cacheable,
+):
     logger = logging.getLogger(__name__)
     session = requests.Session()
     headers = {
@@ -75,14 +140,6 @@ def add_ddm_template(data_definition_id, name, template_key, script, cacheable):
 
     uri = f"{config['OAUTH_HOST']}/api/jsonws/ddm.ddmtemplate"
 
-    journal_article_classname = fetch_classname(
-        "com.liferay.journal.model.JournalArticle"
-    ).json()
-
-    ddm_structure_classname = fetch_classname(
-        "com.liferay.dynamic.data.mapping.model.DDMStructure"
-    ).json()
-
     logger.debug(f"Using uri {uri}")
     method = "POST"
 
@@ -90,9 +147,9 @@ def add_ddm_template(data_definition_id, name, template_key, script, cacheable):
         "method": "add-template",
         "params": {
             "groupId": int(config["SITE_ID"]),
-            "classNameId": int(ddm_structure_classname["classNameId"]),
+            "classNameId": int(class_name_id),
             "classPK": int(data_definition_id),
-            "resourceClassNameId": int(journal_article_classname["classNameId"]),
+            "resourceClassNameId": int(resource_class_name_id),
             "templateKey": template_key,
             "nameMap": json.dumps({"en-US": name}),
             "descriptionMap": json.dumps({"en-US": name}),
