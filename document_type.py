@@ -58,6 +58,29 @@ def get_file_entry_types(group_ids):
 
 @timer
 @oauth_token.api_call(200)
+def delete_file_entry_type(file_entry_type_id):
+    logger = logging.getLogger(__name__)
+    session = requests.Session()
+    headers = {
+        "Accept": "application/json",
+        "Authorization": oauth_token.authorization,
+        "Content-Type": "application/json",
+    }
+
+    uri = f"{config['OAUTH_HOST']}/api/jsonws/dlfileentrytype/delete-file-entry-type"
+
+    logger.debug(f"Using uri {uri}")
+    method = "GET"
+
+    res = session.request(
+        method, uri, headers=headers, params={"fileEntryTypeId": file_entry_type_id}
+    )
+    logger.info(f"Response: {json.dumps(res.json(), indent=4)}")
+    return res
+
+
+@timer
+@oauth_token.api_call(200)
 def add_file_entry_type(data_definition_id, name):
     logger = logging.getLogger(__name__)
     session = requests.Session()
@@ -88,6 +111,13 @@ def add_file_entry_type(data_definition_id, name):
     logger.info(f"Executing {json.dumps(data, indent=4)}")
     res = session.request(method, uri, headers=headers, data=json.dumps(data))
     logger.info(f"Response: {json.dumps(res.json(), indent=4)}")
+
+    response_payload = res.json()
+    if "error" in response_payload:
+        raise Exception(
+            "Error invoking add-file-entry-type: "
+            + response_payload["error"]["message"]
+        )
     return res
 
 
@@ -121,3 +151,10 @@ def add_file_entry_type_invoke(data_definition_id, name):
     res = session.request(method, uri, headers=headers, data=json.dumps(data))
     logger.debug(f"Response: {json.dumps(res.json(), indent=4)}")
     return res
+
+
+if __name__ == "__main__":
+    # get_file_entry_types_invoke([config["SITE_ID"]])
+    get_file_entry_types([config["SITE_ID"]])
+    # delete_file_entry_type(1036766)
+    # delete_file_entry_type(51961)

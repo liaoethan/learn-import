@@ -8,6 +8,7 @@ import os
 import oauth_token
 import requests
 import sys
+import urllib
 
 
 @timer
@@ -21,15 +22,13 @@ def fetch_classname(className):
         "Content-Type": "application/json",
     }
 
-    uri = f"{config['OAUTH_HOST']}/api/jsonws/invoke"
+    uri = f"{config['OAUTH_HOST']}/api/jsonws/classname/fetch-class-name"
 
     logger.debug(f"Using uri {uri}")
     method = "GET"
-    cmd = {"/classname/fetch-class-name": {"value": className}}
 
-    logger.debug(f"Executing {json.dumps(cmd, indent=4)}")
-    res = session.request(method, uri, headers=headers, data=json.dumps(cmd))
-    logger.debug(f"Response: {json.dumps(res.json(), indent=4)}")
+    res = session.request(method, uri, headers=headers, params={"value": className})
+    logger.debug(f"Response: {res.content}")
     return res
 
 
@@ -44,7 +43,7 @@ def fetch_template(template_key):
         "Content-Type": "application/json",
     }
 
-    uri = f"{config['OAUTH_HOST']}/api/jsonws/invoke"
+    uri = f"{config['OAUTH_HOST']}/api/jsonws/ddm.ddmtemplate/fetch-template"
 
     ddm_structure_classname = fetch_classname(
         "com.liferay.dynamic.data.mapping.model.DDMStructure"
@@ -52,17 +51,14 @@ def fetch_template(template_key):
 
     logger.debug(f"Using uri {uri}")
     method = "GET"
-    cmd = {
-        "/ddm.ddmtemplate/fetch-template": {
-            "groupId": int(config["SITE_ID"]),
-            "classNameId": int(ddm_structure_classname["classNameId"]),
-            "templateKey": template_key,
-        }
+    params = {
+        "groupId": int(config["SITE_ID"]),
+        "classNameId": int(ddm_structure_classname["classNameId"]),
+        "templateKey": template_key,
     }
 
-    logger.debug(f"Executing {json.dumps(cmd, indent=4)}")
-    res = session.request(method, uri, headers=headers, data=json.dumps(cmd))
-    logger.debug(f"Response: {json.dumps(res.json(), indent=4)}")
+    res = session.request(method, uri, headers=headers, params=params)
+
     return res
 
 
@@ -77,7 +73,7 @@ def add_ddm_template(data_definition_id, name, template_key, script):
         "Content-Type": "application/json",
     }
 
-    uri = f"{config['OAUTH_HOST']}/api/jsonws/invoke"
+    uri = f"{config['OAUTH_HOST']}/api/jsonws/ddm.ddmtemplate"
 
     journal_article_classname = fetch_classname(
         "com.liferay.journal.model.JournalArticle"
@@ -88,17 +84,18 @@ def add_ddm_template(data_definition_id, name, template_key, script):
     ).json()
 
     logger.debug(f"Using uri {uri}")
-    method = "GET"
+    method = "POST"
 
-    cmd = {
-        "/ddm.ddmtemplate/add-template": {
+    data = {
+        "method": "add-template",
+        "params": {
             "groupId": int(config["SITE_ID"]),
             "classNameId": int(ddm_structure_classname["classNameId"]),
             "classPK": int(data_definition_id),
             "resourceClassNameId": int(journal_article_classname["classNameId"]),
             "templateKey": template_key,
-            "nameMap": {"en-US": name},
-            "descriptionMap": {"en-US": name},
+            "nameMap": json.dumps({"en-US": name}),
+            "descriptionMap": json.dumps({"en-US": name}),
             "type": "display",
             "mode": "",
             "language": "ftl",
@@ -107,11 +104,20 @@ def add_ddm_template(data_definition_id, name, template_key, script):
             "smallImage": False,
             "smallImageURL": "",
             "smallImageFile": "",
-        }
+        },
+        "id": 123,
+        "jsonrpc": "2.0",
     }
 
-    logger.debug(f"Executing {json.dumps(cmd, indent=4)}")
-    res = session.request(method, uri, headers=headers, data=json.dumps(cmd))
+    logger.info(f"Executing {json.dumps(data, indent=4)}")
+    res = session.request(method, uri, headers=headers, data=json.dumps(data))
+
+    response_payload = res.json()
+    if "error" in response_payload:
+        raise Exception(
+            "Error invoking add-template: " + response_payload["error"]["message"]
+        )
+
     logger.debug(f"Response: {json.dumps(res.json(), indent=4)}")
     return res
 
@@ -127,34 +133,34 @@ def update_ddm_template(data_definition_id, name, template_id, script):
         "Content-Type": "application/json",
     }
 
-    uri = f"{config['OAUTH_HOST']}/api/jsonws/invoke"
-
-    journal_article_classname = fetch_classname(
-        "com.liferay.journal.model.JournalArticle"
-    ).json()
-
-    ddm_structure_classname = fetch_classname(
-        "com.liferay.dynamic.data.mapping.model.DDMStructure"
-    ).json()
+    uri = f"{config['OAUTH_HOST']}/api/jsonws/ddm.ddmtemplate"
 
     logger.debug(f"Using uri {uri}")
-    method = "GET"
+    method = "POST"
 
-    cmd = {
-        "/ddm.ddmtemplate/update-template": {
+    data = {
+        "method": "update-template",
+        "params": {
             "templateId": int(template_id),
             "classPK": int(data_definition_id),
-            "nameMap": {"en-US": name},
-            "descriptionMap": {"en-US": name},
+            "nameMap": json.dumps({"en-US": name}),
+            "descriptionMap": json.dumps({"en-US": name}),
             "type": "display",
             "mode": "",
             "language": "ftl",
             "script": script,
             "cacheable": True,
-        }
+        },
+        "id": 123,
+        "jsonrpc": "2.0",
     }
 
-    logger.debug(f"Executing {json.dumps(cmd, indent=4)}")
-    res = session.request(method, uri, headers=headers, data=json.dumps(cmd))
-    logger.debug(f"Response: {json.dumps(res.json(), indent=4)}")
+    res = session.request(method, uri, headers=headers, data=json.dumps(data))
+
+    response_payload = res.json()
+    if "error" in response_payload:
+        raise Exception(
+            "Error invoking update-template: " + response_payload["error"]["message"]
+        )
+    logger.debug(f"Response: {res.json()}")
     return res

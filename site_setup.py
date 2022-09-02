@@ -74,7 +74,7 @@ def check_site_setup():
             learn_synced_file_definition["id"], "Learn Synced File"
         )
     else:
-        logger.info("Updating learn synced file structure not found")
+        logger.info("Updating learn synced file structure")
         learn_synced_file_definition = put_data_definition(
             learn_synced_file_definition["id"], data_definition
         ).json()
