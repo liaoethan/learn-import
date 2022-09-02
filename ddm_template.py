@@ -64,7 +64,7 @@ def fetch_template(template_key):
 
 @timer
 @oauth_token.api_call(200)
-def add_ddm_template(data_definition_id, name, template_key, script):
+def add_ddm_template(data_definition_id, name, template_key, script, cacheable):
     logger = logging.getLogger(__name__)
     session = requests.Session()
     headers = {
@@ -100,7 +100,7 @@ def add_ddm_template(data_definition_id, name, template_key, script):
             "mode": "",
             "language": "ftl",
             "script": script,
-            "cacheable": True,
+            "cacheable": cacheable,
             "smallImage": False,
             "smallImageURL": "",
             "smallImageFile": "",
@@ -124,7 +124,7 @@ def add_ddm_template(data_definition_id, name, template_key, script):
 
 @timer
 @oauth_token.api_call(200)
-def update_ddm_template(data_definition_id, name, template_id, script):
+def update_ddm_template(data_definition_id, name, template_id, script, cacheable):
     logger = logging.getLogger(__name__)
     session = requests.Session()
     headers = {
@@ -149,7 +149,7 @@ def update_ddm_template(data_definition_id, name, template_id, script):
             "mode": "",
             "language": "ftl",
             "script": script,
-            "cacheable": True,
+            "cacheable": cacheable,
         },
         "id": 123,
         "jsonrpc": "2.0",

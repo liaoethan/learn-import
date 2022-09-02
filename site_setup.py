@@ -1,3 +1,4 @@
+from functools import cache
 import json
 from get_all_items import get_all_items
 from ddm_template import add_ddm_template, fetch_template, update_ddm_template
@@ -8,6 +9,36 @@ from data_definition_rest import (
 )
 from document_type import add_file_entry_type_invoke
 import logging
+from util import save_as_json
+
+
+def add_or_update_article_template(
+    data_definition_id, template_key, local_file_path, template_name, cacheable
+):
+    logger = logging.getLogger(__name__)
+    template = fetch_template(template_key).json()
+
+    with open(local_file_path) as f:
+        template_file_content = f.read()
+
+    if len(template) == 0:
+        logger.info(f"Template {template_name} not found, importing")
+        add_ddm_template(
+            data_definition_id,
+            template_name,
+            template_key,
+            template_file_content,
+            cacheable,
+        )
+    else:
+        logger.info(f"Template {template_name} found, updating")
+        update_ddm_template(
+            data_definition_id,
+            template_name,
+            template["templateId"],
+            template_file_content,
+            cacheable,
+        )
 
 
 def check_site_setup():
@@ -24,7 +55,6 @@ def check_site_setup():
     )
 
     LEARN_ARTICLE_DATA_DEFINITION_KEY = "LEARN-ARTICLE"
-    LEARN_ARTICLE_TEMPLATE_KEY = "LEARN-ARTICLE"
     LEARN_SYNCED_FILE_DATA_DEFINITION_KEY = "LEARN-SYNCED-FILE"
 
     learn_article_data_definition = next(
@@ -79,37 +109,37 @@ def check_site_setup():
             learn_synced_file_definition["id"], data_definition
         ).json()
 
-    learn_template = fetch_template(LEARN_ARTICLE_TEMPLATE_KEY).json()
-
-    with open("styles/main.min.css") as f:
-        style_file_content = f.read()
-
-    with open("styles/svg.html") as f:
-        svg_file_content = f.read()
-
-    with open("site-setup/learn_article.ftl") as f:
-        template_file_content = f.read()
-
-    template_file_content_with_styles = (
-        f"{svg_file_content}<style>{style_file_content}</style>{template_file_content}"
+    add_or_update_article_template(
+        learn_article_data_definition["id"],
+        "LEARN-STYLES",
+        "styles/main.min.css",
+        "Styles",
+        False,
     )
 
-    if len(learn_template) == 0:
-        logger.info("Learn template not found, importing")
-        add_ddm_template(
-            learn_article_data_definition["id"],
-            "Learn Article Template",
-            LEARN_ARTICLE_TEMPLATE_KEY,
-            template_file_content_with_styles,
-        )
-    else:
-        logger.info("Learn template found, updating")
-        update_ddm_template(
-            learn_article_data_definition["id"],
-            "Learn Article Template",
-            learn_template["templateId"],
-            template_file_content_with_styles,
-        )
+    add_or_update_article_template(
+        learn_article_data_definition["id"],
+        "SVG",
+        "styles/svg.html",
+        "SVG Sprite",
+        False,
+    )
+
+    add_or_update_article_template(
+        learn_article_data_definition["id"],
+        "LEARN-ARTICLE",
+        "site-setup/learn_article.ftl",
+        "Learn Article Template",
+        True,
+    )
+
+    add_or_update_article_template(
+        learn_article_data_definition["id"],
+        "PAGE-ALERT-JS",
+        "site-setup/page-alert.js",
+        "Page Alert JS",
+        False,
+    )
 
     return (learn_article_data_definition, learn_synced_file_definition)
 
