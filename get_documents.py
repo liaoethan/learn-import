@@ -62,6 +62,7 @@ def get_liferay_site_documents_by_path(liferay_document_folders_by_path):
             "documentFolderId": liferay_site_document["documentFolderId"],
             "id": liferay_site_document["id"],
             "sha_256sum": sha_256sum,
+            "contentUrl": liferay_site_document["contentUrl"],
         }
 
     save_as_json("liferay_site_documents_by_path", liferay_site_documents_by_path)

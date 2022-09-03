@@ -1,4 +1,5 @@
 from configuration import config
+from bs4 import BeautifulSoup
 from util import sha_256sum_from_dictionary, save_as_json
 from get_articles import get_liferay_site_structured_contents_by_friendlyurlpath
 from liferay_api.structured_content_rest import (
@@ -32,7 +33,9 @@ def get_breadcrumb(current_page_name, parents):
     return " &nbsp; / &nbsp;".join(breadcrumbs)
 
 
-def get_structured_content_request_body(sphinx_article: dict, article_structure_id):
+def get_structured_content_request_body(
+    sphinx_article: dict, article_structure_id, liferay_site_documents_by_path
+):
     logger = logging.getLogger(__name__)
     translations = []
 
@@ -83,15 +86,25 @@ def get_structured_content_request_body(sphinx_article: dict, article_structure_
             title_i18n[liferay_language_id] = translation_data["title"]
             available_languages.append(liferay_language_id)
 
-            contentFieldValues["body"][liferay_language_id] = {
-                "data": re.sub(
-                    r'src="(\.\.\/)+_images/',
-                    'src="'
-                    + config["WEBDAV_IMAGE_URL_PREFIX"]
-                    + translation["image_prefix"],
-                    translation_data["body"],
+            soup_body = BeautifulSoup(translation_data["body"], features="html.parser")
+            for img in soup_body.findAll("img"):
+                img_src = img.get("src")
+                regex_pattern = re.compile(r"(\.\.\/)*_images/(.*)")
+                matches = regex_pattern.match(img_src)
+                if matches == None:
+                    logger.warn(
+                        f"No match found in img {img_src} in article {translation_data['current_page_name']}"
+                    )
+                    continue
+
+                image_file_name = matches.group(2)
+                document_path = translation["image_prefix"] + image_file_name
+                img["src"] = liferay_site_documents_by_path[document_path]["contentUrl"]
+                logger.debug(
+                    f"Updating {img_src} to {liferay_site_documents_by_path[document_path]['contentUrl']}"
                 )
-            }
+
+            contentFieldValues["body"][liferay_language_id] = {"data": str(soup_body)}
 
             contentFieldValues["breadcrumb"][liferay_language_id] = {
                 "data": get_breadcrumb(
@@ -178,7 +191,10 @@ def get_structured_content_request_body(sphinx_article: dict, article_structure_
 
 @timer
 def import_structured_contents(
-    sphinx_articles, liferay_structured_content_folders_by_path, article_structure_id
+    sphinx_articles,
+    liferay_structured_content_folders_by_path,
+    article_structure_id,
+    liferay_site_documents_by_path,
 ):
 
     liferay_site_structured_contents_by_friendlyurlpath = (
@@ -196,7 +212,9 @@ def import_structured_contents(
         (
             structured_content_request_body,
             sha_256sum,
-        ) = get_structured_content_request_body(sphinx_article, article_structure_id)
+        ) = get_structured_content_request_body(
+            sphinx_article, article_structure_id, liferay_site_documents_by_path
+        )
 
         save_as_json("structured_content_request_body", structured_content_request_body)
 

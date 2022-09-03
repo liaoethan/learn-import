@@ -94,6 +94,6 @@ def get_site_document_batch(page):
         "Content-Type": "application/json",
     }
 
-    get_uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/documents?fields=documentFolderId,documentType,id,title&flatten=true&page={page}&pageSize={config['API_PAGESIZE']}"
+    get_uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/documents?fields=contentUrl,documentFolderId,documentType,id,title&flatten=true&page={page}&pageSize={config['API_PAGESIZE']}"
     logger.info(f"Fetching document page {page}")
     return requests.get(get_uri, headers=headers)

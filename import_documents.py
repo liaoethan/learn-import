@@ -94,14 +94,25 @@ def import_documents(sphinx_documents, liferay_document_folders_by_path):
             logger.info(
                 f"Adding new document {document_path} in folder {documentFolderId}"
             )
-            post_document_folder_document(
+            res = post_document_folder_document(
                 local_file_path, title, documentFolderId, document_metadata
-            )
+            ).json()
+
+            liferay_site_documents_by_path[document_path] = {
+                "contentUrl": res["contentUrl"],
+                "sphinx_document_status": "new",
+            }
 
             new_document_count = new_document_count + 1
         else:
             logger.info(f"Adding new document {document_path} in root folder")
-            post_site_document(local_file_path, title, document_metadata)
+            res = post_site_document(local_file_path, title, document_metadata).json()
+
+            liferay_site_documents_by_path[document_path] = {
+                "contentUrl": res["contentUrl"],
+                "sphinx_document_status": "new",
+            }
+
             new_document_count = new_document_count + 1
 
         document_counter = document_counter + 1
@@ -118,3 +129,5 @@ def import_documents(sphinx_documents, liferay_document_folders_by_path):
     )
 
     delete_documents(liferay_site_documents_by_path)
+
+    return liferay_site_documents_by_path

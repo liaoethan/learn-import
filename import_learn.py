@@ -151,12 +151,15 @@ def import_learn():
             sphinx_article_paths, liferay_structured_content_folders_by_path
         )
 
-        import_documents(sphinx_documents, liferay_document_folders_by_path)
+        liferay_site_documents_by_path = import_documents(
+            sphinx_documents, liferay_document_folders_by_path
+        )
 
         import_structured_contents(
             sphinx_articles,
             liferay_structured_content_folders_by_path,
             learn_article_data_definition["id"],
+            liferay_site_documents_by_path,
         )
 
         import_success = True
