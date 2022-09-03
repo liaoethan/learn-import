@@ -48,7 +48,6 @@ def get_structured_content_request_body(
         "github_edit_link": {},
     }
     title_i18n = {}
-    DEFAULT_LANGUAGE_ID = "en-US"
     available_languages = []
 
     for translation in sphinx_article["translations"]:
@@ -61,7 +60,7 @@ def get_structured_content_request_body(
 
             if not "body" in translation_data:
                 logger.warn("No HTML body found for " + translation["filename"])
-                return [{}, ""]
+                return [{}, "", ""]
 
             if not "parents" in translation_data:
                 translation_data["parents"] = []
@@ -84,6 +83,8 @@ def get_structured_content_request_body(
             languages = {"en": "en-US", "ja": "ja-JP"}
             liferay_language_id = languages[translation["language"]]
             title_i18n[liferay_language_id] = translation_data["title"]
+            # if title is not set for default language id we get an error
+            title_i18n[config["DEFAULT_LANGUAGE_ID"]] = translation_data["title"]
             available_languages.append(liferay_language_id)
 
             soup_body = BeautifulSoup(translation_data["body"], features="html.parser")
@@ -129,8 +130,17 @@ def get_structured_content_request_body(
 
             translations.append(translation_data)
 
-    if DEFAULT_LANGUAGE_ID not in available_languages:
-        available_languages.append(DEFAULT_LANGUAGE_ID)
+    if config["DEFAULT_LANGUAGE_ID"] not in available_languages:
+        available_languages.append(config["DEFAULT_LANGUAGE_ID"])
+
+    # make sure all languages have at least an empty data section
+    for liferay_language_id in available_languages:
+        for key in contentFieldValues:
+            if liferay_language_id not in contentFieldValues[key]:
+                contentFieldValues[key][liferay_language_id] = {"data": ""}
+
+    # friendlyUrlPaths are all lower case (otherwise Liferay will modify it)
+    friendly_url_path = f"{sphinx_article['product']}/{sphinx_article['version']}/{translations[0]['current_page_name'].lower()}.html"
 
     structured_content_request_body = {
         "availableLanguages": available_languages,
@@ -162,8 +172,12 @@ def get_structured_content_request_body(
             },
         ],
         "contentStructureId": article_structure_id,
-        # friendlyUrlPaths are all lower case (otherwise Liferay will modify it)
-        "friendlyUrlPath": f"{sphinx_article['product']}/{sphinx_article['version']}/{translations[0]['current_page_name'].lower()}.html",
+        # CAREFUL here - sometimes friendlyURLs are based on title unless the fields are setup correctly
+        "friendlyUrlPath": "",
+        "friendlyUrlPath_i18n": {
+            liferay_language_id: friendly_url_path
+            for liferay_language_id in available_languages
+        },
         "title_i18n": title_i18n,
         "title": translations[0]["title"],
         "viewableBy": "Anyone",
@@ -171,14 +185,13 @@ def get_structured_content_request_body(
 
     sha_256sum = sha_256sum_from_dictionary(structured_content_request_body)
 
-    # Make sure the default language has the sha value since it's what's returned in get_articles
-    for liferay_language_id in available_languages:
-        contentFieldValues["sha_256sum"][liferay_language_id] = {"data": sha_256sum}
-
     structured_content_request_body["contentFields"].append(
         {
             "contentFieldValue": {"data": ""},
-            "contentFieldValue_i18n": contentFieldValues["sha_256sum"],
+            "contentFieldValue_i18n": {
+                liferay_language_id: {"data": sha_256sum}
+                for liferay_language_id in available_languages
+            },
             "name": "sha_256sum",
         }
     )
@@ -186,6 +199,7 @@ def get_structured_content_request_body(
     return [
         structured_content_request_body,
         sha_256sum,
+        friendly_url_path,
     ]
 
 
@@ -212,6 +226,7 @@ def import_structured_contents(
         (
             structured_content_request_body,
             sha_256sum,
+            friendly_url_path,
         ) = get_structured_content_request_body(
             sphinx_article, article_structure_id, liferay_site_documents_by_path
         )
@@ -220,14 +235,9 @@ def import_structured_contents(
 
         if len(structured_content_request_body) == 0:
             empty_article_count = empty_article_count + 1
-        elif (
-            structured_content_request_body["friendlyUrlPath"]
-            in liferay_site_structured_contents_by_friendlyurlpath
-        ):
+        elif friendly_url_path in liferay_site_structured_contents_by_friendlyurlpath:
             liferay_site_structured_content = (
-                liferay_site_structured_contents_by_friendlyurlpath[
-                    structured_content_request_body["friendlyUrlPath"]
-                ]
+                liferay_site_structured_contents_by_friendlyurlpath[friendly_url_path]
             )
             if liferay_site_structured_content["sha_256sum"] == sha_256sum:
                 logger.debug(
@@ -236,9 +246,7 @@ def import_structured_contents(
                 unchanged_article_count = unchanged_article_count + 1
                 liferay_site_structured_content["status"] = "unchanged"
             else:
-                logger.info(
-                    f"Updating existing {structured_content_request_body['friendlyUrlPath']}"
-                )
+                logger.info(f"Updating existing {friendly_url_path}")
                 liferay_site_structured_content["status"] = "updated"
                 updated_article_count = updated_article_count + 1
                 put_structured_content(
@@ -253,7 +261,7 @@ def import_structured_contents(
             )
 
             logger.info(
-                f"Adding new {structured_content_request_body['friendlyUrlPath']} in folder {structuredContentFolderId}"
+                f"Adding new {friendly_url_path} in folder {structuredContentFolderId}"
             )
 
             post_structured_content_folder_structured_content(

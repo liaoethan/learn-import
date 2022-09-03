@@ -14,6 +14,7 @@ def get_site_structured_contents_page(page):
         "Accept": "application/json",
         "Authorization": oauth_token.authorization,
         "Content-Type": "application/json",
+        "Accept-Language": config["DEFAULT_LANGUAGE_ID"],
     }
 
     get_uri = f"{config['OAUTH_HOST']}/o/headless-delivery/v1.0/sites/{config['SITE_ID']}/structured-contents?fields=key,contentFields,id,friendlyUrlPath,contentStructureId,structuredContentFolderId&flatten=true&page={page}&pageSize={config['API_PAGESIZE']}"
@@ -68,11 +69,15 @@ def add_or_update_structured_content(uri, method, structuredContent):
     )
 
     json_res = res.json()
+
+    requested_friendly_url_path = structuredContent["friendlyUrlPath_i18n"][
+        config["DEFAULT_LANGUAGE_ID"]
+    ]
     if "friendlyUrlPath" in json_res:
         response_friendly_url_path = json_res["friendlyUrlPath"]
-        if response_friendly_url_path != structuredContent["friendlyUrlPath"]:
+        if response_friendly_url_path != requested_friendly_url_path:
             raise Exception(
-                f"Different friendlyUrlPath created: {response_friendly_url_path}, requested {structuredContent['friendlyUrlPath']}"
+                f"Different friendlyUrlPath created: {response_friendly_url_path}, requested {requested_friendly_url_path}"
             )
 
     return res
