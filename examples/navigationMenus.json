@@ -1,0 +1,122 @@
+{
+	"actions": {
+		"create": {
+			"method": "POST",
+			"href": "https://learn-uat.lxc.liferay.com/o/headless-delivery/v1.0/sites/83630/navigation-menus"
+		}
+	},
+	"facets": [],
+	"items": [
+		{
+			"actions": {
+				"replace": {
+					"method": "PUT",
+					"href": "https://learn-uat.lxc.liferay.com/o/headless-delivery/v1.0/navigation-menus/1114769"
+				},
+				"delete": {
+					"method": "DELETE",
+					"href": "https://learn-uat.lxc.liferay.com/o/headless-delivery/v1.0/navigation-menus/1114769"
+				}
+			},
+			"creator": {
+				"additionalName": "",
+				"contentType": "UserAccount",
+				"familyName": "Ziegenfus",
+				"givenName": "Allen",
+				"id": 88428,
+				"name": "Ziegenfus Allen"
+			},
+			"dateCreated": "2022-09-03T17:19:49Z",
+			"dateModified": "2022-09-03T17:19:49Z",
+			"id": 1114769,
+			"name": "Learn Products",
+			"navigationMenuItems": [
+				{
+					"availableLanguages": [],
+					"creator": {
+						"additionalName": "",
+						"contentType": "UserAccount",
+						"familyName": "Ziegenfus",
+						"givenName": "Allen",
+						"id": 88428,
+						"name": "Ziegenfus Allen"
+					},
+					"dateCreated": "2022-09-03T17:20:29Z",
+					"dateModified": "2022-09-03T22:07:24Z",
+					"id": 1114770,
+					"navigationMenuItems": [],
+					"type": "com.liferay.journal.model.JournalArticle"
+				},
+				{
+					"availableLanguages": [],
+					"creator": {
+						"additionalName": "",
+						"contentType": "UserAccount",
+						"familyName": "Ziegenfus",
+						"givenName": "Allen",
+						"id": 88428,
+						"name": "Ziegenfus Allen"
+					},
+					"dateCreated": "2022-09-03T17:28:22Z",
+					"dateModified": "2022-09-03T21:51:49Z",
+					"id": 1114835,
+					"navigationMenuItems": [],
+					"type": "com.liferay.journal.model.JournalArticle"
+				},
+				{
+					"availableLanguages": [],
+					"creator": {
+						"additionalName": "",
+						"contentType": "UserAccount",
+						"familyName": "Ziegenfus",
+						"givenName": "Allen",
+						"id": 88428,
+						"name": "Ziegenfus Allen"
+					},
+					"dateCreated": "2022-09-03T17:28:35Z",
+					"dateModified": "2022-09-03T22:07:54Z",
+					"id": 1114836,
+					"navigationMenuItems": [],
+					"type": "com.liferay.journal.model.JournalArticle"
+				},
+				{
+					"availableLanguages": [],
+					"creator": {
+						"additionalName": "",
+						"contentType": "UserAccount",
+						"familyName": "Ziegenfus",
+						"givenName": "Allen",
+						"id": 88428,
+						"name": "Ziegenfus Allen"
+					},
+					"dateCreated": "2022-09-03T17:28:48Z",
+					"dateModified": "2022-09-03T22:08:10Z",
+					"id": 1114837,
+					"navigationMenuItems": [],
+					"type": "com.liferay.journal.model.JournalArticle"
+				},
+				{
+					"availableLanguages": [],
+					"creator": {
+						"additionalName": "",
+						"contentType": "UserAccount",
+						"familyName": "Ziegenfus",
+						"givenName": "Allen",
+						"id": 88428,
+						"name": "Ziegenfus Allen"
+					},
+					"dateCreated": "2022-09-03T17:29:00Z",
+					"dateModified": "2022-09-03T22:05:40Z",
+					"id": 1114838,
+					"navigationMenuItems": [],
+					"type": "com.liferay.journal.model.JournalArticle"
+				}
+			],
+			"siteId": 83630
+		}
+	],
+	"lastPage": 1,
+	"page": 1,
+	"pageSize": 20,
+	"totalCount": 1
+}
