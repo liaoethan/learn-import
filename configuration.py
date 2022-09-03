@@ -3,8 +3,11 @@ import logging
 import logging.config
 from os.path import exists
 import argparse
+import os
 
-logging.config.fileConfig("logging.conf")
+path = os.path.abspath(__file__)
+
+logging.config.fileConfig(os.path.dirname(path) + "/logging.conf")
 
 
 def get_config():

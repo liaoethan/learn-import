@@ -10,5 +10,6 @@
 	"STRUCTURED_CONTENT_IMPORT_LIMIT": 1,
 	"API_PAGE_LIMIT": -1,
 	"DOCUMENT_TYPE": "Learn Synced File",
-	"GITHUB_EDIT_LINK_BASE_URL" : "https://github.com/liferay/liferay-learn/edit/master/docs/"
+	"GITHUB_EDIT_LINK_BASE_URL": "https://github.com/liferay/liferay-learn/edit/master/docs/",
+	"DEFAULT_LANGUAGE_ID": "en-US"
 }
