@@ -82,9 +82,6 @@ def get_structured_content_request_body(
 
             languages = {"en": "en-US", "ja": "ja-JP"}
             liferay_language_id = languages[translation["language"]]
-            title_i18n[liferay_language_id] = translation_data["title"]
-            # if title is not set for default language id we get an error
-            title_i18n[config["DEFAULT_LANGUAGE_ID"]] = translation_data["title"]
             available_languages.append(liferay_language_id)
 
             soup_body = BeautifulSoup(translation_data["body"], features="html.parser")
@@ -172,14 +169,11 @@ def get_structured_content_request_body(
             },
         ],
         "contentStructureId": article_structure_id,
-        # CAREFUL here - sometimes friendlyURLs are based on title unless the fields are setup correctly
-        "friendlyUrlPath": "",
-        "friendlyUrlPath_i18n": {
+        "title_i18n": {
             liferay_language_id: friendly_url_path
             for liferay_language_id in available_languages
         },
-        "title_i18n": title_i18n,
-        "title": translations[0]["title"],
+        "title": friendly_url_path,
         "viewableBy": "Anyone",
     }
 

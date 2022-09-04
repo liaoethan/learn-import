@@ -70,9 +70,7 @@ def add_or_update_structured_content(uri, method, structuredContent):
 
     json_res = res.json()
 
-    requested_friendly_url_path = structuredContent["friendlyUrlPath_i18n"][
-        config["DEFAULT_LANGUAGE_ID"]
-    ]
+    requested_friendly_url_path = structuredContent["title"]
     if "friendlyUrlPath" in json_res:
         response_friendly_url_path = json_res["friendlyUrlPath"]
         if response_friendly_url_path != requested_friendly_url_path:
