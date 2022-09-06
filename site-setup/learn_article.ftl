@@ -143,7 +143,7 @@
 	</div>
 </div>
 
-<#attempt>
+<#noparse>
 	<script>
 		// Table of contents reading indicator
 
@@ -316,9 +316,7 @@
 			);
 		}
 	</script>
-	<#recover>
-		<div>script error</div>
-</#attempt>
+</#noparse>
 
 <script>
     <#include "${templatesPath}/PAGE-ALERT-JS">
