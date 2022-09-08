@@ -19,25 +19,15 @@
 		<div class="col-12 col-md-2 doc-nav-wrapper mobile-nav-hide">
 			<div class="doc-nav-wrapper-inner">
 				<div class="info-bar">
-					<label for="productDocumentationSelector">
-						<select class="form-control" id="productDocumentationSelector">
-							<option value="analytics-cloud">
-								${languageUtil.get(locale, "analytics-cloud", "Analytics Cloud")}
-							</option>
-							<option value="commerce">
-								${languageUtil.get(locale, "commerce", "Commerce")}
-							</option>
-							<option value="dxp">
-								${languageUtil.get(locale, "dxp", "DXP / Portal")}
-							</option>
-							<option value="dxp-cloud">
-								${languageUtil.get(locale, "dxp-cloud", "DXP Cloud")}
-							</option>
-							<option value="reference">
-								${languageUtil.get(locale, "reference", "Reference")}
-							</option>
-						</select>
-					</label>
+					<#macro site_navigation_menu_sub_navigation default_preferences = "">
+						<@liferay_portlet["runtime"]
+							defaultPreferences=default_preferences
+							instanceId="siteNavigationMenuPortlet_sub_navigation"
+							portletName="com_liferay_site_navigation_menu_web_portlet_SiteNavigationMenuPortlet"
+						/>
+					</#macro>
+
+					<@site_navigation_menu_sub_navigation default_preferences=freeMarkerPortletPreferences.getPreferences("portletSetupPortletDecoratorId", "barebone") />
 				</div>
 
 				<div class="d-md-none mobile-doc-nav-toggler" id="mobileDocNavToggler">${languageUtil.get(locale, "documentation-menu", "Documentation Menu")}
